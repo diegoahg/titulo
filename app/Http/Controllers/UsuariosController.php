@@ -3,38 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Inventario as Inventario;
-use App\Productos as Productos;
+use App\User as User;
 use Crypt;
 
-class InventarioController extends Controller
+class UsuariosController extends Controller
 {
     /**
      * Responds to requests to GET /users
      */
     public function getIndex()
     {
-        /*$dataInventario = Inventario::all();
-        $productos = Productos::all();
-        $inventario = [];
-
-        foreach ($dataInventario as $inv)
-            {
-                $dataProducto = Productos::find($inv->id_producto);
-                
-                $data = array(
-                    'id' => $inv->id,
-                    'codigo' => $dataProducto->codigo, 
-                    'producto' => $dataProducto->nombre,
-                    'cantidad' => $inv->cantidad,
-                    'factura' => $inv->factura,
-                    'precio' => $dataProducto->precio,
-                    'total' => ($dataProducto->precio)*($inv->cantidad));
-
-                array_push($inventario, $data);
-            }
-        */
-        return view('inventario/index');
+        $users = User::all();
+        return view('usuarios/index')->with("users", $users);
     }
 
     public function postCreate(Request $request)

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Productos as Productos;
+use App\Producto as Producto;
 use Crypt;
 
 class ProductoController extends Controller
 {
     public function getIndex()
     {
-        $productos = Productos::all();
-        return view('market/productos/producto_main')->with("productos",$productos);
+        //$productos = Productos::all();
+        return view('productos/index');
     }
     
     public function getAddproductos()

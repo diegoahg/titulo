@@ -17,5 +17,7 @@ Route::get('/', function () {
 
 Route::controller('productos','ProductoController');
 Route::controller('inventario', 'InventarioController');
+Route::controller('usuarios', 'UsuariosController');
+Route::controller('categorias', 'CategoriasController');
 
 
