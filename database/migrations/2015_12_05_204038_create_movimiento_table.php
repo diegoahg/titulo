@@ -12,7 +12,14 @@ class CreateMovimientoTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('movimiento', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('id_usuario');
+            $table->dateTime('responsable');
+            $table->string('id_producto');
+            $table->dateTime('fecha');
+            $table->string('cantidad');
+        });
     }
 
     /**
@@ -22,6 +29,6 @@ class CreateMovimientoTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('movimiento');
     }
 }

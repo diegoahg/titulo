@@ -14,7 +14,7 @@ class CreateInventarioTable extends Migration
     {
         Schema::create('inventario', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('responsable');
+            $table->string('id_usuario');
             $table->dateTime('fecha');
             $table->string('orden');
             $table->string('id_producto');
@@ -29,6 +29,6 @@ class CreateInventarioTable extends Migration
      */
     public function down()
     {
-        Schema::drop('producto');
+        Schema::drop('inventario');
     }
 }
