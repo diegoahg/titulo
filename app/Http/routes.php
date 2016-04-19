@@ -19,5 +19,7 @@ Route::controller('productos','ProductoController');
 Route::controller('inventario', 'InventarioController');
 Route::controller('usuarios', 'UsuariosController');
 Route::controller('categorias', 'CategoriasController');
+Route::controller('centrocosto', 'CentroCostoController');
+Route::controller('sector', 'SectorController');
 
 

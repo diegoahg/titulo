@@ -4,23 +4,24 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Categoria as Categoria;
-use Crypt;
+use App\CentroCosto;
+use App\Sector;
 
-class CategoriasController extends Controller
+class SectorController extends Controller
 {
     /**
      * Responds to requests to GET /users
      */
     public function getIndex()
     {
-        $categorias = Categoria::all();
-        return view('categorias/index')->with("categorias", $categorias);
+        $sectores = Sector::all();
+        return view('sector/index')->with("sectores", $sectores);
     }
 
     public function getAdd()
     {
-        return view('categorias/add');
+        $centrocostos = CentroCosto::all();
+        return view('sector/add')->with("centrocostos", $centrocostos);
     }
 
     public function postAdd(Request $request)
@@ -38,9 +39,8 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
+            'centro'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -49,20 +49,20 @@ class CategoriasController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = new Categoria;
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = $request->input("descripcion");
-            $categoria->save();
+            $sector = new Sector;
+            $sector->nombre = $request->input("nombre");
+            $sector->id_centro_costo = $request->input("centro");
+            $sector->save();
 
-            return redirect("categorias")->with('success', 'add')->with("id_categoria", $categoria->id);
+            return redirect("sector")->with('success', 'add');
         }
     }
 
     public function getEdit($id)
     {
-        $categoria = Categoria::find($id);
-        return view('categorias/edit')->with("categoria",$categoria);
+        $centrocostos = CentroCosto::all();
+        $sector = Sector::find($id);
+        return view('sector/edit')->with("centrocostos",$centrocostos)->with("sector",$sector);
     }
 
     public function postEdit(Request $request)
@@ -80,40 +80,37 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
+            'centro'  => 'required|max:255',
         ], $messages);
-
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
         if ($validator->fails()) {
             //echo "hola";
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = Categoria::find($request->input("_id"));
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = $request->input("descripcion");
-            $categoria->save();
+            $sector = Sector::find($request->input("_id"));
+            $sector->nombre = $request->input("nombre");
+            $sector->id_centro_costo = $request->input("centro");
+            $sector->save();
 
-            return redirect("categorias")->with('success', 'edit')->with("id_categoria", $categoria->id);
+            return redirect("sector")->with('success', 'edit');
         }
     }
 
     public function getDelete($id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $sector = Sector::findOrFail($id);
 
-        return view('categorias/modaldelete')->with("categoria", $categoria);
+        return view('sector/modaldelete')->with("sector", $sector);
 
     }
 
     public function postDelete(Request $request)
     {
-        $categoria = Categoria::findOrFail($request->input("_id"));
-        $categoria->delete();
+        $sector = Sector::findOrFail($request->input("_id"));
+        $sector->delete();
 
-        return redirect("categorias")->with('success', 'delete')->with("id_categoria",$request->input("_id"));
+        return redirect("sector")->with('success', 'delete');
     }
 }

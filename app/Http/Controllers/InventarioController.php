@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
+use App\Producto as Producto;
+use App\Categoria as Categoria;
 use App\Inventario as Inventario;
-use App\Productos as Productos;
-use Crypt;
-
+use App\CentroCosto as CentroCosto;
+use App\Sector as Sector;
+use DB;
 class InventarioController extends Controller
 {
     /**
@@ -14,85 +17,70 @@ class InventarioController extends Controller
      */
     public function getIndex()
     {
-        /*$dataInventario = Inventario::all();
-        $productos = Productos::all();
-        $inventario = [];
-
-        foreach ($dataInventario as $inv)
-            {
-                $dataProducto = Productos::find($inv->id_producto);
-                
-                $data = array(
-                    'id' => $inv->id,
-                    'codigo' => $dataProducto->codigo, 
-                    'producto' => $dataProducto->nombre,
-                    'cantidad' => $inv->cantidad,
-                    'factura' => $inv->factura,
-                    'precio' => $dataProducto->precio,
-                    'total' => ($dataProducto->precio)*($inv->cantidad));
-
-                array_push($inventario, $data);
-            }
-        */
-        return view('inventario/index');
+        $inventarios = Inventario::all();
+        return view('inventario/index')->with("inventarios",$inventarios);
     }
 
-    public function postCreate(Request $request)
+    public function getIngreso()
     {
-        $inventario = new Inventario;
-        $inventario->id_producto = $request->input("id_producto");
-        $inventario->cantidad = $request->input("cantidad");
-        $inventario->factura = $request->input("factura");
-        $inventario->save();
-
-        $producto = Productos::find($inventario->id_producto);
-
-        $html = view('market/inventario/inventario_tr')->with("inventario", $inventario)->with('producto', $producto);
-        return $html;
+        $productos = Producto::all();
+        $categorias = Categoria::all();
+        $centrocostos = CentroCosto::all();
+        $sectors = Sector::all();
+        return view('inventario/ingreso')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("productos",$productos);
     }
 
-    public function getEdit($id)
+    public function postIngreso(Request $request)
     {
-        $inventario = Inventario::find($id);
-        $productos = Productos::all();
-        return view('market/inventario/inventario_edit')->with("inventario",$inventario)->with("productos",$productos);
-    }
+        $messages = [
+            'required'    => 'Debe ingresar el  :attribute',
+            'email.required'    => 'Debe ingresar el  correo',
+            'numeric' => 'El :attribute debe solo contener números',
+            'integer' => 'El :attribute debe solo contener números enteros',
+            'unique' => '¡El :attribute ya existe!',
+            'max' => 'El :attribute no debe exeder los :max caracteres',
+            'min' => 'El :attribute debe tener minimo :min caracteres',
+            'confirmed' => 'Debe ingresar las 2 contraseñas iguales',
+            'email' => 'Debe ingresar un correo vaildo',
+        ];
+        //validador de los input del formulario
+        $validator = Validator::make($request->all(), [
+            'fecha'  => 'required|max:255',
+            'centro'  => 'required|max:255',
+            'oficina' => 'required|max:255',
+        ], $messages);
 
-    public function postEdit(Request $request)
-    {
-        $id = $request->input('_inventario');
-        $inventario = Inventario::find($id);
-        $inventario->id_producto = $request->input('id_producto');
-        $inventario->cantidad = $request->input("cantidad");
-        $inventario->factura = $request->input("factura");
-        $inventario->save();
+        //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
+        if ($validator->fails()) {
+            //echo "hola";
+            return redirect()->back()->withInput($request->all)->withErrors($validator);
+        }else{
 
-        //return redirect('market#nav_proveedores')->withInput();
-    }
-
-    public function getShow($id)
-    {
-        $inventario = Inventario::find($id);
-        $producto = Productos::find($inventario->id_producto);
-        //$productos = Productos::where("id","=",$inventario->id_producto);
-        return view('market/inventario/inventario_view')->with("producto",$producto)->with("inventario",$inventario);
-    }
-
-    public function getDelete($id)
-    {
-        $inventario = Inventario::find($id);
-        $crypt =Crypt::encrypt($id);
-        return view('market/inventario/inventario_delete')->with("crypt",$crypt);
-    }
-
-    public function postDelete(Request $request)
-    {
-        $id = Crypt::decrypt($request->input('crypt'));
-        $inventario = Inventario::find($id);
-        $inventario->delete();
-
-        return $id;
-        //$html = view('market/proveedores/proveedor_tr')->with("proveedor", $proveedor);
-        //return $html;
+           $inventario = new Inventario();
+           $inventario->id_usuario =  1;
+           $inventario->fecha =   date_format(date_create($request->input("fecha")), 'Y-m-d');
+           $inventario->centro =  $request->input("centro");
+           $inventario->oficina =  $request->input("oficina");
+           $inventario->categoria =  $request->input("categoria");
+           $inventario->numero =  $request->input("numero");
+           $inventario->descripcion =  $request->input("descripcion");
+           $inventario->valor =  $request->input("valor");
+           $inventario->unidad =  $request->input("unidad");
+           $inventario->marca =  $request->input("marca");
+           $inventario->modelo =  $request->input("modelo");
+           $inventario->serie =  $request->input("serie");
+           $inventario->largo =  $request->input("largo");
+           $inventario->ancho =  $request->input("ancho");
+           $inventario->alto =  $request->input("alto");
+           $inventario->orden =  $request->input("orden");
+           $inventario->fecha =  $request->input("fecha");
+           $inventario->cuenta_contable =  $request->input("cuenta_contable");
+           $inventario->vida_util =  $request->input("vida_util");
+           $inventario->tipo_inventario =  $request->input("tipo_inventario");
+           $inventario->tipo_bien =  $request->input("tipo_bien");
+           $inventario->enmienda =  $request->input("enmienda");
+           $inventario->save();
+            return redirect("inventario")->with('success', 'ingreso')->with("id_igreso", $inventario->id);
+        }
     }
 }

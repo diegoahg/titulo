@@ -5,12 +5,12 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Categorías
-	    <small>Panel de Control de Categorías</small>
+	    Sector
+	    <small>Panel de Control de Sector</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	    <li class="active">Categorías</li>
+	    <li class="active">Sector</li>
 	  </ol>
 	</section>
 
@@ -23,49 +23,47 @@
 						@if(session("success")=="add")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Categoria creado correctamente!</strong> Tienes {{count($categorias)}} categorias en el sistema. <button type="button" class="btn btn-info view-data" data-role="{{session('id_categoria')}}">Has click aqui para ver el último usuario que creaste</button>
+								<strong>¡Sector creado correctamente!</strong> Tienes {{count($sectores)}} Sectores en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="edit")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Categoria editado correctamente!</strong> Tienes {{count($categorias)}} categorias en el sistema. <button type="button" class="btn btn-info view-data" data-role="{{session('id_categoria')}}">Has click aqui para ver el último usuario que editaste</button>
+								<strong>¡Sector editado correctamente!</strong> Tienes {{count($sectores)}} Sectores en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="delete")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Categoria eliminado correctamente!</strong> Tienes {{count($categorias)}} categorias en el sistema.
+								<strong>¡Sector eliminado correctamente!</strong> Tienes {{count($sectores)}} Sectores en el sistema.
 							</div>
 						@endif
 					@endif
 	                <div class="box-header">
-	                  <h3 class="box-title">Registro de Inventario</h3>
+	                  <h3 class="box-title">Listado de Sectores</h3>
 
 		              <div class="pull-right">
-		              	<span><a class="btn btn-block btn-success" href="categorias/add"><i class="fa fa-sign-in"> Agregar</i></a></span>
+		              	<span><a class="btn btn-block btn-success" href="sector/add"><i class="fa fa-sign-in"> Agregar</i></a></span>
 	                  </div>
 	                </div><!-- /.box-header -->
 	                <div class="box-body">
 	                  <table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
-	                        <th>Código</th>
 	                        <th>Nombre</th>
-	                        <th>Desccripción</th>
+	                        <th>Centro de Costo</th>
 	                        <th>Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
-	                    @foreach($categorias as $categoria)
+	                    @foreach($sectores as $sector)
 	                      <tr>
-	                        <td>{{$categoria->codigo}}</td>
-	                        <td>{{$categoria->categoria}}</td>
-	                        <td>{{$categoria->descripcion}}</td>
+	                        <td>{{$sector->nombre}}</td>
+	                        <td>{{$sector->centrocosto->nombre}}</td>
 	                        <td>
 	                        	<div class="btn-group">
-	                        		<a href="categorias/edit/{{$categoria->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
-	                        		<button type="button" class="btn btn-danger delete-data"  data-role="{{$categoria->id}}"><i class="fa fa-trash-o"></i></button>
+	                        		<a href="sector/edit/{{$sector->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+	                        		<button type="button" class="btn btn-danger delete-data"  data-role="{{$sector->id}}"><i class="fa fa-trash-o"></i></button>
 	                        	</div>
 	                        </td>
 	                      </tr>
@@ -73,9 +71,8 @@
                     </tbody>
                     <tfoot>
                   	<tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Desccripción</th>
+	                        <th>Nombre</th>
+	                        <th>Acción</th>
                      </tr>
                     </tfoot>
                   </table>
@@ -103,13 +100,13 @@
 	      $(document).ready(function() {
 			   $(".delete-data").click(function(){
 				  var data = $(this).data("role");
-				  $.get( "categorias/delete/" + data, function( data ) {
+				  $.get( "sector/delete/" + data, function( data ) {
 					  $( "#modal" ).html( data );
 					  $( "#modalEliminar" ).modal();
 					});
 				});
 
-				$("#categorias").addClass( "active" );
+				$("#sector").addClass( "active" );
 			});
 	    </script> 
 	@stop      

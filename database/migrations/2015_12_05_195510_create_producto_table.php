@@ -23,8 +23,11 @@ class CreateProductoTable extends Migration
             $table->string('largo');
             $table->string('alto');
             $table->string('ancho');
+            $table->string('peso');
             $table->string('imagen');
             $table->string('stock');
+            $table->string('descripcion');
+            $table->integer('precio');
         });
     }
 

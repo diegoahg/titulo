@@ -438,5 +438,12 @@
 	  </div><!-- /.row (main row) -->
 
 	</section><!-- /.content -->
-</div><!-- /.content-wrapper -->       
+</div><!-- /.content-wrapper -->    
+@section('script')   
+    <script type="text/javascript">
+    	$(document).ready(function() {
+	        $("#main").addClass( "active" );
+	    });
+    </script>
+@stop   
 @stop

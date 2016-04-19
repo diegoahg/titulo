@@ -4,23 +4,22 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Categoria as Categoria;
-use Crypt;
+use App\CentroCosto;
 
-class CategoriasController extends Controller
+class CentroCostoController extends Controller
 {
     /**
      * Responds to requests to GET /users
      */
     public function getIndex()
     {
-        $categorias = Categoria::all();
-        return view('categorias/index')->with("categorias", $categorias);
+        $centrocostos = CentroCosto::all();
+        return view('centrocosto/index')->with("centrocostos", $centrocostos);
     }
 
     public function getAdd()
     {
-        return view('categorias/add');
+        return view('centrocosto/add');
     }
 
     public function postAdd(Request $request)
@@ -38,9 +37,7 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -49,20 +46,18 @@ class CategoriasController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = new Categoria;
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = $request->input("descripcion");
-            $categoria->save();
+            $centrocosto = new CentroCosto;
+            $centrocosto->nombre = $request->input("nombre");
+            $centrocosto->save();
 
-            return redirect("categorias")->with('success', 'add')->with("id_categoria", $categoria->id);
+            return redirect("centrocosto")->with('success', 'add');
         }
     }
 
     public function getEdit($id)
     {
-        $categoria = Categoria::find($id);
-        return view('categorias/edit')->with("categoria",$categoria);
+        $centrocosto = CentroCosto::find($id);
+        return view('centrocosto/edit')->with("centrocosto",$centrocosto);
     }
 
     public function postEdit(Request $request)
@@ -80,9 +75,7 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -91,29 +84,27 @@ class CategoriasController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = Categoria::find($request->input("_id"));
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = $request->input("descripcion");
-            $categoria->save();
+            $centrocosto = CentroCosto::find($request->input("_id"));
+            $centrocosto->nombre = $request->input("nombre");
+            $centrocosto->save();
 
-            return redirect("categorias")->with('success', 'edit')->with("id_categoria", $categoria->id);
+            return redirect("centrocosto")->with('success', 'edit');
         }
     }
 
     public function getDelete($id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $centrocosto = CentroCosto::findOrFail($id);
 
-        return view('categorias/modaldelete')->with("categoria", $categoria);
+        return view('centrocosto/modaldelete')->with("centrocosto", $centrocosto);
 
     }
 
     public function postDelete(Request $request)
     {
-        $categoria = Categoria::findOrFail($request->input("_id"));
-        $categoria->delete();
+        $centrocosto = CentroCosto::findOrFail($request->input("_id"));
+        $centrocosto->delete();
 
-        return redirect("categorias")->with('success', 'delete')->with("id_categoria",$request->input("_id"));
+        return redirect("centrocosto")->with('success', 'delete');
     }
 }

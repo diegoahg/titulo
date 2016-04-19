@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/select2.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -19,8 +21,6 @@
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="/plugins/iCheck/flat/blue.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="/plugins/morris/morris.css">
     <!-- jvectormap -->
     <link rel="stylesheet" href="/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <!-- Date Picker -->
@@ -59,13 +59,13 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                  <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                   <span class="hidden-xs">Usuario</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
                       Usuario - Cargo
                       <small>Miembro desde</small>
@@ -96,7 +96,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p>Usuario</p>
@@ -106,31 +106,43 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Barra de Navegación</li>
-            <li class="active treeview">
-              <a href="#">
+            <li  id="main" class="treeview">
+              <a href="/">
                 <i class="fa fa-home"></i> <span>Home</span>
               </a>
             </li>
-            <li class="treeview">
+            <li  id="usuarios"  class="treeview">
               <a href="/usuarios">
                 <i class="fa fa-user"></i> <span>Usuarios</span>
               </a>
             </li>
-            <li class="treeview">
+            <!--<li id="productos" class="treeview">
               <a href="/productos">
                 <i class="fa fa-cube"></i> <span>Productos</span>
               </a>
-            </li>
-            <li class="treeview">
+            </li>-->
+            <li id="inventario" class="treeview">
               <a href="/inventario">
                 <i class="fa fa-cubes"></i>
                 <span>Inventario</span>
               </a>
             </li>
-            <li class="treeview">
+            <li id="categorias" class="treeview">
               <a href="/categorias">
                 <i class="fa fa-bars"></i>
                 <span>Categorias</span>
+              </a>
+            </li>
+            <li id="centrocosto" class="treeview">
+              <a href="/centrocosto">
+                <i class="fa fa-institution "></i>
+                <span>Centros de Costo</span>
+              </a>
+            </li>
+            <li id="sector" class="treeview">
+              <a href="/sector">
+                <i class="fa fa-building"></i>
+                <span>Sector</span>
               </a>
             </li>
           </ul>
@@ -154,7 +166,7 @@
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -162,38 +174,43 @@
       $.widget.bridge('uibutton', $.ui.button);
     </script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Select2 -->
+    <script src="/plugins/select2/select2.full.min.js"></script>
+    <!-- InputMask -->
+    <script src="/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- Sparkline -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- jvectormap -->
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
     <!-- jQuery Knob Chart -->
-    <script src="plugins/knob/jquery.knob.js"></script>
+    <script src="/plugins/knob/jquery.knob.js"></script>
     <!-- daterangepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="/plugins/daterangepicker/daterangepicker.js"></script>
     <!-- datepicker -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
     <!-- Bootstrap WYSIHTML5 -->
-    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- Slimscroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="/plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js"></script>
+    <script src="/dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+    <script src="/dist/js/demo.js"></script>
     @section('script')      
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="plugins/morris/morris.min.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard.js"></script>
+    <script src="/dist/js/pages/dashboard.js"></script>
     @show
   </body>
 </html>
