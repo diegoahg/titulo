@@ -12,6 +12,10 @@ class SectorController extends Controller
     /**
      * Responds to requests to GET /users
      */
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function getIndex()
     {
         $sectores = Sector::all();

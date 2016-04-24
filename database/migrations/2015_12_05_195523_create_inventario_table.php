@@ -31,10 +31,12 @@ class CreateInventarioTable extends Migration
             $table->string('alto');
             $table->string('orden');
             $table->string('cuenta_contable');
+            $table->string('alta');
             $table->string('vida_util');
             $table->string('tipo_inventario');
             $table->string('tipo_bien');
             $table->string('enmienda');
+            $table->string('estado');
             $table->timestamps();
         });
     }

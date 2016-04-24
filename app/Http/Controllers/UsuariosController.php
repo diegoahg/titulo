@@ -6,12 +6,18 @@ use Validator;
 use Illuminate\Http\Request;
 use App\User;
 use Crypt;
+use Hash;
 
 class UsuariosController extends Controller
 {
     /**
      * Responds to requests to GET /users
      */
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
     public function getIndex()
     {
         $users = User::all();
@@ -60,7 +66,7 @@ class UsuariosController extends Controller
            $user->apellido_paterno = $request->input("apellido_paterno");
            $user->apellido_materno = $request->input("apellido_materno");
            $user->email = $request->input("correo");
-           $user->password = $request->input("password");
+           $user->password = Hash::make($request->input("password"));
            $user->fono = $request->input("fono");
            $user->movil = $request->input("movil");
            $user->departamento = $request->input("departamento");
@@ -126,7 +132,7 @@ class UsuariosController extends Controller
            $user->apellido_paterno = $request->input("apellido_paterno");
            $user->apellido_materno = $request->input("apellido_materno");
            $user->email = $request->input("correo");
-           $user->password = $request->input("password");
+           $user->password = Hash::make($request->input("password"));
            $user->fono = $request->input("fono");
            $user->movil = $request->input("movil");
            $user->departamento = $request->input("departamento");

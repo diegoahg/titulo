@@ -30,11 +30,12 @@
 	                  <table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
-	                        <th>N° Inventario</th>
-	                        <th>Descripcion</th>
-	                        <th>Centro de Costo</th>
-	                        <th>Sector</th>
-	                        <th>Acción</th>
+	                        <th width="10%">N° Inventario</th>
+	                        <th width="35%">Descripcion</th>
+	                        <th width="20%">Centro de Costo</th>
+	                        <th width="20%">Sector</th>
+	                        <th width="20%">Estado</th>
+	                        <th width="15%">Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
@@ -43,15 +44,29 @@
 	                        <td>{{$inventario->category->codigo}}-{{$inventario->numero}}</td>
 	                        <td>{{$inventario->descripcion}}</td>
 	                        <td>{{$inventario->centrocosto->nombre}}</td>
-	                        <td>{{$inventario->sector->sector}}</td>
-	                        <td></td>
+	                        <td>{{$inventario->sector->nombre}}</td>
+	                        <td>
+	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($inventario->id)}}')">
+			                      	<option value="{{$inventario->estado}}" selected="selected">{{$inventario->estado}}</option>
+			                      	<option value="ACTIVO">ACTIVO</option>
+			                      	<option value="SUMARIO">SUMARIO</option>
+			                      	<option value="BAJA">BAJA</option>
+			                    </select>
+			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($inventario->id)}}">
+	                        </td>
+	                        <td>
+	                        	<a href="inventario/edit/{{Crypt::encrypt($inventario->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        </td>
 	                      </tr>
 	                     @endforeach
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
+                        <th>N° Inventario</th>
+                        <th>Descripcion</th>
+                        <th>Centro de Costo</th>
+                        <th>Sector</th>
+	                    <th>Estado</th>
                         <th>Acción</th>
                       </tr>
                     </tfoot>
@@ -74,7 +89,17 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
+			$("#inventario").addClass( "active" );
+
 	      });
+
+	      function CambiarEstado(key){
+	      		var estado = $("#estado").val();
+	      		$.get( "inventario/cambiaestado/" + key + "/" + estado, function( data ) {
+					console.log(data);
+				});
+	      }
+
 	    </script> 
 	@stop     
 @stop

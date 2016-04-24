@@ -61,7 +61,7 @@
 							</div>
         				</div><!-- /.box-body -->
 						<div class="box-footer">
-							<a href="../usuarios"class="btn btn-default">Cancelar</a>
+							<a href="../sector"class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
 						</div>
 					</form>
@@ -72,19 +72,11 @@
 		
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-@section('script')
-	<script>
-	      $(function () {
-	        $("#example1").DataTable();
-	        $('#example2').DataTable({
-	          "paging": true,
-	          "lengthChange": false,
-	          "searching": false,
-	          "ordering": true,
-	          "info": true,
-	          "autoWidth": false
-	        });
-	      });
+    @section('script')
+		<script>
+	      $(document).ready(function() {
+				$("#sector").addClass( "active" );
+			});
 	    </script> 
-	@stop      
+	@stop           
 @stop

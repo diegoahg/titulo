@@ -136,6 +136,8 @@
 	          "autoWidth": false
 	        });
 	      });
+
+	      $("#usuarios").addClass( "active" );
 	    </script> 
 	@stop      
 @stop

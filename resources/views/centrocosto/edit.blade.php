@@ -51,7 +51,7 @@
 							</div>
         				</div><!-- /.box-body -->
 						<div class="box-footer">
-							<a href="../centrocosto"class="btn btn-default">Cancelar</a>
+							<a href="../../centrocosto"class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
 						</div>
 					</form>
@@ -62,5 +62,11 @@
 		
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-     
+     @section('script')
+		<script>
+	      $(document).ready(function() {
+				$("#centrocosto").addClass( "active" );
+			});
+	    </script> 
+	@stop    
 @stop

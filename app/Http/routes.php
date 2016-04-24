@@ -11,9 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/',  ['middleware' => 'auth', function () {
+
+	$user = App\User::count();
+	$inventario = App\Inventario::count();
+	$centro = App\CentroCosto::count();
+	$sector = App\Sector::count();
+
+    return view('main')->with("sector",$sector)->with("centro",$centro)->with("inventario",$inventario)->with("user",$user);
+}]);
 
 Route::controller('productos','ProductoController');
 Route::controller('inventario', 'InventarioController');
@@ -21,5 +27,6 @@ Route::controller('usuarios', 'UsuariosController');
 Route::controller('categorias', 'CategoriasController');
 Route::controller('centrocosto', 'CentroCostoController');
 Route::controller('sector', 'SectorController');
+Route::controller('login','LoginController');
 
 

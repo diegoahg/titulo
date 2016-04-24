@@ -20,9 +20,9 @@
            	<div class="col-xs-12">
 				<div class="box">
 	                <div class="box-header">
-	                  <h3 class="box-title">Registro de Ingresos</h3>
+	                  <h3 class="box-title">Editar Bienes</h3>
 	                </div><!-- /.box-header -->
-	                <form action="ingreso" method="post" enctype="multipart/form-data" class="horizontal-form">
+	                <form action="edit" method="post" enctype="multipart/form-data" class="horizontal-form">
         				<div class="box-body">
 							<div class="form-body">
 								@if ($errors->has())
@@ -50,7 +50,7 @@
 										</div>
 										<div class="col-md-3">
 											<div class="form-group">
-												<label class="control-label">Oficina (*)</label>
+												<label class="control-label">Sector (*)</label>
 												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
 													<option value="">Elegir Oficina</option> 
 													@foreach($sectors as $sector)
@@ -76,27 +76,25 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Numero. (*)</label>
-											<input type="text" id="numero" required name="numero" class="form-control"  value="{{ old('numero') }}">
+											<input type="text" id="numero" required name="numero" class="form-control"  value="{{ $inventario->numero }}">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label class="control-label">Descripción del Bien. (*)</label>
-											<div id="bienes">
-												<input type="text" id="descripcion" onchange="CambioDescripcion()" required name="descripcion" class="typeahead form-control"  value="{{ old('descripcion') }}">
-											</div>
+											<input type="text" id="descripcion" required name="descripcion" class="form-control"  value="{{ $inventario->descripcion }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Valor Unitario. (*)</label>
-											<input type="text" id="valor" name="valor" required class="form-control"  value="{{ old('valor') }}">
+											<input type="text" id="valor" name="valor" required class="form-control"  value="{{ $inventario->valor}}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Unidad. (*)</label>
-											<input type="text" id="unidad" name="unidad" required class="form-control"  value="{{ old('valor') }}">
+											<input type="text" id="unidad" name="unidad" required class="form-control"  value="{{ $inventario->unidad }}">
 										</div>
 									</div>
 								</div>
@@ -104,47 +102,50 @@
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Marca. (*)</label>
-											<input type="text" id="marca" name="marca" required class="form-control"  value="{{ old('marca') }}">
+											<input type="text" id="marca" name="marca" required class="form-control"  value="{{ $inventario->marca }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Modelo. (*)</label>
-											<input type="text" id="modelo" name="modelo" class="form-control" required value="{{ old('modelo') }}">
+											<input type="text" id="modelo" name="modelo" class="form-control" required value="{{ $inventario->modelo}}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">N° Serie. (*)</label>
-											<input type="text" id="serie" name="serie" class="form-control"  required value="{{ old('serie') }}">
+											<input type="text" id="serie" name="serie" class="form-control"  required value="{{ $inventario->serie }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Largo. (*)</label>
-											<input type="text" id="largo" name="largo" class="form-control" required value="{{ old('largo') }}">
+											<input type="text" id="largo" name="largo" class="form-control" required value="{{ $inventario->largo }}">
+
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Ancho. (*)</label>
-											<input type="text" id="ancho" name="ancho" class="form-control"  required value="{{ old('ancho') }}">
+											<input type="text" id="ancho" name="ancho" class="form-control"  required value="{{ $inventario->ancho }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
 											<label class="control-label">Alto. (*)</label>
-											<input type="text" id="alto" name="alto" class="form-control" required  value="{{ old('alto') }}">
+											<input type="text" id="alto" name="alto" class="form-control" required  value="{{ $inventario->alto }}">
 										</div>
 									</div>
 									<input type="hidden" name="_token" value="{{ csrf_token() }}">
+									<input type="hidden" name="_key" value="{{ Crypt::encrypt($inventario->id) }}">
+
 								</div>
 								<h3 class="form-section">Datos de Adquisición</h3>
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Orden. (*)</label>
-											<input type="text" id="orden" name="orden" class="form-control" required value="{{ old('orden') }}">
+											<input type="text" id="orden" name="orden" class="form-control" required value="{{ $inventario->orden }}">
 										</div>
 									</div>
 									<div class="col-md-3">
@@ -154,32 +155,32 @@
 						                      	<div class="input-group-addon">
 						                        	<i class="fa fa-calendar"></i>
 						                      	</div>
-						                      	<input type="text"  id="fecha" name="fecha" class="form-control" required data-inputmask="'alias': 'dd/mm/aaaa'" data-mask="">
+						                      	<input type="text"  id="fecha" name="fecha" class="form-control" required data-inputmask="'alias': 'dd/mm/aaaa'" value="{{$inventario->fecha}}" data-mask="">
 						                    </div><!-- /.input group -->
 					                  	</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Cuenta Contable. (*)</label>
-											<input type="text" id="cuenta_contable" name="cuenta_contable" required class="form-control"  value="{{ old('cuenta_contable') }}">
+											<input type="text" id="cuenta_contable" name="cuenta_contable" required class="form-control"  value="{{ $inventario->cuenta_contable }}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Número Alta. (*)</label>
-											<input type="text" id="alta" name="alta" class="form-control" required value="{{ old('alta') }}">
+											<input type="text" id="alta" name="alta" class="form-control" required value="{{ $inventario->alta }}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Vida Util. (*)</label>
-											<input type="text" id="vida_util" name="vida_util" class="form-control" required value="{{ old('vida_util') }}">
+											<input type="text" id="vida_util" name="vida_util" class="form-control" required value="{{ $inventario->vida_util }}">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Tipo Inventario (*)</label>
-											<select id="centro" required name="tipo_inventario" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+											<select required name="tipo_inventario" id="tipo_inventario" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 												<option value="Regular">Regular</option>
 												<option value="Leasing">Leasing</option>
 											</select>
@@ -188,7 +189,7 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Tipo Bien (*)</label>
-											<select id="centro" required name="tipo_bien" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+											<select required name="tipo_bien" id="tipo_bien" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 												<option value="Simple">Simple</option>
 												<option value="Complejo">Complejo</option>
 											</select>
@@ -197,7 +198,7 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Enmienda el Bien Activo(*)</label>
-											<select id="centro" required name="enmienda" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+											<select required name="enmienda" id="enmienda" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 												<option value="SI">SI</option>
 												<option value="NO">NO</option>
 											</select>
@@ -205,10 +206,9 @@
 									</div>
 								</div>	
 							</div>
-
         				</div><!-- /.box-body -->
 						<div class="box-footer">
-							<a href="../inventario"class="btn btn-default">Cancelar</a>
+							<a href="../../inventario"class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
 						</div>
 					</form>
@@ -217,9 +217,6 @@
         </div><!-- /.row -->
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-<form action="descripcion" method="post">
-<input type="submit" value="Envar">
-</form>
 @section('script')
 		<script>
 
@@ -258,66 +255,17 @@
 	        $(".select2").select2();//Datemask dd/mm/yyyy
 	        $("#fecha").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
 
-	        //Codigo parra TYPEAHEAD
-			var substringMatcher = function(strs) {
-			  return function findMatches(q, cb) {
-			    var matches, substringRegex;
 
-			    // an array that will be populated with substring matches
-			    matches = [];
-
-			    // regex used to determine if a string contains the substring `q`
-			    substrRegex = new RegExp(q, 'i');
-
-			    // iterate through the pool of strings and for any string that
-			    // contains the substring `q`, add it to the `matches` array
-			    $.each(strs, function(i, str) {
-			      if (substrRegex.test(str)) {
-			        matches.push(str);
-			      }
-			    });
-
-			    cb(matches);
-			  };
-			};
-
-			var bienes = {!!$json!!}
-
-			$('#bienes .typeahead').typeahead({
-			  hint: true,
-			  highlight: true,
-			  minLength: 1
-			},
-			{
-			  name: 'bienes',
-			  source: substringMatcher(bienes)
-			});
-
-			$('#bienes .typeahead').on('typeahead:selected', function(evt, item) {
-			   $.ajax({
-                data:  "descripcion=" + item + "&_token=" + "{{csrf_token()}}",
-                url:   'descripcion',
-                type:  'post',
-                success:  function (response) {
-                		$("#valor").val(response.valor);  
-                		$("#unidad").val(response.unidad);   
-                		$("#marca").val(response.marca);   
-                		$("#modelo").val(response.modelo);  
-                		$("#serie").val(response.serie);   
-                		$("#largo").val(response.largo);   
-                		$("#ancho").val(response.ancho);   
-                		$("#alto").val(response.alto);           
-                    }
-			        });
-			})
-
-
-
-
-
+			$('#centro').select2('val',"{{$inventario->centro}}");
+			$('#oficina').select2('val',"{{$inventario->oficina}}");
+			$('#categoria').select2('val',"{{$inventario->categoria}}");
+			$('#tipo_inventario').select2('val',"{{$inventario->tipo_inventario}}");
+			$('#tipo_bien').select2('val',"{{$inventario->tipo_bien}}");
+			$('#enmienda').select2('val',"{{$inventario->enmienda}}");
+			
+			$("#inventario").addClass( "active" );
 
 	      });
-
 
 	    </script> 
 	@stop     

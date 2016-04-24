@@ -61,19 +61,11 @@
 		
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-@section('script')
-	<script>
-	      $(function () {
-	        $("#example1").DataTable();
-	        $('#example2').DataTable({
-	          "paging": true,
-	          "lengthChange": false,
-	          "searching": false,
-	          "ordering": true,
-	          "info": true,
-	          "autoWidth": false
-	        });
-	      });
+     @section('script')
+		<script>
+	      $(document).ready(function() {
+				$("#centrocosto").addClass( "active" );
+			});
 	    </script> 
-	@stop      
+	@stop    
 @stop
