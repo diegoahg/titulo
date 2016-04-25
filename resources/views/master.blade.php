@@ -173,12 +173,12 @@
           <ul class="sidebar-menu">
             <li class="header">Barra de Navegación</li>
             <li  id="main" class="treeview">
-              <a href="/">
+              <a href="{{ asset('/') }}">
                 <i class="fa fa-home"></i> <span>Home</span>
               </a>
             </li>
             <li  id="usuarios"  class="treeview">
-              <a href="/usuarios">
+              <a href="{{ asset('usuarios') }}">
                 <i class="fa fa-user"></i> <span>Usuarios</span>
               </a>
             </li>
@@ -188,25 +188,25 @@
               </a>
             </li>-->
             <li id="inventario" class="treeview">
-              <a href="/inventario">
+              <a href="{{ asset('inventario') }}">
                 <i class="fa fa-cubes"></i>
                 <span>Inventario</span>
               </a>
             </li>
             <li id="categorias" class="treeview">
-              <a href="/categorias">
+              <a href="{{ asset('categorias') }}">
                 <i class="fa fa-bars"></i>
                 <span>Categorias</span>
               </a>
             </li>
             <li id="centrocosto" class="treeview">
-              <a href="/centrocosto">
+              <a href="{{ asset('centrocosto') }}">
                 <i class="fa fa-institution "></i>
                 <span>Centros de Costo</span>
               </a>
             </li>
             <li id="sector" class="treeview">
-              <a href="/sector">
+              <a href="{{ asset('sector') }}">
                 <i class="fa fa-building"></i>
                 <span>Sector</span>
               </a>
