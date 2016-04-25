@@ -83,7 +83,7 @@
 										<div class="form-group">
 											<label class="control-label">Descripción del Bien. (*)</label>
 											<div id="bienes">
-												<input type="text" id="descripcion" onchange="CambioDescripcion()" required name="descripcion" class="typeahead form-control"  value="{{ old('descripcion') }}">
+												<input type="text" id="descripcion" required name="descripcion" class="typeahead form-control"  value="{{ old('descripcion') }}">
 											</div>
 										</div>
 									</div>
@@ -217,9 +217,9 @@
         </div><!-- /.row -->
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-<form action="descripcion" method="post">
+<!--<form action="descripcion" method="post">
 <input type="submit" value="Envar">
-</form>
+</form>-->
 @section('script')
 		<script>
 

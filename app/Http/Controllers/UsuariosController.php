@@ -86,13 +86,13 @@ class UsuariosController extends Controller
     public function getView($id)
     {
         $user = User::findOrFail($id);
-        return view('Usuarios/modalview')->with("user", $user);
+        return view('usuarios/modalview')->with("user", $user);
     }
 
     public function getEdit($id)
     {
         $user = User::findOrFail($id);
-        return view('Usuarios/edit')->with("user", $user);
+        return view('usuarios/edit')->with("user", $user);
     }
 
     public function postEdit(Request $request)
@@ -147,7 +147,7 @@ class UsuariosController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('Usuarios/modaldelete')->with("user", $user);
+        return view('usuarios/modaldelete')->with("user", $user);
     }
 
     public function postDelete(Request $request)
