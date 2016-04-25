@@ -59,3 +59,16 @@ class SectorTableSeeder extends Seeder {
     }
 
 }
+
+class UserTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('users')->delete();
+
+        DB::table('users')->insert([
+            array('id' => 1, 'name' => "Admin", "apellido_paterno" =>"Admin", "apellido_materno" =>"Admin", "email" =>"admin@admin.cl",  "password" =>"$2y$10$zLYadCJrD.DJcfkZSSc.yuAabR5Vx.mWrBifyJ7xCpog.cJRHxfCO",  "fono" =>"987654321",  "movil" =>"987654321",  "departamento" =>"Adminstracion",  "cargo" =>"Admin"),
+        ]);
+    }
+
+}
