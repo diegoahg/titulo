@@ -40,6 +40,12 @@
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
+											<label class="control-label"> Código (*)</label>
+											<input type="text" id="codigo" name="codigo" class="form-control" value="{{ $sector->codigo }}" placeholder="Ej: Departamento de Informatica" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
 											<label class="control-label"> Nombre (*)</label>
 											<input type="text" id="nombre" name="nombre" class="form-control" value="{{ $sector->nombre }}" placeholder="Ej: Laboratorio 1" required>
 										</div>
@@ -57,6 +63,12 @@
 													@endif
 												@endforeach
 											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label"> Descripción (*)</label>
+											<input type="text" id="descripcion" name="descripcion" class="form-control" value="{{ $sector->descripcion }}" placeholder="Ej: Descripción" required>
 										</div>
 									</div>
 

@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
+        "guzzlehttp/guzzle": "~4.0",
          "intervention/image": "2.*", 
          "intervention/imagecache": "2.*"
     },

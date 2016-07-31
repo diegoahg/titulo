@@ -40,8 +40,26 @@
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
+											<label class="control-label"> Codigo (*)</label>
+											<input type="text" id="codigo" name="codigo" class="form-control" value="{{ old('codigo') }}" placeholder="Ej: 01.01.01" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
 											<label class="control-label"> Nombre (*)</label>
 											<input type="text" id="nombre" name="nombre" class="form-control" value="{{ old('nombre') }}" placeholder="Ej: Departamento de Informática" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label"> Direccion (*)</label>
+											<input type="text" id="direccion" name="direccion" class="form-control" value="{{ old('direccion') }}" placeholder="Ej: Vidaurre 1235" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label"> Descripción (*)</label>
+											<input type="text" id="descripcion" name="descripcion" class="form-control" value="{{ old('descripcion') }}" placeholder="Ej: Descripción" required>
 										</div>
 									</div>
 								</div>

@@ -58,9 +58,25 @@ class InventarioController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'fecha'  => 'required|max:255',
             'centro'  => 'required|max:255',
-            'oficina' => 'required|max:255',
+            'oficina'  => 'required|max:255',
+            'categoria' => 'required|max:255',
+            'numero' => 'required|max:255',
+            'valor' => 'required|max:255',
+            'unidad' => 'required|max:255',
+            'marca' => 'required|max:255',
+            'modelo' => 'required|max:255',
+            'serie' => 'required|max:255',
+            'largo' => 'required|max:255',
+            'ancho' => 'required|max:255',
+            'orden' => 'required|max:255',
+            'fecha' => 'required|max:255',
+            'cuenta_contable' => 'required|max:255',
+            'alta' => 'required|max:255',
+            'vida_util' => 'required|max:255',
+            'tipo_inventario' => 'required|max:255',
+            'tipo_bien' => 'required|max:255',
+            'enmienda' => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -70,7 +86,7 @@ class InventarioController extends Controller
         }else{
 
            $inventario = new Inventario();
-           $inventario->id_usuario =  1;
+           $inventario->id_usuario =  Auth::user()->id;
            $inventario->fecha =   date_format(date_create($request->input("fecha")), 'Y-m-d');
            $inventario->centro =  $request->input("centro");
            $inventario->oficina =  $request->input("oficina");
@@ -88,6 +104,7 @@ class InventarioController extends Controller
            $inventario->orden =  $request->input("orden");
            $inventario->fecha =  $request->input("fecha");
            $inventario->cuenta_contable =  $request->input("cuenta_contable");
+           $inventario->alta =  $request->input("alta");
            $inventario->vida_util =  $request->input("vida_util");
            $inventario->tipo_inventario =  $request->input("tipo_inventario");
            $inventario->tipo_bien =  $request->input("tipo_bien");
@@ -134,7 +151,7 @@ class InventarioController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
            $inventario = Inventario::find(Crypt::decrypt($request->input("_key")));
-           $inventario->id_usuario =  1;
+           $inventario->id_usuario =  Auth::user()->id;
            $inventario->fecha =   date_format(date_create($request->input("fecha")), 'Y-m-d');
            $inventario->centro =  $request->input("centro");
            $inventario->oficina =  $request->input("oficina");
@@ -158,7 +175,7 @@ class InventarioController extends Controller
            $inventario->tipo_bien =  $request->input("tipo_bien");
            $inventario->enmienda =  $request->input("enmienda");
            $inventario->save();
-          return redirect("inventario")->with('edit', 'ingreso')->with("id_igreso", $inventario->id);
+          return redirect("inventario")->with('success', 'edit')->with("id_igreso", $inventario->id);
         }
     }
 

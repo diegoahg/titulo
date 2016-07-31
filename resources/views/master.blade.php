@@ -187,11 +187,17 @@
                 <i class="fa fa-cube"></i> <span>Productos</span>
               </a>
             </li>-->
-            <li id="inventario" class="treeview">
-              <a href="{{ asset('inventario') }}">
+             <li  id="inventario" class="treeview">
+              <a href="#">
                 <i class="fa fa-cubes"></i>
                 <span>Inventario</span>
               </a>
+              <ul class="treeview-menu">
+                <li  id="bien-activo"><a href="{{ asset('bien-activo') }}"><i class="fa fa-circle-o"></i> Bienes de Activo</a></li>
+                <li  id="bien-registro"><a href="{{ asset('bien-registro') }}"><i class="fa fa-circle-o"></i> Bienes de Registro</a></li>
+                <li  id="bien-licencia"><a href="{{ asset('bien-licencia') }}"><i class="fa fa-circle-o"></i> Licencias de Software</a></li>
+                <li  id="bien-raiz"><a href="{{ asset('bien-raiz') }}"><i class="fa fa-circle-o"></i> Bienes Raices</a></li>
+              </ul>
             </li>
             <li id="categorias" class="treeview">
               <a href="{{ asset('categorias') }}">

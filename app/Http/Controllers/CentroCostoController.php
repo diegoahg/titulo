@@ -42,6 +42,8 @@ class CentroCostoController extends Controller
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
             'nombre'  => 'required|max:255',
+            'descripcion'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -51,7 +53,10 @@ class CentroCostoController extends Controller
         }else{
 
             $centrocosto = new CentroCosto;
-            $centrocosto->nombre = $request->input("nombre");
+            $centrocosto->codigo = $request->codigo;
+            $centrocosto->nombre = $request->nombre;
+            $centrocosto->descripcion = $request->descripcion;
+            $centrocosto->direccion = $request->direccion;
             $centrocosto->save();
 
             return redirect("centrocosto")->with('success', 'add');
@@ -80,6 +85,8 @@ class CentroCostoController extends Controller
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
             'nombre'  => 'required|max:255',
+            'descripcion'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -89,7 +96,10 @@ class CentroCostoController extends Controller
         }else{
 
             $centrocosto = CentroCosto::find($request->input("_id"));
-            $centrocosto->nombre = $request->input("nombre");
+            $centrocosto->codigo = $request->codigo;
+            $centrocosto->nombre = $request->nombre;
+            $centrocosto->descripcion = $request->descripcion;
+            $centrocosto->direccion = $request->direccion;
             $centrocosto->save();
 
             return redirect("centrocosto")->with('success', 'edit');

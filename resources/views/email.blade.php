@@ -1,0 +1,2 @@
+<h1>Estimado {{$data["usuario"]}}</h1>
+Puede cambiar su clave en la direccion: <a href="{{ asset('login/recuperar-clave/'.$data["id"].'/'.$data["token"]) }}">{{ asset('login/recuperar-clave/'.$data["id"].'/'.$data["token"]) }}</a>

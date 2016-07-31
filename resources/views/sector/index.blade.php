@@ -50,16 +50,20 @@
 	                  <table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
+	                        <th>Código</th>
 	                        <th>Nombre</th>
 	                        <th>Centro de Costo</th>
+	                        <th>Descripción</th>
 	                        <th>Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
 	                    @foreach($sectores as $sector)
 	                      <tr>
+	                        <td>{{$sector->codigo}}</td>
 	                        <td>{{$sector->nombre}}</td>
 	                        <td>{{$sector->centrocosto->nombre}}</td>
+	                        <td>{{$sector->descripcion}}</td>
 	                        <td>
 	                        	<div class="btn-group">
 	                        		<a href="sector/edit/{{$sector->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
@@ -70,10 +74,13 @@
 	                     @endforeach
                     </tbody>
                     <tfoot>
-                  	<tr>
+                  		<tr>
+	                        <th>Código</th>
 	                        <th>Nombre</th>
+	                        <th>Centro de Costo</th>
+	                        <th>Descripción</th>
 	                        <th>Acción</th>
-                     </tr>
+                    	</tr>
                     </tfoot>
                   </table>
                 </div><!-- /.box-body -->

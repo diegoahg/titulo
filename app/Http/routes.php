@@ -23,6 +23,10 @@ Route::get('/',  ['middleware' => 'auth', function () {
 
 Route::controller('productos','ProductoController');
 Route::controller('inventario', 'InventarioController');
+Route::controller('bien-activo', 'BienActivoController');
+Route::controller('bien-registro', 'BienRegistroController');
+Route::controller('bien-licencia', 'BienLicenciaController');
+Route::controller('bien-raiz', 'BienRaizController');
 Route::controller('usuarios', 'UsuariosController');
 Route::controller('categorias', 'CategoriasController');
 Route::controller('centrocosto', 'CentroCostoController');

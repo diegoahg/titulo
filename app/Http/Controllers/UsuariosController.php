@@ -114,8 +114,6 @@ class UsuariosController extends Controller
             'apellido_paterno' => 'required|max:255',
             'apellido_materno' => 'required|max:255',
             'correo' => 'required|email|exists:users,email|max:255',
-            'password' => 'required|max:255|confirmed',
-            'password_confirmation ' => 'confirmed',
             'fono' => 'required|numeric|min:9',
             'movil' => 'required|numeric|min:9',
             'cargo' => 'required|max:255'

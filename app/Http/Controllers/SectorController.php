@@ -45,6 +45,8 @@ class SectorController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre'  => 'required|max:255',
             'centro'  => 'required|max:255',
+            'descripcion'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -54,8 +56,10 @@ class SectorController extends Controller
         }else{
 
             $sector = new Sector;
-            $sector->nombre = $request->input("nombre");
-            $sector->id_centro_costo = $request->input("centro");
+            $sector->nombre = $request->nombre;
+            $sector->id_centro_costo = $request->centro;
+            $sector->codigo = $request->codigo;
+            $sector->descripcion = $request->descripcion;
             $sector->save();
 
             return redirect("sector")->with('success', 'add');
@@ -86,6 +90,8 @@ class SectorController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre'  => 'required|max:255',
             'centro'  => 'required|max:255',
+            'descripcion'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
         if ($validator->fails()) {
@@ -93,9 +99,11 @@ class SectorController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $sector = Sector::find($request->input("_id"));
-            $sector->nombre = $request->input("nombre");
-            $sector->id_centro_costo = $request->input("centro");
+            $sector = Sector::find($request->_id);
+            $sector->nombre = $request->nombre;
+            $sector->codigo = $request->codigo;
+            $sector->descripcion = $request->descripcion;
+            $sector->id_centro_costo = $request->centro;
             $sector->save();
 
             return redirect("sector")->with('success', 'edit');

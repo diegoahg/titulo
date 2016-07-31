@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>UTEM | Log in</title>
+    <title>UTEM | RECUPERAR CLAVE</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -26,39 +26,36 @@
   </head>
   <body class="hold-transition login-page">
     <div class="login-box">
-      <div class="login-logo">
-        <a href="/"><b>U</b>TEM <b>I</b>NVENTARIO</a>
+      <div class="login-logo">NUEVA CONTRASEÑA
       </div><!-- /.login-logo -->
       <div class="login-box-body">
-        <p class="login-box-msg">Ingrese los datos para poder iniciar sesión</p>
-        <form action="login/acceder" method="post">
+        <p>Ingrese su nueva contraseña para poder cambirla.</p>
+          @if ($errors->has())
+            <div class="callout callout-danger">
+              <h4 class="block">Debe Completar los siguientes campos:</h4>
+              <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+            </div>
+          @endif
+        <form action="{{ asset('login/recuperar') }}" method="post">
           <div class="form-group has-feedback">
-           <input type="text" class="form-control" name="email" placeholder="Email" required="" />
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+           <input type="password" class="form-control" name="password" placeholder="Nueva Contraseña" required="" />
           </div>
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" name="contraseña" placeholder="Contraseña" required/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <input type="password" class="form-control" name="password_confirmation" placeholder="Repetir Contraseña" required/>
           </div>
           <div class="row">
             <div class="col-xs-8">
-              <div class="checkbox icheck">
-                <label>
-                  <!--<input type="checkbox"> Recordar Contraseña -->
-                </label>
-              </div>
-            </div><!-- /.col -->
-            <div class="col-xs-4">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+                        <input type="hidden" name="_key" value="{{$id}}">
+              <button type="submit" class="btn btn-primary btn-block btn-flat">Cambiar</button>
             </div><!-- /.col -->
           </div>
         </form>
-
-        <a href="{{ asset('login/correo') }}">Olvidé mi contraseña</a><br>
         <!--
-
-        <a href="#">I forgot my password</a><br>
         <a href="register.html" class="text-center">Register a new membership</a>-->
 
       </div><!-- /.login-box-body -->

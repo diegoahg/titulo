@@ -40,8 +40,26 @@
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
+											<label class="control-label"> Código (*)</label>
+											<input type="text" id="codigo" name="codigo" class="form-control" value="{{ $centrocosto->codigo }}" placeholder="Ej: Departamento de Informatica" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
 											<label class="control-label"> Nombre (*)</label>
 											<input type="text" id="nombre" name="nombre" class="form-control" value="{{ $centrocosto->nombre }}" placeholder="Ej: Departamento de Informatica" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label"> Direccion (*)</label>
+											<input type="text" id="direccion" name="direccion" class="form-control" value="{{ old('direccion') }}" placeholder="Ej: Vidaurre 1235" required>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label"> Descripción (*)</label>
+											<input type="text" id="descripcion" name="descripcion" class="form-control" value="{{ $centrocosto->descripcion }}" placeholder="Ej: Descripción" required>
 										</div>
 									</div>
 								</div>

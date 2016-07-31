@@ -5,12 +5,12 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Inventario
+	    Bien Licencia de Software
 	    <small>Panel de Control de Inventario</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	    <li class="active">Inventario</li>
+	    <li class="active">Bien Licencia de Software</li>
 	  </ol>
 	</section>
 
@@ -20,18 +20,18 @@
            	<div class="col-xs-12">
 				<div class="box">
 	                <div class="box-header">
-	                  <h3 class="box-title">Registro de Inventario</h3>
+	                  <h3 class="box-title">Registro de Bien Licencia de Software</h3>
 	                  @if(session("success"))
 						@if(session("success")=="ingreso")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Bien creado correctamente!</strong> Tienes {{count($inventarios)}} Bienes en el sistema.
+								<strong>¡Bien creado correctamente!</strong> Tienes {{count($bienlicencias)}} Bienes en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="edit")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Bien editado correctamente!</strong> Tienes {{count($inventarios)}} Bienes en el sistema.
+								<strong>¡Bien editado correctamente!</strong> Tienes {{count($bienlicencias)}} Bienes en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="estado")
@@ -43,7 +43,7 @@
 					@endif
 
 		              <div class="pull-right">
-		              	<span><a class="btn btn-block btn-success" href="inventario/ingreso"><i class="fa fa-sign-in"> Ingresos</i></a></span>
+		              	<span><a class="btn btn-block btn-success" href="bien-licencia/add"><i class="fa fa-sign-in"> Ingresos</i></a></span>
 	                  </div>
 	                </div><!-- /.box-header -->
 	                <div class="box-body">
@@ -59,23 +59,23 @@
 	                      </tr>
 	                    </thead>
 	                    <tbody>
-	                    @foreach($inventarios as $inventario)
+	                    @foreach($bienlicencias as $bienlicencia)
 	                      <tr>
-	                        <td>{{$inventario->category->codigo}}-{{$inventario->numero}}</td>
-	                        <td>{{$inventario->descripcion}}</td>
-	                        <td>{{$inventario->centrocosto->nombre}}</td>
-	                        <td>{{$inventario->sector->nombre}}</td>
+	                        <td>{{$bienlicencia->numero}}</td>
+	                        <td>{{$bienlicencia->descripcion}}</td>
+	                        <td>{{$bienlicencia->centrocosto->nombre}}</td>
+	                        <td>{{$bienlicencia->sector->nombre}}</td>
 	                        <td>
-	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($inventario->id)}}')">
-			                      	<option value="{{$inventario->estado}}" selected="selected">{{$inventario->estado}}</option>
+	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($bienlicencia->id)}}')">
+			                      	<option value="{{$bienlicencia->estado}}" selected="selected">{{$bienlicencia->estado}}</option>
 			                      	<option value="ACTIVO">ACTIVO</option>
 			                      	<option value="SUMARIO">SUMARIO</option>
 			                      	<option value="BAJA">BAJA</option>
 			                    </select>
-			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($inventario->id)}}">
+			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($bienlicencia->id)}}">
 	                        </td>
 	                        <td>
-	                        	<a href="inventario/edit/{{Crypt::encrypt($inventario->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        	<a href="/bien-licencia/edit/{{Crypt::encrypt($bienlicencia->id)}}" class="btn btn-block btn-success">Ver</a>
 	                        </td>
 	                      </tr>
 	                     @endforeach
@@ -109,13 +109,14 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
-			$("#inventario").addClass( "active" );
+			$("#inventario").addClass("active");
+	        $("#bien-licencia").addClass("active");
 
 	      });
 
 	      function CambiarEstado(key){
 	      		var estado = $("#estado").val();
-	      		$.get( "inventario/cambiaestado/" + key + "/" + estado, function( data ) {
+	      		$.get( "bien-licencia/cambiaestado/" + key + "/" + estado, function( data ) {
 					console.log(data);
 				});
 	      }

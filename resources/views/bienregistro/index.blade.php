@@ -5,12 +5,12 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Inventario
+	    Bien Registro
 	    <small>Panel de Control de Inventario</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	    <li class="active">Inventario</li>
+	    <li class="active">Bien Registro</li>
 	  </ol>
 	</section>
 
@@ -25,57 +25,49 @@
 						@if(session("success")=="ingreso")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Bien creado correctamente!</strong> Tienes {{count($inventarios)}} Bienes en el sistema.
+								<strong>¡Bien creado correctamente!</strong> Tienes {{count($bienregistros)}} Bienes en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="edit")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Bien editado correctamente!</strong> Tienes {{count($inventarios)}} Bienes en el sistema.
+								<strong>¡Bien editado correctamente!</strong> Tienes {{count($bienregistros)}} Bienes en el sistema.
 							</div>
 						@endif
 						@if(Session::get("success")=="estado")
 							<div class="alert alert-success alert-dismissable">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-								<strong>¡Bien a cambiar de estado correctamente!</strong> 
+								<strong>¡Bien a cambiado de estado correctamente!</strong> 
 							</div>
 						@endif
 					@endif
 
 		              <div class="pull-right">
-		              	<span><a class="btn btn-block btn-success" href="inventario/ingreso"><i class="fa fa-sign-in"> Ingresos</i></a></span>
+		              	<span><a class="btn btn-block btn-success" href="bien-registro/add"><i class="fa fa-sign-in"> Ingresos</i></a></span>
 	                  </div>
 	                </div><!-- /.box-header -->
 	                <div class="box-body">
 	                  <table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
-	                        <th width="10%">N° Inventario</th>
+	                        <th width="10%">Código</th>
 	                        <th width="35%">Descripcion</th>
 	                        <th width="20%">Centro de Costo</th>
 	                        <th width="20%">Sector</th>
-	                        <th width="20%">Estado</th>
+	                        <th width="20%">Valor</th>
 	                        <th width="15%">Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
-	                    @foreach($inventarios as $inventario)
+	                    @foreach($bienregistros as $bienregistro)
 	                      <tr>
-	                        <td>{{$inventario->category->codigo}}-{{$inventario->numero}}</td>
-	                        <td>{{$inventario->descripcion}}</td>
-	                        <td>{{$inventario->centrocosto->nombre}}</td>
-	                        <td>{{$inventario->sector->nombre}}</td>
+	                        <td>{{$bienregistro->codigo}}</td>
+	                        <td>{{$bienregistro->descripcion}}</td>
+	                        <td>{{$bienregistro->centrocosto->nombre}}</td>
+	                        <td>{{$bienregistro->sector->nombre}}</td>
+	                        <td>${{number_format($bienregistro->valor, 0, '', '.')}}</td>
 	                        <td>
-	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($inventario->id)}}')">
-			                      	<option value="{{$inventario->estado}}" selected="selected">{{$inventario->estado}}</option>
-			                      	<option value="ACTIVO">ACTIVO</option>
-			                      	<option value="SUMARIO">SUMARIO</option>
-			                      	<option value="BAJA">BAJA</option>
-			                    </select>
-			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($inventario->id)}}">
-	                        </td>
-	                        <td>
-	                        	<a href="inventario/edit/{{Crypt::encrypt($inventario->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        	<a href="bien-registro/edit/{{Crypt::encrypt($bienregistro->id)}}" class="btn btn-block btn-success">Ver</a>
 	                        </td>
 	                      </tr>
 	                     @endforeach
@@ -109,13 +101,13 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
-			$("#inventario").addClass( "active" );
+			$("#bienregistro").addClass( "active" );
 
 	      });
 
 	      function CambiarEstado(key){
 	      		var estado = $("#estado").val();
-	      		$.get( "inventario/cambiaestado/" + key + "/" + estado, function( data ) {
+	      		$.get( "bien-registro/cambiaestado/" + key + "/" + estado, function( data ) {
 					console.log(data);
 				});
 	      }

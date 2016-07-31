@@ -50,14 +50,20 @@
 	                  <table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
+	                        <th>Código</th>
 	                        <th>Nombre</th>
+	                        <th>Descripción</th>
+	                        <th>Dirección</th>
 	                        <th>Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
 	                    @foreach($centrocostos as $centrocosto)
 	                      <tr>
+	                        <td>{{$centrocosto->codigo}}</td>
 	                        <td>{{$centrocosto->nombre}}</td>
+	                        <td>{{$centrocosto->descripcion}}</td>
+	                        <td>{{$centrocosto->direccion}}</td>
 	                        <td>
 	                        	<div class="btn-group">
 	                        		<a href="centrocosto/edit/{{$centrocosto->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
@@ -68,10 +74,13 @@
 	                     @endforeach
                     </tbody>
                     <tfoot>
-                  	<tr>
+                  		<tr>
+	                        <th>Código</th>
 	                        <th>Nombre</th>
+	                        <th>Descripción</th>
+	                        <th>Dirección</th>
 	                        <th>Acción</th>
-                     </tr>
+                     	</tr>
                     </tfoot>
                   </table>
                 </div><!-- /.box-body -->

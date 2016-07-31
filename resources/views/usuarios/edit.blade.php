@@ -64,6 +64,7 @@
 									</div>
 								</div>
 								<div class="row">
+								<!--
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Contraseña (*)</label>
@@ -76,6 +77,7 @@
 											<input type="password" id="password_confirmation " name="password_confirmation" value="{{ $user->password }}" class="form-control" placeholder="Repite la Contraseña" required>
 										</div>
 									</div>
+									-->
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Teléfono Fijo (*)</label>
