@@ -6,7 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use App\Producto as Producto;
 use App\Categoria as Categoria;
-use App\bienactivo as bienactivo;
+use App\BienActivo as BienActivo;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
 use App\Componentes as Componentes;
