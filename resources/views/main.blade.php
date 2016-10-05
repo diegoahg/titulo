@@ -23,7 +23,7 @@
 	      <div class="small-box bg-aqua">
 	        <div class="inner">
 	          <h3>{{$user}}</h3>
-	          <p>usuarios</p>
+	          <p>Usuarios</p>
 	        </div>
 	        <div class="icon">
 	          <i class="ion ion-person-stalker"></i>
@@ -36,12 +36,12 @@
 	      <div class="small-box bg-green">
 	        <div class="inner">
 	          <h3>{{$inventario}}<sup style="font-size: 20px"></sup></h3>
-	          <p>Bienes</p>
+	          <p>Bienes Activos</p>
 	        </div>
 	        <div class="icon">
 	          <i class="ion ion-cube"></i>
 	        </div>
-	        <a href="/inventario" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+	        <a href="/bien-activo" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
 	    <div class="col-lg-3 col-xs-6">

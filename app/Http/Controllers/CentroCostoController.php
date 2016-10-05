@@ -59,6 +59,17 @@ class CentroCostoController extends Controller
             $centrocosto->direccion = $request->direccion;
             $centrocosto->save();
 
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "CENTROCOSTO";
+           $logs->id_ref = $centrocosto->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agrego el CENTROCOSTO ".$centrocosto->descripcion;
+           $logs->save();
+
+
             return redirect("centrocosto")->with('success', 'add');
         }
     }
@@ -102,6 +113,16 @@ class CentroCostoController extends Controller
             $centrocosto->direccion = $request->direccion;
             $centrocosto->save();
 
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "CENTROCOSTO";
+           $logs->id_ref = $centrocosto->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el CENTROCOSTO ".$centrocosto->descripcion;
+           $logs->save();
+
             return redirect("centrocosto")->with('success', 'edit');
         }
     }
@@ -117,6 +138,16 @@ class CentroCostoController extends Controller
     public function postDelete(Request $request)
     {
         $centrocosto = CentroCosto::findOrFail($request->input("_id"));
+        //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "eliminar";
+           $logs->modulo = "CENTROCOSTO";
+           $logs->id_ref = $centrocosto->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se eliminó el CENTROCOSTO ".$centrocosto->descripcion;
+           $logs->save();
+
         $centrocosto->delete();
 
         return redirect("centrocosto")->with('success', 'delete');

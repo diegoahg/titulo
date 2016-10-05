@@ -72,16 +72,6 @@
 	                      </tr>
 	                     @endforeach
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>N° Inventario</th>
-                        <th>Descripcion</th>
-                        <th>Centro de Costo</th>
-                        <th>Sector</th>
-	                    <th>Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </tfoot>
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->

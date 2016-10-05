@@ -91,6 +91,17 @@ class BienRaizController extends Controller
            $bienraiz->tipo_inventario =  $request->input("tipo_inventario");
            $bienraiz->tipo_bien =  $request->input("tipo_bien");
            $bienraiz->save();
+
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "BIEN RAIZ";
+           $logs->id_ref = $bienraiz->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agrego el BIEN RAIZ ".$bienraiz->descripcion;
+           $logs->save();
+
             return redirect("bien-raiz")->with('success', 'ingreso')->with("id_igreso", $bienraiz->id);
         }
     }
@@ -151,6 +162,17 @@ class BienRaizController extends Controller
            $bienraiz->tipo_inventario =  $request->input("tipo_inventario");
            $bienraiz->tipo_bien =  $request->input("tipo_bien");
            $bienraiz->save();
+
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "BIEN RAIZ";
+           $logs->id_ref = $bienraiz->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el BIEN RAIZ ".$bienraiz->descripcion;
+           $logs->save();
+
           return redirect("bien-raiz")->with('success', 'edit')->with("id_igreso", $bienraiz->id);
         }
     }

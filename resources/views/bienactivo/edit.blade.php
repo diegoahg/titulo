@@ -119,20 +119,20 @@
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Largo. (*)</label>
+											<label class="control-label">Largo(cm). (*)</label>
 											<input type="text" id="largo" name="largo" class="form-control" required value="{{ $bienactivo->largo }}">
 
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Ancho. (*)</label>
+											<label class="control-label">Ancho(cm). (*)</label>
 											<input type="text" id="ancho" name="ancho" class="form-control"  required value="{{ $bienactivo->ancho }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Alto. (*)</label>
+											<label class="control-label">Alto(cm). (*)</label>
 											<input type="text" id="alto" name="alto" class="form-control" required  value="{{ $bienactivo->alto }}">
 										</div>
 									</div>
@@ -162,7 +162,11 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Cuenta Contable. (*)</label>
-											<input type="text" id="cuenta_contable" name="cuenta_contable" required class="form-control"  value="{{ $bienactivo->cuenta_contable }}">
+											<select id="cuenta_contable" required name="cuenta_contable" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+													@foreach($cuentacontables as $cuentacontable)
+														<option value="{{$cuentacontable->id}}">{{$cuentacontable->nombre}}</option> 
+													@endforeach
+											</select>
 										</div>
 									</div>
 									<div class="col-md-3">
@@ -173,7 +177,7 @@
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Vida Util. (*)</label>
+											<label class="control-label">Vida Util(años). (*)</label>
 											<input type="text" id="vida_util" name="vida_util" class="form-control" required value="{{ $bienactivo->vida_util }}">
 										</div>
 									</div>
@@ -207,6 +211,85 @@
 								</div>	
 							</div>
         				</div><!-- /.box-body -->
+        				<div class="box-body" id="div_componente" style="display:none;font-size:11px"">
+							<h3 class="form-section">Componentes Equipos Computacionales</h3>
+	        				<div class="row">
+								<div class="col-md-1">
+									<div class="form-group">
+										<label class="control-label">Código(*)</label>
+										<input type="text" id="add_codigo" name="add_codigo" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="control-label">Descripción(*)</label>
+										<input type="text" id="add_descripcion" name="add_descripcion" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-1">
+									<div class="form-group">
+										<label class="control-label">Nro Serie(*)</label>
+										<input type="text" id="add_serie" name="add_serie" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-1">
+									<div class="form-group">
+										<label class="control-label">Marca(*)</label>
+										<input type="text" id="add_marca" name="add_marca" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="control-label">Modelo(*)</label>
+										<input type="text" id="add_modelo" name="add_modelo" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="control-labe_l">Categoría(*)</label>
+										<input type="text" id="add_categoria" name="add_categoria" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="control-label">Tipo Componentes(*)</label>
+										<input type="text" id="add_tipo" name="add_tipo" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-1">
+									<label class="control-label">&nbsp</label>
+									<button class="btn btn-block btn-info" type="button" onclick="AgregarLinea()"><i class="fa fa-plus-circle"></i></button>
+								</div>
+	        					<table id="" class="table table-bordered">
+				                    <thead>
+				                      <tr>
+				                        <th width="2%"></th>
+				                        <th width="8%">Código</th>
+				                        <th width="15%">Descripcion</th>
+				                        <th width="10%">N° de Serie</th>
+				                        <th width="12%">Marca</th>
+				                        <th width="12%">Modelo</th>
+				                        <th width="10%">Categoría</th>
+				                        <th width="15%">Tipo Componente</th>
+				                      </tr>
+				                    </thead>
+				                    <tbody id="componentes">
+				                    	@foreach($componentes as $key => $componente)
+				                    		<tr>
+				                    			<td><a href='javascript:EliminarLinea({{$key+1}});'><i class='fa fa-times'></i></a></td>
+				                    			<td>{{$componente->codigo}}<input type='hidden' name='comp_codigo' value='{{$componente->codigo}}'></td>
+				                    			<td>{{$componente->descripcion}}<input type='hidden' name='comp_descripcion' value='{{$componente->descripcion}}'></td>
+				                    			<td>{{$componente->serie}}<input type='hidden' name='comp_serie' value='{{$componente->serie}}'></td>
+				                    			<td>{{$componente->marca}}<input type='hidden' name='comp_marca' value='{{$componente->marca}}'></td>
+				                    			<td>{{$componente->modelo}}<input type='hidden' name='comp_modelo' value='{{$componente->modelo}}'></td>
+				                    			<td>{{$componente->categoria}}<input type='hidden' name='comp_categoria' value='{{$componente->categoria}}'>
+				                    			<td>{{$componente->tipo}}<input type='hidden' name='comp_tipo' value='{{$componente->tipo}}'></td></td>
+				                    		</tr>
+				                    	@endforeach
+				                    </tbody>
+				                </table>
+	        				</div>
+	        			</div>
 						<div class="box-footer">
 							<a href="../../bien-activo"class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
@@ -240,6 +323,19 @@
 
 		});
 
+		//Evento que rellena el select cuando se escoge un elemento
+		$('#tipo_bien').change(function() {
+			var tipo_bien = $("#tipo_bien").val();
+			console.log(tipo_bien);
+			if(tipo_bien == "Simple"){
+				$('#div_componente').hide();
+			}
+			if(tipo_bien == "Complejo"){
+				$('#div_componente').show();
+			}
+
+		});
+
 	      $(function () {
 	        $("#example1").DataTable();
 	        $('#example2').DataTable({
@@ -265,6 +361,8 @@
 			$('#tipo_inventario').select2('val',"{{$bienactivo->tipo_inventario}}");
 			$('#tipo_bien').select2('val',"{{$bienactivo->tipo_bien}}");
 			$('#enmienda').select2('val',"{{$bienactivo->enmienda}}");
+			$('#cuenta_contable').select2('val',"{{$bienactivo->cuenta_contable}}");
+
 
 			@if(old('centro'))
 	         $("#centro").select2("val","{{old('centro')}}");
@@ -282,7 +380,7 @@
 	         $("#alto").val("{{old('alto')}}");
 	         $("#orden").val("{{old('orden')}}");
 	         $("#fecha").val("{{old('fecha')}}");
-	         $("#cuenta_contable").val("{{old('cuenta_contable')}}");
+			$('#cuenta_contable').select2('val',"{{old('cuenta_contable')}}");
 	         $("#alta").val("{{old('alta')}}");
 	         $("#vida_util").val("{{old('vida_util')}}");
 	         $("#tipo_inventario").select2("val","{{old('tipo_inventario')}}");
@@ -293,6 +391,40 @@
 			$("#inventario").addClass( "active" );
 
 	      });
+
+	      var cont = {{count($componentes)}};
+
+	      function AgregarLinea(){
+	      	cont ++;
+	      	var add_codigo = $("#add_codigo").val();
+	      	var add_descripcion = $("#add_descripcion").val();
+	      	var add_serie = $("#add_serie").val();
+	      	var add_marca = $("#add_marca").val();
+	      	var add_modelo = $("#add_modelo").val();
+	      	var add_categoria = $("#add_categoria").val();
+	      	var add_tipo = $("#add_tipo").val();
+
+	      	var table = "<tr id='tr" + cont + "'>";
+	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
+	      	table += "<td>" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
+	      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
+	      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
+	      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
+	      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
+	      	table += "<td>" + add_categoria + "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'></td>";
+	      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
+	      	table += "</tr>";
+
+	      	$("#componentes").append(table);
+	      }
+
+	    function EliminarLinea(l) {
+                var tr = $('#tr' + l);
+                tr.fadeOut(400, function(){
+                    tr.remove();
+                });
+        }
+
 
 	    </script> 
 	@stop     

@@ -13,6 +13,8 @@ use Crypt;
 use Validator;
 use Mail;
 
+use App\Logs as Logs;
+
 class LoginController extends Controller
 {
 
@@ -34,7 +36,16 @@ class LoginController extends Controller
 
         if (Auth::attempt($data)) {
             // Authentication passed...
-            return redirect()->intended('/');
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "login";
+           $logs->modulo = "LOGIN";
+           $logs->id_ref = null;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Usuario abrió sesión";
+           $logs->save();
+           return redirect()->intended('/');
         }
         else{
         echo "datos incorrectos";
@@ -128,6 +139,16 @@ class LoginController extends Controller
     }
 
     public function getLogout(){
+         //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "logout";
+           $logs->modulo = "LOGOUT";
+           $logs->id_ref = null;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Usuario cerró sesión";
+           $logs->save();
+
         Auth::logout();
         return Redirect::to('login');
     }

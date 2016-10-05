@@ -73,6 +73,16 @@ class UsuariosController extends Controller
            $user->cargo = $request->input("cargo");
            $user->save();
 
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "USUARIOS";
+           $logs->id_ref = $user->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agrego el USUARIO ".$user->name. " " . $user->apellido_paterno;
+           $logs->save();
+
            return redirect("usuarios")->with('success', 'add')->with("id_usuario", $user->id);
         }
     }       
@@ -137,6 +147,16 @@ class UsuariosController extends Controller
            $user->cargo = $request->input("cargo");
            $user->save();
 
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "USUARIOS";
+           $logs->id_ref = $user->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el USUARIO ".$user->name. " " . $user->apellido_paterno;
+           $logs->save();
+
            return redirect("usuarios")->with('success', 'edit')->with("id_usuario", $request->input("_id"));
         }
     }
@@ -151,6 +171,17 @@ class UsuariosController extends Controller
     public function postDelete(Request $request)
     {
         $user = User::findOrFail($request->input("_id"));
+
+        //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "eliminar";
+           $logs->modulo = "USUARIOS";
+           $logs->id_ref = $user->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se eliminó el USUARIO ".$user->name. " " . $user->apellido_paterno;
+           $logs->save();
+
         $user->delete();
 
         return redirect("usuarios")->with('success', 'delete')->with("id_usuario",$request->input("_id"));

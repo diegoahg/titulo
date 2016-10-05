@@ -110,6 +110,17 @@ class BienLicenciaController extends Controller
            $bienlicencia->enmienda =  $request->input("enmienda");
            $bienlicencia->estado =  "ACTIVO";
            $bienlicencia->save();
+
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "BIEN LICENCIA";
+           $logs->id_ref = $bienlicencia->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agrego el BIEN LICENCIA ".$bienlicencia->descripcion;
+           $logs->save();
+
             return redirect("bien-licencia")->with('success', 'ingreso')->with("id_igreso", $bienlicencia->id);
         }
     }
@@ -172,6 +183,17 @@ class BienLicenciaController extends Controller
            $bienlicencia->tipo_bien =  $request->input("tipo_bien");
            $bienlicencia->enmienda =  $request->input("enmienda");
            $bienlicencia->save();
+
+           //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "BIEN LICENCIA";
+           $logs->id_ref = $bienlicencia->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el BIEN LICENCIA ".$bienlicencia->descripcion;
+           $logs->save();
+
           return redirect("bien-licencia")->with('success', 'edit')->with("id_igreso", $bienlicencia->id);
         }
     }

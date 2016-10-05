@@ -59,6 +59,17 @@ class CategoriasController extends Controller
             $categoria->descripcion = $request->input("descripcion");
             $categoria->save();
 
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "CATEGORIA";
+           $logs->id_ref = $categoria->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agregó el CATEGORIA ".$categoria->descripcion;
+           $logs->save();
+
+
             return redirect("categorias")->with('success', 'add')->with("id_categoria", $categoria->id);
         }
     }
@@ -101,6 +112,16 @@ class CategoriasController extends Controller
             $categoria->descripcion = $request->input("descripcion");
             $categoria->save();
 
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "CATEGORIA";
+           $logs->id_ref = $categoria->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el CATEGORIA ".$categoria->descripcion;
+           $logs->save();
+
             return redirect("categorias")->with('success', 'edit')->with("id_categoria", $categoria->id);
         }
     }
@@ -115,7 +136,19 @@ class CategoriasController extends Controller
 
     public function postDelete(Request $request)
     {
+
         $categoria = Categoria::findOrFail($request->input("_id"));
+
+        //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "eliminar";
+           $logs->modulo = "CATEGORIA";
+           $logs->id_ref = $categoria->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se eliminó el CATEGORIA ".$categoria->descripcion;
+           $logs->save();
+
         $categoria->delete();
 
         return redirect("categorias")->with('success', 'delete')->with("id_categoria",$request->input("_id"));

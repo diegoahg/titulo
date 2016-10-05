@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -125,16 +126,16 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Usuario</span>
+                  <!--<img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
+                  <span class="hidden-xs">{{$auth_user->name}} {{$auth_user->apellido_paterno}} {{$auth_user->apellido_materno}}</span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                     <p>
-                      Usuario - Cargo
-                      <small>Miembro desde</small>
+                      {{$auth_user->name}} - {{$auth_user->cargo}}
+                      <small>Miembro desde {{$auth_user->created_at}}</small>
                     </p>
                   </li>
                   <li class="user-footer">
@@ -160,15 +161,15 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
           <!-- Sidebar user panel -->
-          <div class="user-panel">
+          <!--<div class="user-panel">
             <div class="pull-left image">
               <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
               <p>Usuario</p>
-              <!--<a href="#"><i class="fa fa-circle text-success"></i> Online</a>-->
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
-          </div>
+          </div>-->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Barra de Navegación</li>
@@ -216,6 +217,15 @@
                 <i class="fa fa-building"></i>
                 <span>Sector</span>
               </a>
+            </li>
+            <li  id="reportes" class="treeview">
+              <a href="#">
+                <i class="fa fa-line-chart"></i>
+                <span>Reportes</span>
+              </a>
+              <ul class="treeview-menu">
+                <li  id="reporte-inventario"><a href="{{ asset('reporte-inventario') }}"><i class="fa fa-circle-o"></i> Reporte Inventario</a></li>
+              </ul>
             </li>
           </ul>
         </section>

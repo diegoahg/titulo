@@ -54,8 +54,7 @@
 	                        <th width="35%">Descripcion</th>
 	                        <th width="20%">Centro de Costo</th>
 	                        <th width="20%">Sector</th>
-	                        <th width="20%">Estado</th>
-	                        <th width="15%">Acción</th>
+	                        <th width="35%">Acción</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
@@ -66,30 +65,11 @@
 	                        <td>{{$bienactivo->centrocosto->nombre}}</td>
 	                        <td>{{$bienactivo->sector->nombre}}</td>
 	                        <td>
-	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($bienactivo->id)}}')">
-			                      	<option value="{{$bienactivo->estado}}" selected="selected">{{$bienactivo->estado}}</option>
-			                      	<option value="ACTIVO">ACTIVO</option>
-			                      	<option value="SUMARIO">SUMARIO</option>
-			                      	<option value="BAJA">BAJA</option>
-			                    </select>
-			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($bienactivo->id)}}">
-	                        </td>
-	                        <td>
 	                        	<a href="bien-activo/edit/{{Crypt::encrypt($bienactivo->id)}}" class="btn btn-block btn-success">Ver</a>
 	                        </td>
 	                      </tr>
 	                     @endforeach
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th>N° Inventario</th>
-                        <th>Descripcion</th>
-                        <th>Centro de Costo</th>
-                        <th>Sector</th>
-	                    <th>Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </tfoot>
                   </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->

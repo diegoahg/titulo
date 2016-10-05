@@ -21,6 +21,11 @@ Route::get('/',  ['middleware' => 'auth', function () {
     return view('main')->with("sector",$sector)->with("centro",$centro)->with("inventario",$inventario)->with("user",$user);
 }]);
 
+Route::get('/pdf',  ['middleware' => 'auth', function () {
+ return PDF::loadHTML("<h1>TEST</h1>")->setPaper('a4', 'landscape')->setWarnings(false)->stream();
+}]);
+
+
 Route::controller('productos','ProductoController');
 Route::controller('inventario', 'InventarioController');
 Route::controller('bien-activo', 'BienActivoController');
@@ -31,6 +36,7 @@ Route::controller('usuarios', 'UsuariosController');
 Route::controller('categorias', 'CategoriasController');
 Route::controller('centrocosto', 'CentroCostoController');
 Route::controller('sector', 'SectorController');
+Route::controller('reporte-inventario', 'ReporteInventarioController');
 Route::controller('login','LoginController');
 
 

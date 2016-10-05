@@ -62,6 +62,16 @@ class SectorController extends Controller
             $sector->descripcion = $request->descripcion;
             $sector->save();
 
+            //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "agregar";
+           $logs->modulo = "SECTOR";
+           $logs->id_ref = $sector->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agregó el SECTOR ".$sector->descripcion;
+           $logs->save();
+
             return redirect("sector")->with('success', 'add');
         }
     }
@@ -106,6 +116,16 @@ class SectorController extends Controller
             $sector->id_centro_costo = $request->centro;
             $sector->save();
 
+             //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "editar";
+           $logs->modulo = "SECTOR";
+           $logs->id_ref = $sector->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se editó el SECTOR ".$sector->descripcion;
+           $logs->save();
+
             return redirect("sector")->with('success', 'edit');
         }
     }
@@ -121,6 +141,15 @@ class SectorController extends Controller
     public function postDelete(Request $request)
     {
         $sector = Sector::findOrFail($request->input("_id"));
+         //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "eliminar";
+           $logs->modulo = "SECTOR";
+           $logs->id_ref = $sector->id;
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se eliminó el SECTOR ".$sector->descripcion;
+           $logs->save();
         $sector->delete();
 
         return redirect("sector")->with('success', 'delete');
