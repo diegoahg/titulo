@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Crypt;
 use Hash;
+use Logs;
 
 class UsuariosController extends Controller
 {
