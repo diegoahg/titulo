@@ -33,13 +33,22 @@
         <p class="login-box-msg">Ingrese los datos para poder iniciar sesión</p>
         <form action="login/acceder" method="post">
           <div class="form-group has-feedback">
-           <input type="text" class="form-control" name="email" placeholder="Email" required="" />
+          @if(session('email'))
+            <input type="text" class="form-control" name="email" placeholder="Email" required="" value="{{session('email')}}" />
+          @else
+            <input type="text" class="form-control" name="email" placeholder="Email" required="" />
+          @endif
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
           <div class="form-group has-feedback">
             <input type="password" class="form-control" name="contraseña" placeholder="Contraseña" required/>
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
+          @if(session('error'))
+              <div class="form-group has-feedback">
+                <p style="color:red">Usuario o contraseña incorrectos</p>
+              </div>
+          @endif
           <div class="row">
             <div class="col-xs-8">
               <div class="checkbox icheck">

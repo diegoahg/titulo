@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Categoria as Categoria;
+use App\Logs as Logs;
 use Crypt;
+use Auth;
 
 class CategoriasController extends Controller
 {

@@ -86,8 +86,8 @@
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Teléfono Móvil (*)</label>
-											<input type="text" id="movil" name="movil" class="form-control" value="{{ $user->movil }}" placeholder="Ej: 987654321" required>
+											<label class="control-label">Teléfono Móvil</label>
+											<input type="text" id="movil" name="movil" class="form-control" value="{{ $user->movil }}" placeholder="Ej: 987654321">
 										</div>
 									</div>
 								</div>

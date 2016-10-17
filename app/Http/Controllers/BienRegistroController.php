@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Producto as Producto;
 use App\Categoria as Categoria;
 use App\BienRegistro as BienRegistro;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\Logs as Logs;
 use DB;
+use Auth;
 use Crypt;
 class BienRegistroController extends Controller
 {
@@ -28,7 +29,6 @@ class BienRegistroController extends Controller
 
     public function getAdd()
     {
-        $productos = Producto::all();
         $categorias = Categoria::all();
         $centrocostos = CentroCosto::all();
         $sectors = Sector::all();
@@ -40,7 +40,7 @@ class BienRegistroController extends Controller
           }
         $json = json_encode($json);
 
-        return view('bienregistro/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("productos",$productos);
+        return view('bienregistro/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias);
     }
 
     public function postAdd(Request $request)

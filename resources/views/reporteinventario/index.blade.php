@@ -62,15 +62,6 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Estado (*)</label>
-										<select id="oficina" name="estado" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Estado">
-											<option value="">Elegir un Estado</option>
-											<option value="activo">Activo</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										<button type="submit" class="btn btn-block btn-primary">Filtrar</button>
 									</div>

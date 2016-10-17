@@ -209,7 +209,37 @@ class SectorTableSeeder extends Seeder {
         DB::table('sector')->delete();
 
         DB::table('sector')->insert([
-            array('id' => 1, 'nombre' => "Laboratorio", "id_centro_costo" =>107),
+            array('id' => "1", "codigo" => "I-301", "nombre" => "PASILLO DISTRIBUCCION ","id_centro_costo" =>107),
+            array('id' => "2", "codigo" => "I-302", "nombre" => "OF. AUXILIARES","id_centro_costo" =>107),
+            array('id' => "3", "codigo" => "I-303", "nombre" => "OF. PROF. PART-TIME (INF.MAD)","id_centro_costo" =>107),
+            array('id' => "4", "codigo" => "I-311", "nombre" => "SECRETARIA DEPARTAMENTO","id_centro_costo" =>107),
+            array('id' => "5", "codigo" => "I-313", "nombre" => "ARCHIVO INFORMATICA","id_centro_costo" =>107),
+            array('id' => "6", "codigo" => "I-314", "nombre" => "DIRECTOR DEPTO. INFORMATICA","id_centro_costo" =>107),
+            array('id' => "7", "codigo" => "I-315", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "8", "codigo" => "I-316", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "9", "codigo" => "I-317", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "10", "codigo" => "I-318", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "11", "codigo" => "I-319", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "12", "codigo" => "I-320", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "13", "codigo" => "I-321", "nombre" => "OF. PROFESOR ","id_centro_costo" =>107),
+            array('id' => "14", "codigo" => "I-322", "nombre" => "SALA DE REUNIONES","id_centro_costo" =>107),
+            array('id' => "15", "codigo" => "I-323", "nombre" => "OF. PROFESORE","id_centro_costo" =>107),
+            array('id' => "16", "codigo" => "I-324", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "17", "codigo" => "I-325", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "18", "codigo" => "I-326", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "19", "codigo" => "I-327", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "20", "codigo" => "I-328", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "21", "codigo" => "I-329", "nombre" => "OF. PROFESOR","id_centro_costo" =>107),
+            array('id' => "22", "codigo" => "I-330", "nombre" => "BAÑOS DAMAS","id_centro_costo" =>107),
+            array('id' => "23", "codigo" => "AA", "nombre" => "PASILLO DIST. C/HALL","id_centro_costo" =>107),
+            array('id' => "24", "codigo" => "BB", "nombre" => "LAB. COMP. N ° 4","id_centro_costo" =>107),
+            array('id' => "25", "codigo" => "CC", "nombre" => "LAB. COMP. N°  5","id_centro_costo" =>107),
+            array('id' => "26", "codigo" => "DD", "nombre" => "LAB. COMP. N°  6","id_centro_costo" =>107),
+            array('id' => "27", "codigo" => "EE", "nombre" => "OF ADMINISTRATIVA ","id_centro_costo" =>107),
+            array('id' => "28", "codigo" => "FF", "nombre" => "LAB. COMP. N ° 1","id_centro_costo" =>107),
+            array('id' => "29", "codigo" => "GG", "nombre" => "LAB. COMP. N ° 2","id_centro_costo" =>107),
+            array('id' => "30", "codigo" => "HH", "nombre" => "LAB. COMP. N ° 3","id_centro_costo" =>107)
+
         ]);
     }
 

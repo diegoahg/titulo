@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\CentroCosto;
+use App\Logs as Logs;
+use Auth;
 
 class CentroCostoController extends Controller
 {

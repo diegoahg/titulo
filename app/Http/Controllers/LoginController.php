@@ -9,11 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\loginRequest;
 use App\Http\Controllers\Controller;
 use App\User as User;
+use App\Logs as Logs;
 use Crypt;
 use Validator;
 use Mail;
-
-use App\Logs as Logs;
 
 class LoginController extends Controller
 {
@@ -24,7 +23,7 @@ class LoginController extends Controller
             return redirect()->intended('market');
         }
 
-        return view('login');
+        return view('login')->with("error", 0);
     }
 
     public function postAcceder(Request $request){
@@ -48,8 +47,7 @@ class LoginController extends Controller
            return redirect()->intended('/');
         }
         else{
-        echo "datos incorrectos";
-        return $data;
+            return back()->with('error', '1')->with('email', $request->email);
         }
     }
 
@@ -99,8 +97,7 @@ class LoginController extends Controller
                 return redirect()->intended('/');
             }
             else{
-            echo "datos incorrectos";
-            return $data;
+                return redirect("login")->with('error', 1);
             }
         }
     }
@@ -150,6 +147,6 @@ class LoginController extends Controller
            $logs->save();
 
         Auth::logout();
-        return Redirect::to('login');
+        return Redirect::to('login')->with("error", 0);
     }
 }

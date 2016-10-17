@@ -6,6 +6,8 @@ use Validator;
 use Illuminate\Http\Request;
 use App\CentroCosto;
 use App\Sector;
+use App\Logs as Logs;
+use Auth;
 
 class SectorController extends Controller
 {

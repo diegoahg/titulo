@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Producto as Producto;
 use App\Categoria as Categoria;
 use App\BienActivo as BienActivo;
 use App\CentroCosto as CentroCosto;
@@ -35,7 +34,6 @@ class BienActivoController extends Controller
 
     public function getAdd()
     {
-        $productos = Producto::all();
         $categorias = Categoria::all();
         $centrocostos = CentroCosto::all();
         $sectors = Sector::all();
@@ -48,7 +46,7 @@ class BienActivoController extends Controller
           }
         $json = json_encode($json);
 
-        return view('bienactivo/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("productos",$productos)->with("cuentacontables",$cuentacontables);
+        return view('bienactivo/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("cuentacontables",$cuentacontables);
     }
 
     public function postAdd(Request $request)
@@ -152,6 +150,14 @@ class BienActivoController extends Controller
            $logs->detalle = "Se agrego el BIEN ACTIVO ".$bienactivo->descripcion;
            $logs->save();
 
+           //Registro de Tipo Bien
+           $tipobienes = TipoBien::where("codigo",$bienactivo->codigo)->get();
+           if(count($tipobienes)==0){
+              $tipobien = new TipoBien();
+              $tipobien->codigo = $bienactivo->numero;
+              $tipobien->descripcion = $bienactivo->descripcion;
+              $tipobien->save();
+           }
             return redirect("bien-activo")->with('success', 'bienactivo')->with("id_igreso", $bienactivo->id);
         }
     }

@@ -26,8 +26,6 @@ Route::get('/pdf',  ['middleware' => 'auth', function () {
 }]);
 
 
-Route::controller('productos','ProductoController');
-Route::controller('inventario', 'InventarioController');
 Route::controller('bien-activo', 'BienActivoController');
 Route::controller('bien-registro', 'BienRegistroController');
 Route::controller('bien-licencia', 'BienLicenciaController');

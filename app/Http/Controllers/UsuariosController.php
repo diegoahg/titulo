@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Crypt;
 use Hash;
-use Logs;
+use App\Logs as Logs;
+use Auth;
 
 class UsuariosController extends Controller
 {
@@ -52,7 +53,7 @@ class UsuariosController extends Controller
             'password' => 'required|max:255|confirmed',
             'password_confirmation ' => 'confirmed',
             'fono' => 'required|numeric|min:9',
-            'movil' => 'required|numeric|min:9',
+            //'movil' => 'required|numeric|min:9',
             'cargo' => 'required|max:255'
         ], $messages);
 

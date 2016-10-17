@@ -10,12 +10,14 @@ use App\bienactivo as Bienactivo;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
 use App\Componentes as Componentes;
+use App\Logs as Logs;
 
 use Crypt;
 use File;
 use Image;
 use PDF;
 use Excel;
+use Auth;
 
 class ReporteInventarioController extends Controller
 {
