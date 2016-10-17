@@ -28,7 +28,7 @@
 	        <div class="icon">
 	          <i class="ion ion-person-stalker"></i>
 	        </div>
-	        <a href="/usuarios" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+	        <a href="{{asset('usuarios')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
 	    <div class="col-lg-3 col-xs-6">
@@ -41,7 +41,7 @@
 	        <div class="icon">
 	          <i class="ion ion-cube"></i>
 	        </div>
-	        <a href="/bien-activo" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+	        <a href="{{asset('bien-activo')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
 	    <div class="col-lg-3 col-xs-6">
@@ -54,7 +54,7 @@
 	        <div class="icon">
 	          <i class="ion ion-university"></i>
 	        </div>
-	        <a href="/centrocosto" class="small-box-footer">Mas Información<i class="fa fa-arrow-circle-right"></i></a>
+	        <a href="{{asset('centrocosto')}}" class="small-box-footer">Mas Información<i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
 	    <div class="col-lg-3 col-xs-6">
@@ -67,7 +67,7 @@
 	        <div class="icon">
 	          <i class="ion ion-easel"></i>
 	        </div>
-	        <a href="/sector" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
+	        <a href="{{asset('sector')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
 	  </div><!-- /.row -->
