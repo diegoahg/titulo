@@ -14,7 +14,7 @@
 Route::get('/',  ['middleware' => 'auth', function () {
 
 	$user = App\User::count();
-	$inventario = App\Inventario::count();
+	$inventario = App\BienActivo::count();
 	$centro = App\CentroCosto::count();
 	$sector = App\Sector::count();
 
