@@ -36,6 +36,6 @@ Route::controller('centrocosto', 'CentroCostoController');
 Route::controller('sector', 'SectorController');
 Route::controller('reporte-inventario', 'ReporteInventarioController');
 Route::controller('login','LoginController');
-Route::controller('cuentacontable', 'CuentacontableController');
+Route::controller('cuentacontable', 'CuentaContableController');
 
 
