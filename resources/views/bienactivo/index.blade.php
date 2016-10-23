@@ -65,7 +65,9 @@
 	                        <td>{{$bienactivo->centrocosto->nombre}}</td>
 	                        <td>{{$bienactivo->sector->nombre}}</td>
 	                        <td>
-	                        	<a href="bien-activo/edit/{{Crypt::encrypt($bienactivo->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        	<button type="button" class="btn btn-info view-data" data-role="{{$bienactivo->id}}"><i class="fa fa-info"></i></button>
+	                        	<a href="bien-activo/edit/{{Crypt::encrypt($bienactivo->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+	                        	<button type="button" class="btn btn-primary observacion-data"  data-role="{{Crypt::encrypt($bienactivo->id)}}"><i class="fa fa-commenting"></i></button>
 	                        </td>
 	                      </tr>
 	                     @endforeach
@@ -77,8 +79,27 @@
           </div><!-- /.row -->
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<div id="modal"></div>
 @section('script')
 		<script>
+
+			$(".observacion-data").click(function(){
+				  var data = $(this).data("role");
+				  $.get( "bien-activo/observacion/1/" + data, function( data ) {
+					  $( "#modal" ).html( data );
+					  $( "#modalObservacion" ).modal();
+					});
+				});
+
+			$(".view-data").click(function(){
+				  var data = $(this).data("role");
+				  $.get( "bien-activo/view/" + data, function( data ) {
+					  $( "#modal" ).html( data );
+					  $( "#modalVer" ).modal();
+					});
+				});
+
 	      $(function () {
 	        $("#example1").DataTable();
 	        $('#example2').DataTable({

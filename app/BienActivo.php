@@ -8,7 +8,7 @@ class BienActivo extends Model
 {
     protected $table = 'bien_activo';
     protected $fillable = [
-        'categoria', 'id_centro', 'id_sector', 
+        'categoria', 'id_centro', 'id_sector', 'cuenta_contable',
     ];
 
 	protected $primaryKey="id";
@@ -28,5 +28,10 @@ class BienActivo extends Model
 	public function sector()
 	{
 	    return $this->belongsTo('App\Sector', 'id_sector');
+	}
+
+	public function cuentacontable()
+	{
+	    return $this->belongsTo('App\CuentaContable', 'cuenta_contable');
 	}
 }

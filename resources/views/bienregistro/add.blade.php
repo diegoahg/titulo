@@ -238,7 +238,10 @@
                 		$("#alto").val(response.alto);           
                     }
 			        });
-			})
+			});
+
+			$("#inventario").addClass("active");
+	        $("#bien-registro").addClass("active");
 
 
 

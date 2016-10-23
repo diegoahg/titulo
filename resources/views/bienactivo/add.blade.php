@@ -328,6 +328,21 @@
 
 		});
 
+		$('#cuenta_contable').change(function() {
+			var id_cuenta_contable = $("#cuenta_contable").val();
+			$.ajax({
+                data:  "id_cuenta_contable=" + id_cuenta_contable + "&_token=" + "{{csrf_token()}}",
+                url:   'cuentacontable',
+                type:  'post',
+                success:  function (response) { 
+                		$("#vida_util").val(response.vida_util);  
+                    }
+			});
+
+		});
+
+		
+
 
 	      var cont = 0;
 

@@ -77,7 +77,7 @@ class BienRaizController extends Controller
            $bienraiz = new BienRaiz();
            $bienraiz->id_centro =  $request->input("centro");
            $bienraiz->id_sector =  $request->input("oficina");
-           $bienraiz->descripcion =  $request->input("descripcion");
+           $bienraiz->descripcion =  strtoupper($request->input("descripcion"));
            $bienraiz->valor_inicial =  $request->input("valor_inicial");
            $bienraiz->avaluo_fiscal =  $request->input("avaluo_fiscal");
            $bienraiz->num_rol =  $request->input("num_rol");
@@ -85,7 +85,7 @@ class BienRaizController extends Controller
            $bienraiz->cuenta_contable =  $request->input("cuenta_contable");
            $bienraiz->num_alta =  $request->input("num_alta");
            $bienraiz->mejora =  $request->input("mejora");
-           $bienraiz->observacion =  $request->input("observacion");
+           $bienraiz->observacion =  strtoupper($request->input("observacion"));
            $bienraiz->orden_compra =  $request->input("orden_compra");
            $bienraiz->fecha_incorporacion =  $request->input("fecha");
            $bienraiz->tipo_inventario =  $request->input("tipo_inventario");
@@ -148,7 +148,7 @@ class BienRaizController extends Controller
            $bienraiz = BienRaiz::find(Crypt::decrypt($request->input("_key")));
            $bienraiz->id_centro =  $request->input("centro");
            $bienraiz->id_sector =  $request->input("oficina");
-           $bienraiz->descripcion =  $request->input("descripcion");
+           $bienraiz->descripcion =  strtoupper($request->input("descripcion"));
            $bienraiz->valor_inicial =  $request->input("valor_inicial");
            $bienraiz->avaluo_fiscal =  $request->input("avaluo_fiscal");
            $bienraiz->num_rol =  $request->input("num_rol");
@@ -156,7 +156,7 @@ class BienRaizController extends Controller
            $bienraiz->cuenta_contable =  $request->input("cuenta_contable");
            $bienraiz->num_alta =  $request->input("num_alta");
            $bienraiz->mejora =  $request->input("mejora");
-           $bienraiz->observacion =  $request->input("observacion");
+           $bienraiz->observacion =  strtoupper($request->input("observacion"));
            $bienraiz->orden_compra =  $request->input("orden_compra");
            $bienraiz->fecha_incorporacion =  $request->input("fecha");
            $bienraiz->tipo_inventario =  $request->input("tipo_inventario");

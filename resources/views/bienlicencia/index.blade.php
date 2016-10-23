@@ -97,6 +97,8 @@
           </div><!-- /.row -->
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<div id="modal"></div>
 @section('script')
 		<script>
 	      $(function () {

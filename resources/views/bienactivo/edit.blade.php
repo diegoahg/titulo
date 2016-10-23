@@ -326,13 +326,25 @@
 		//Evento que rellena el select cuando se escoge un elemento
 		$('#tipo_bien').change(function() {
 			var tipo_bien = $("#tipo_bien").val();
-			console.log(tipo_bien);
 			if(tipo_bien == "Simple"){
 				$('#div_componente').hide();
 			}
 			if(tipo_bien == "Complejo"){
 				$('#div_componente').show();
 			}
+
+		});
+
+		$('#cuenta_contable').change(function() {
+			var id_cuenta_contable = $("#cuenta_contable").val();
+			$.ajax({
+                data:  "id_cuenta_contable=" + id_cuenta_contable + "&_token=" + "{{csrf_token()}}",
+                url:   '../cuentacontable',
+                type:  'post',
+                success:  function (response) { 
+                		$("#vida_util").val(response.vida_util);  
+                    }
+			});
 
 		});
 
@@ -362,6 +374,7 @@
 			$('#tipo_bien').select2('val',"{{$bienactivo->tipo_bien}}");
 			$('#enmienda').select2('val',"{{$bienactivo->enmienda}}");
 			$('#cuenta_contable').select2('val',"{{$bienactivo->cuenta_contable}}");
+			$('#vida_util').val('{{$bienactivo->vida_util}}');
 
 
 			@if(old('centro'))
@@ -424,6 +437,8 @@
                     tr.remove();
                 });
         }
+
+        
 
 
 	    </script> 

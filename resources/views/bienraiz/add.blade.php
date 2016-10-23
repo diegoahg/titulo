@@ -288,13 +288,10 @@
                 		$("#alto").val(response.alto);           
                     }
 			        });
-			})
+			});
 
-
-
-
-
-
+			$("#inventario").addClass("active");
+	        $("#bien-raiz").addClass("active");
 	      });
 
 

@@ -58,10 +58,10 @@ class SectorController extends Controller
         }else{
 
             $sector = new Sector;
-            $sector->nombre = $request->nombre;
+            $sector->nombre = strtoupper($request->nombre);
             $sector->id_centro_costo = $request->centro;
-            $sector->codigo = $request->codigo;
-            $sector->descripcion = $request->descripcion;
+            $sector->codigo = strtoupper($request->codigo);
+            $sector->descripcion = strtoupper($request->descripcion);
             $sector->save();
 
             //Registro de logs
@@ -112,9 +112,9 @@ class SectorController extends Controller
         }else{
 
             $sector = Sector::find($request->_id);
-            $sector->nombre = $request->nombre;
-            $sector->codigo = $request->codigo;
-            $sector->descripcion = $request->descripcion;
+            $sector->nombre = strtoupper($request->nombre);
+            $sector->codigo = strtoupper($request->codigo);
+            $sector->descripcion = strtoupper($request->descripcion);
             $sector->id_centro_costo = $request->centro;
             $sector->save();
 

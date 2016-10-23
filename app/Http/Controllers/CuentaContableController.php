@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
-use App\Categoria as Categoria;
+use App\CuentaContable;
 use App\Logs as Logs;
-use Crypt;
 use Auth;
 
-class CategoriasController extends Controller
+class CuentaContableController extends Controller
 {
     /**
      * Responds to requests to GET /users
@@ -17,16 +16,16 @@ class CategoriasController extends Controller
     public function __construct(){
         $this->middleware('auth');
     }
-
+    
     public function getIndex()
     {
-        $categorias = Categoria::all();
-        return view('categorias/index')->with("categorias", $categorias);
+        $cuentacontables = CuentaContable::all();
+        return view('cuentacontable/index')->with("cuentacontables", $cuentacontables);
     }
 
     public function getAdd()
     {
-        return view('categorias/add');
+        return view('cuentacontable/add');
     }
 
     public function postAdd(Request $request)
@@ -44,9 +43,8 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -55,31 +53,31 @@ class CategoriasController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = new Categoria;
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = strtoupper($request->input("descripcion"));
-            $categoria->save();
+            $cuentacontable = new CuentaContable;
+            $cuentacontable->codigo = strtoupper($request->codigo);
+            $cuentacontable->nombre = strtoupper($request->nombre);
+            $cuentacontable->vida_util = strtoupper($request->vida_util);
+            $cuentacontable->save();
 
             //Registro de logs
            $logs = new Logs();
            $logs->fecha =  date("Y-m-d H:m:s");
            $logs->accion = "agregar";
-           $logs->modulo = "CATEGORIA";
-           $logs->id_ref = $categoria->id;
+           $logs->modulo = "CUENTACONTABLE";
+           $logs->id_ref = $cuentacontable->id;
            $logs->id_user = Auth::user()->id;
-           $logs->detalle = "Se agregó el CATEGORIA ".$categoria->descripcion;
+           $logs->detalle = "Se agrego el CuentaContable ".$cuentacontable->nombre;
            $logs->save();
 
 
-            return redirect("categorias")->with('success', 'add')->with("id_categoria", $categoria->id);
+            return redirect("cuentacontable")->with('success', 'add');
         }
     }
 
     public function getEdit($id)
     {
-        $categoria = Categoria::find($id);
-        return view('categorias/edit')->with("categoria",$categoria);
+        $cuentacontable = CuentaContable::find($id);
+        return view('cuentacontable/edit')->with("cuentacontable",$cuentacontable);
     }
 
     public function postEdit(Request $request)
@@ -97,9 +95,8 @@ class CategoriasController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'codigo'  => 'required|max:1',
-            'categoria'  => 'required|max:255',
-            'descripcion' => 'required|max:255',
+            'nombre'  => 'required|max:255',
+            'codigo'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -108,51 +105,49 @@ class CategoriasController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-            $categoria = Categoria::find($request->input("_id"));
-            $categoria->codigo = $request->input("codigo");
-            $categoria->categoria = $request->input("categoria");
-            $categoria->descripcion = strtoupper($request->input("descripcion"));
-            $categoria->save();
+            $cuentacontable = CuentaContable::find($request->input("_id"));
+            $cuentacontable->codigo = strtoupper($request->codigo);
+            $cuentacontable->nombre = strtoupper($request->nombre);
+            $cuentacontable->vida_util = strtoupper($request->vida_util);
+            $cuentacontable->save();
 
             //Registro de logs
            $logs = new Logs();
            $logs->fecha =  date("Y-m-d H:m:s");
            $logs->accion = "editar";
-           $logs->modulo = "CATEGORIA";
-           $logs->id_ref = $categoria->id;
+           $logs->modulo = "CUENTACONTABLE";
+           $logs->id_ref = $cuentacontable->id;
            $logs->id_user = Auth::user()->id;
-           $logs->detalle = "Se editó el CATEGORIA ".$categoria->descripcion;
+           $logs->detalle = "Se editó el CUENTACONTABLE ".$cuentacontable->nombre;
            $logs->save();
 
-            return redirect("categorias")->with('success', 'edit')->with("id_categoria", $categoria->id);
+            return redirect("cuentacontable")->with('success', 'edit');
         }
     }
 
     public function getDelete($id)
     {
-        $categoria = Categoria::findOrFail($id);
+        $cuentacontable = CuentaContable::findOrFail($id);
 
-        return view('categorias/modaldelete')->with("categoria", $categoria);
+        return view('cuentacontable/modaldelete')->with("cuentacontable", $cuentacontable);
 
     }
 
     public function postDelete(Request $request)
     {
-
-        $categoria = Categoria::findOrFail($request->input("_id"));
-
+        $cuentacontable = CuentaContable::findOrFail($request->input("_id"));
         //Registro de logs
            $logs = new Logs();
            $logs->fecha =  date("Y-m-d H:m:s");
            $logs->accion = "eliminar";
-           $logs->modulo = "CATEGORIA";
-           $logs->id_ref = $categoria->id;
+           $logs->modulo = "CUENTACONTABLE";
+           $logs->id_ref = $cuentacontable->id;
            $logs->id_user = Auth::user()->id;
-           $logs->detalle = "Se eliminó el CATEGORIA ".$categoria->descripcion;
+           $logs->detalle = "Se eliminó el CUENTACONTABLE ".$cuentacontable->nombre;
            $logs->save();
 
-        $categoria->delete();
+        $cuentacontable->delete();
 
-        return redirect("categorias")->with('success', 'delete')->with("id_categoria",$request->input("_id"));
+        return redirect("cuentacontable")->with('success', 'delete');
     }
 }

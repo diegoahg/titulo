@@ -90,24 +90,100 @@
 											<input type="text" id="movil" name="movil" class="form-control" value="{{ $user->movil }}" placeholder="Ej: 987654321">
 										</div>
 									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Centro de Costo (*)</label>
+											<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+												<option value="">Elegir Centro de Costo</option> 
+												@foreach($centrocostos as $centrocosto)
+													<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+												@endforeach
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Sector (*)</label>
+											<select id="oficina" name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
+												<option value="">Elegir Oficina</option> 
+												@foreach($sectors as $sector)
+													<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+												@endforeach
+											</select>
+										</div>
+									</div>
 								</div>
 								<!--/row-->
 								<div class="row">
-									<div class="col-md-3">
+									<!--<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Departamento</label>
 											<input type="text" id="departamento" name="departamento" class="form-control" placeholder="Ej: Finanzas"  value="{{ $user->departamento }}" >
 										</div>
+									</div>-->
+									<!--/span-->
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Permiso. (*)</label>
+											<select id="permiso" name="permiso" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Permisos">
+												@if($user->permisos == 1)
+													<option value="1" selected>ADMINISTRADOR</option>
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5">FUNCIONARIO</option>
+												@endif
+												@if($user->permisos == 2)
+													<option value="2" selected>ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5">FUNCIONARIO</option>
+												@endif
+												@if($user->permisos == 3)
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3" selected>DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5">FUNCIONARIO</option>
+												@endif
+												@if($user->permisos == 4)
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4" selected>COLBORADOR</option> 
+													<option value="5">FUNCIONARIO</option>
+												@endif
+												@if($user->permisos == 5)
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5" selected>FUNCIONARIO</option>
+												@endif			
+											</select>
+										</div>
 									</div>
 									<!--/span-->
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Cargo. (*)</label>
-											<input type="text" id="cargo" name="cargo" class="form-control" value="{{ $user->cargo }}" placeholder="Ej: Gerencia" required>
+											<label class="control-label">Estado. (*)</label>
+											<select id="estado" name="estado" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Estado">
+												@if($user->activo == 1)
+													<option value="1" selected>ACTIVO</option> 
+													<option value="0">INACTIVO</option> 
+												@else
+													<option value="1">ACTIVO</option> 
+													<option value="0" selected>INACTIVO</option> 
+												@endif
+											</select>
 										</div>
 									</div>
-									<!--/span-->
+									
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Cargo. (*)</label>
+											<input type="text" id="cargo" name="cargo" class="form-control" value="{{$user->cargo }}" placeholder="Ej: Gerencia" required>
+										</div>
+									</div>
 								</div>
+
 								<!--/row-->
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 								<input type="hidden" name="_id" value="{{ $user->id }}">
@@ -127,6 +203,27 @@
 </div><!-- /.content-wrapper -->
 @section('script')
 	<script>
+
+		//Evento que rellena el select cuando se escoge un elemento
+		$('#centro').change(function() {
+			$('#oficina').prop("disabled", false);
+			var sectors = {!!$sectors!!};
+
+			$('#oficina').empty();
+			$('#oficina').append('<option value="">Elegir Sector</option>');
+			$('#oficina').select2('val',"");
+			$.each(sectors, function(index, value) {
+				if (value.id_centro_costo == $('#centro').val()) {
+					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+				}
+			});
+
+			if ($('#centro').val() == '') {
+				$('#oficina').prop("disabled", true);
+			}
+
+		});
+
 	      $(function () {
 	        $("#example1").DataTable();
 	        $('#example2').DataTable({
@@ -137,6 +234,11 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
+
+	        $(".select2").select2();
+
+	        $('#centro').select2('val',"{{$user->centro}}");
+			$('#oficina').select2('val',"{{$user->sector}}");
 	      });
 
 	      $("#usuarios").addClass( "active" );

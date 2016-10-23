@@ -92,6 +92,8 @@
           </div><!-- /.row -->
 	</section><!-- /.content -->
 </div><!-- /.content-wrapper -->
+
+<div id="modal"></div>
 @section('script')
 		<script>
 	      $(function () {
@@ -104,7 +106,8 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
-			$("#bienraiz").addClass( "active" );
+			$("#inventario").addClass("active");
+	        $("#bien-raiz").addClass("active");
 
 	      });
 

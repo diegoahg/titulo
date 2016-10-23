@@ -20,7 +20,7 @@ class LoginController extends Controller
     public function getIndex()
     {
         if(Auth::check()){
-            return redirect()->intended('market');
+            return redirect()->intended('/');
         }
 
         return view('login')->with("error", 0);
@@ -36,15 +36,20 @@ class LoginController extends Controller
         if (Auth::attempt($data)) {
             // Authentication passed...
             //Registro de logs
-           $logs = new Logs();
-           $logs->fecha =  date("Y-m-d H:m:s");
-           $logs->accion = "login";
-           $logs->modulo = "LOGIN";
-           $logs->id_ref = null;
-           $logs->id_user = Auth::user()->id;
-           $logs->detalle = "Usuario abrió sesión";
-           $logs->save();
-           return redirect()->intended('/');
+            if(Auth::user()->activo == 1){
+                   $logs = new Logs();
+                   $logs->fecha =  date("Y-m-d H:m:s");
+                   $logs->accion = "login";
+                   $logs->modulo = "LOGIN";
+                   $logs->id_ref = null;
+                   $logs->id_user = Auth::user()->id;
+                   $logs->detalle = "Usuario abrió sesión";
+                   $logs->save();
+                   return redirect()->intended('/');
+            }else{
+                Auth::logout();
+                return back()->with('error', '2');
+            }
         }
         else{
             return back()->with('error', '1')->with('email', $request->email);
@@ -88,7 +93,7 @@ class LoginController extends Controller
         $user->save();
 
             $data = array(
-                'email' => $user->email,
+                'email' => strtoupper($user->email),
                 'password' => $request->password);
 
 

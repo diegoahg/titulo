@@ -91,10 +91,52 @@
 								</div>
 								<!--/row-->
 								<div class="row">
+									<!--/span-->
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Departamento</label>
-											<input type="text" id="departamento" name="departamento" class="form-control" placeholder="Ej: Finanzas"  value="{{ old('departamento') }}" >
+											<label class="control-label">Centro de Costo. (*)</label>
+											<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="SELECCIONAR CENTRO DE COSTO">
+													<option value="">ELEGIR CENTRO DE COSTO</option> 
+													@foreach($centrocostos as $centrocosto)
+														<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+													@endforeach
+												</select>
+										</div>
+									</div>
+									<!--/span-->
+									<!--/span-->
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Sector. (*)</label>
+											<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="SELECCIONAR SECTOR">
+													<option value="">ELEGIR SECTOR</option> 
+													@foreach($sectors as $sector)
+														<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+													@endforeach
+												</select>
+										</div>
+									</div>
+									<!--/span-->
+									<!--/span-->
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Permiso. (*)</label>
+											<select id="permiso" name="permiso" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Permisos">
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5" selected>FUNCIONARIO</option> 
+											</select>
+										</div>
+									</div>
+									<!--/span-->
+									<div class="col-md-3">
+										<div class="form-group">
+											<label class="control-label">Estado. (*)</label>
+											<select id="estado" name="estado" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Estado">
+													<option value="1" selected>ACTIVO</option> 
+													<option value="0">INACTIVO</option> 
+											</select>
 										</div>
 									</div>
 									<!--/span-->
@@ -104,7 +146,6 @@
 											<input type="text" id="cargo" name="cargo" class="form-control" value="{{ old('cargo') }}" placeholder="Ej: Gerencia" required>
 										</div>
 									</div>
-									<!--/span-->
 								</div>
 								<!--/row-->
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -124,6 +165,27 @@
 </div><!-- /.content-wrapper -->
 @section('script')
 	<script>
+
+			$('#centro').change(function() {
+				$('#oficina').prop("disabled", false);
+				var sectors = {!!$sectors!!};
+
+
+				$('#oficina').empty();
+				$('#oficina').append('<option value="">ELEGIR SECTOR</option>');
+				$('#oficina').select2('val','');
+				$.each(sectors, function(index, value) {
+					if (value.id_centro_costo == $('#centro').val()) {
+						$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					}
+				});
+
+				if ($('#centro').val() == '') {
+					$('#oficina').prop("disabled", true);
+				}
+
+			});
+
 	      $(function () {
 	        $("#example1").DataTable();
 	        $('#example2').DataTable({
@@ -134,9 +196,11 @@
 	          "info": true,
 	          "autoWidth": false
 	        });
-	      });
+	      $(".select2").select2();
 
 		$("#usuarios").addClass( "active" );
+	      });
 	    </script> 
+
 	@stop      
 @stop

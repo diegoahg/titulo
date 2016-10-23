@@ -9,6 +9,8 @@ use Crypt;
 use Hash;
 use App\Logs as Logs;
 use Auth;
+use App\CentroCosto as CentroCosto;
+use App\Sector as Sector;
 
 class UsuariosController extends Controller
 {
@@ -28,7 +30,10 @@ class UsuariosController extends Controller
 
     public function getAdd()
     {
-        return view('usuarios/add');
+
+        $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
+        $sectors = Sector::orderBy("nombre", "ASC")->get();
+        return view('usuarios/add')->with("centrocostos",$centrocostos)->with("sectors",$sectors);
     }
 
     public function postAdd(Request $request)
@@ -53,6 +58,8 @@ class UsuariosController extends Controller
             'password' => 'required|max:255|confirmed',
             'password_confirmation ' => 'confirmed',
             'fono' => 'required|numeric|min:9',
+            'centro' => 'required',
+            'oficina' => 'required',
             //'movil' => 'required|numeric|min:9',
             'cargo' => 'required|max:255'
         ], $messages);
@@ -64,15 +71,19 @@ class UsuariosController extends Controller
         }else{
 
            $user = new User();
-           $user->name = $request->input("name");
-           $user->apellido_paterno = $request->input("apellido_paterno");
-           $user->apellido_materno = $request->input("apellido_materno");
-           $user->email = $request->input("correo");
+           $user->name = strtoupper($request->input("name"));
+           $user->apellido_paterno = strtoupper($request->input("apellido_paterno"));
+           $user->apellido_materno = strtoupper($request->input("apellido_materno"));
+           $user->email =strtoupper($request->input("correo"));
            $user->password = Hash::make($request->input("password"));
-           $user->fono = $request->input("fono");
-           $user->movil = $request->input("movil");
-           $user->departamento = $request->input("departamento");
-           $user->cargo = $request->input("cargo");
+           $user->fono = strtoupper($request->input("fono"));
+           $user->movil = strtoupper($request->input("movil"));
+           $user->departamento = "";
+           $user->cargo = strtoupper($request->input("cargo"));
+           $user->permisos = $request->permiso;
+           $user->activo = $request->estado;
+           $user->centro = $request->centro;
+           $user->sector = $request->oficina;
            $user->save();
 
            //Registro de logs
@@ -104,7 +115,9 @@ class UsuariosController extends Controller
     public function getEdit($id)
     {
         $user = User::findOrFail($id);
-        return view('usuarios/edit')->with("user", $user);
+        $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
+        $sectors = Sector::orderBy("nombre", "ASC")->get();
+        return view('usuarios/edit')->with("user", $user)->with("centrocostos",$centrocostos)->with("sectors",$sectors);
     }
 
     public function postEdit(Request $request)
@@ -127,7 +140,10 @@ class UsuariosController extends Controller
             'apellido_materno' => 'required|max:255',
             'correo' => 'required|email|exists:users,email|max:255',
             'fono' => 'required|numeric|min:9',
-            'movil' => 'required|numeric|min:9',
+            //'movil' => 'required|numeric|min:9',
+
+            'centro' => 'required',
+            'oficina' => 'required',
             'cargo' => 'required|max:255'
         ], $messages);
 
@@ -138,15 +154,19 @@ class UsuariosController extends Controller
         }else{
 
            $user = User::findOrFail($request->input("_id"));
-           $user->name = $request->input("name");
-           $user->apellido_paterno = $request->input("apellido_paterno");
-           $user->apellido_materno = $request->input("apellido_materno");
-           $user->email = $request->input("correo");
+           $user->name = strtoupper($request->input("name"));
+           $user->apellido_paterno = strtoupper($request->input("apellido_paterno"));
+           $user->apellido_materno = strtoupper($request->input("apellido_materno"));
+           $user->email = strtoupper($request->input("correo"));
            $user->password = Hash::make($request->input("password"));
-           $user->fono = $request->input("fono");
-           $user->movil = $request->input("movil");
-           $user->departamento = $request->input("departamento");
-           $user->cargo = $request->input("cargo");
+           $user->fono = strtoupper($request->input("fono"));
+           $user->movil = strtoupper($request->input("movil"));
+           $user->departamento = "";
+           $user->cargo = strtoupper($request->input("cargo"));
+           $user->permisos = $request->permiso;
+           $user->activo = $request->estado;
+           $user->centro = $request->centro;
+           $user->sector = $request->oficina;
            $user->save();
 
            //Registro de logs

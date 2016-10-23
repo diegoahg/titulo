@@ -12,6 +12,7 @@ use App\Componentes as Componentes;
 use App\Logs as Logs;
 use App\TipoBien as TipoBien;
 use App\CuentaContable as CuentaContable;
+use App\Observacion as Observacion;
 
 use DB;
 use Crypt;
@@ -32,11 +33,17 @@ class BienActivoController extends Controller
         return view('bienactivo/index')->with("bienactivos",$bienactivos);
     }
 
+    public function getView($id)
+    {
+        $bienactivo = BienActivo::findOrFail($id);
+        return view('bienactivo/modalview')->with("bienactivo", $bienactivo);
+    }
+
     public function getAdd()
     {
         $categorias = Categoria::all();
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
+        $sectors = Sector::orderBy("nombre", "ASC")->get();
         $cuentacontables = CuentaContable::all();
 
         $tipobienes = TipoBien::orderBy("descripcion","ASC")->get();
@@ -98,23 +105,23 @@ class BienActivoController extends Controller
            $bienactivo->id_sector =  $request->input("oficina");
            $bienactivo->categoria =  $request->input("categoria");
            $bienactivo->numero =  $request->input("numero");
-           $bienactivo->descripcion =  $request->input("descripcion");
+           $bienactivo->descripcion =  strtoupper($request->input("descripcion"));
            $bienactivo->valor =  $request->input("valor");
-           $bienactivo->unidad =  $request->input("unidad");
-           $bienactivo->marca =  $request->input("marca");
-           $bienactivo->modelo =  $request->input("modelo");
-           $bienactivo->serie =  $request->input("serie");
+           $bienactivo->unidad =  strtoupper($request->input("unidad"));
+           $bienactivo->marca =  strtoupper($request->input("marca"));
+           $bienactivo->modelo =  strtoupper($request->input("modelo"));
+           $bienactivo->serie =  strtoupper($request->input("serie"));
            $bienactivo->largo =  $request->input("largo");
            $bienactivo->ancho =  $request->input("ancho");
-           $bienactivo->alto =  $request->input("alto");
-           $bienactivo->orden =  $request->input("orden");
+           $bienactivo->alto =  strtoupper($request->input("alto"));
+           $bienactivo->orden =  strtoupper($request->input("orden"));
            $bienactivo->fecha =  $request->input("fecha");
-           $bienactivo->cuenta_contable =  $request->input("cuenta_contable");
+           $bienactivo->cuenta_contable =  strtoupper($request->input("cuenta_contable"));
            $bienactivo->alta =  $request->input("alta");
            $bienactivo->vida_util =  $request->input("vida_util");
-           $bienactivo->tipo_inventario=  $request->input("tipo_inventario");
-           $bienactivo->tipo_bien =  $request->input("tipo_bien");
-           $bienactivo->enmienda =  $request->input("enmienda");
+           $bienactivo->tipo_inventario=  strtoupper($request->input("tipo_inventario"));
+           $bienactivo->tipo_bien =  strtoupper($request->input("tipo_bien"));
+           $bienactivo->enmienda =  strtoupper($request->input("enmienda"));
            $bienactivo->estado =  "ACTIVO";
            $bienactivo->save();
 
@@ -129,13 +136,13 @@ class BienActivoController extends Controller
               for($i = 0; $i < count($comp_codigo); $i++){
                   $componente = new Componentes();
                   $componente->id_bien = $bienactivo->id;
-                  $componente->codigo = $comp_codigo[$i];
-                  $componente->descripcion = $comp_descripcion[$i];
-                  $componente->serie = $comp_serie[$i];
-                  $componente->marca = $comp_marca[$i];
-                  $componente->modelo = $comp_modelo[$i];
-                  $componente->categoria = $comp_categoria[$i];
-                  $componente->tipo = $comp_tipo[$i];
+                  $componente->codigo = strtoupper($comp_codigo[$i]);
+                  $componente->descripcion = strtoupper($comp_descripcion[$i]);
+                  $componente->serie = strtoupper($comp_serie[$i]);
+                  $componente->marca = strtoupper($comp_marca[$i]);
+                  $componente->modelo = strtoupper($comp_modelo[$i]);
+                  $componente->categoria = strtoupper($comp_categoria[$i]);
+                  $componente->tipo = strtoupper($comp_tipo[$i]);
                   $componente->save();
               }
            }
@@ -155,7 +162,7 @@ class BienActivoController extends Controller
            if(count($tipobienes)==0){
               $tipobien = new TipoBien();
               $tipobien->codigo = $bienactivo->numero;
-              $tipobien->descripcion = $bienactivo->descripcion;
+              $tipobien->descripcion = strtoupper($bienactivo->descripcion);
               $tipobien->save();
            }
             return redirect("bien-activo")->with('success', 'bienactivo')->with("id_igreso", $bienactivo->id);
@@ -168,9 +175,9 @@ class BienActivoController extends Controller
         $bienactivo = BienActivo::find($id);
         $componentes = Componentes::where("id_bien",$id)->get();
         $categorias = Categoria::all();
-        $centrocostos = CentroCosto::all();
+        $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
+        $sectors = Sector::orderBy("nombre", "ASC")->get();
         $cuentacontables = CuentaContable::all();
-        $sectors = Sector::all();
         return view('bienactivo/edit')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("bienactivo",$bienactivo)->with("componentes",$componentes)->with("cuentacontables",$cuentacontables);
     }
 
@@ -206,23 +213,23 @@ class BienActivoController extends Controller
            $bienactivo->id_sector =  $request->input("oficina");
            $bienactivo->categoria =  $request->input("categoria");
            $bienactivo->numero =  $request->input("numero");
-           $bienactivo->descripcion =  $request->input("descripcion");
+           $bienactivo->descripcion =  strtoupper($request->input("descripcion"));
            $bienactivo->valor =  $request->input("valor");
-           $bienactivo->unidad =  $request->input("unidad");
-           $bienactivo->marca =  $request->input("marca");
-           $bienactivo->modelo =  $request->input("modelo");
-           $bienactivo->serie =  $request->input("serie");
+           $bienactivo->unidad =  strtoupper($request->input("unidad"));
+           $bienactivo->marca =  strtoupper($request->input("marca"));
+           $bienactivo->modelo =  strtoupper($request->input("modelo"));
+           $bienactivo->serie =  strtoupper($request->input("serie"));
            $bienactivo->largo =  $request->input("largo");
            $bienactivo->ancho =  $request->input("ancho");
            $bienactivo->alto =  $request->input("alto");
-           $bienactivo->orden =  $request->input("orden");
+           $bienactivo->orden = strtoupper( $request->input("orden"));
            $bienactivo->fecha =  $request->input("fecha");
-           $bienactivo->cuenta_contable =  $request->input("cuenta_contable");
-           $bienactivo->alta =  $request->input("alta");
+           $bienactivo->cuenta_contable =  strtoupper($request->input("cuenta_contable"));
+           $bienactivo->alta =  strtoupper($request->input("alta"));
            $bienactivo->vida_util =  $request->input("vida_util");
-           $bienactivo->tipo_inventario =  $request->input("tipo_inventario");
-           $bienactivo->tipo_bien =  $request->input("tipo_bien");
-           $bienactivo->enmienda =  $request->input("enmienda");
+           $bienactivo->tipo_inventario =  strtoupper($request->input("tipo_inventario"));
+           $bienactivo->tipo_bien = strtoupper( $request->input("tipo_bien"));
+           $bienactivo->enmienda =  strtoupper($request->input("enmienda"));
            $bienactivo->save();
 
            if($bienactivo->tipo_bien == "Complejo"){
@@ -241,13 +248,13 @@ class BienActivoController extends Controller
               for($i = 0; $i < count($comp_codigo); $i++){
                   $componente = new Componentes();
                   $componente->id_bien = $bienactivo->id;
-                  $componente->codigo = $comp_codigo[$i];
-                  $componente->descripcion = $comp_descripcion[$i];
-                  $componente->serie = $comp_serie[$i];
-                  $componente->marca = $comp_marca[$i];
-                  $componente->modelo = $comp_modelo[$i];
-                  $componente->categoria = $comp_categoria[$i];
-                  $componente->tipo = $comp_tipo[$i];
+                  $componente->codigo = strtoupper($comp_codigo[$i]);
+                  $componente->descripcion = strtoupper($comp_descripcion[$i]);
+                  $componente->serie = strtoupper($comp_serie[$i]);
+                  $componente->marca = strtoupper($comp_marca[$i]);
+                  $componente->modelo = strtoupper($comp_modelo[$i]);
+                  $componente->categoria = strtoupper($comp_categoria[$i]);
+                  $componente->tipo = strtoupper($comp_tipo[$i]);
                   $componente->save();
               }
            }
@@ -275,14 +282,34 @@ class BienActivoController extends Controller
     }
 
     public function postDescripcion(Request $request){
-          $bienactivo = BienActivo::where("descripcion","=",$request->input("descripcion"))->first();
+          $bienactivo = BienActivo::where("descripcion","=",strtoupper($request->input("descripcion")))->first();
           return $bienactivo;
     }
 
     public function postComponentes(Request $request){
-          $bienactivo = BienActivo::where("descripcion","=",$request->input("descripcion"))->first();
+          $bienactivo = BienActivo::where("descripcion","=",strtoupper($request->input("descripcion")))->first();
           $componentes = Componentes::where("id_bien",$bienactivo->id)->get();
           return $componentes;
+    }
+
+    public function postCuentacontable(Request $request){
+          $cuentacontable = CuentaContable::find($request->input("id_cuenta_contable"));
+          return $cuentacontable;
+    }
+
+    public function getObservacion($tipo, $id){
+          $observaciones = Observacion::where("tipo_bien",$tipo)->where("id_bien",Crypt::decrypt($id))->get();
+          return view('bienactivo/modalobservacion')->with('observaciones', $observaciones)->with('id', $id)->with('tipo', $tipo);
+    }
+
+    public function postObservacion(Request $request){
+          $observacion = new Observacion();
+          $observacion->observacion = $request->observacion;
+          $observacion->tipo_bien = $request->tipo_bien;
+          $observacion->id_bien = Crypt::decrypt($request->id_bien);
+          $observacion->save();
+
+          return back();
     }
 
 }

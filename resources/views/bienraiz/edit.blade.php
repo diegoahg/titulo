@@ -310,6 +310,10 @@
 			        });
 			})*/
 
+			
+			$("#inventario").addClass("active");
+	        $("#bien-raiz").addClass("active");
+
 
 
 

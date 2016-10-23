@@ -133,7 +133,7 @@
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <!--<img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
                     <p>
                       {{$auth_user->name}} - {{$auth_user->cargo}}
                       <small>Miembro desde {{$auth_user->created_at}}</small>
@@ -144,7 +144,7 @@
                       <a href="#" class="btn btn-default btn-flat">Perfil</a>
                     </div>
                     <div class="pull-right">
-                      <a href="login/logout" class="btn btn-default btn-flat">Desconectar</a>
+                      <a href="{{asset('login/logout')}}" class="btn btn-default btn-flat">Desconectar</a>
                     </div>
                   </li>
                 </ul>
@@ -217,6 +217,12 @@
               <a href="{{ asset('sector') }}">
                 <i class="fa fa-building"></i>
                 <span>Sector</span>
+              </a>
+            </li>
+            <li id="cuentacontable" class="treeview">
+              <a href="{{ asset('cuentacontable') }}">
+                <i class="fa fa-creative-commons"></i>
+                <span>Cuenta Contable</span>
               </a>
             </li>
             <li  id="reportes" class="treeview">

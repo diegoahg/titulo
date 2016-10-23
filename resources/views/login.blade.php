@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -27,7 +27,8 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="/"><b>U</b>TEM <b>I</b>NVENTARIO</a>
+        <center><img  class="img-responsive" src="http://www.utem.cl/wp-content/themes/utem_05_10_16/images/01_img_cor/00_id_corp/imagotipo_utem.png" ></center>
+        <a href="/"><b>S</b>ISTEMA DE <b>I</b>NVENTARIO</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Ingrese los datos para poder iniciar sesión</p>
@@ -45,9 +46,16 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
           @if(session('error'))
+            @if(session('error') == 1)
               <div class="form-group has-feedback">
                 <p style="color:red">Usuario o contraseña incorrectos</p>
               </div>
+            @endif
+            @if(session('error') == 2)
+              <div class="form-group has-feedback">
+                <p style="color:red">Usuario no tiene permitido el accesso</p>
+              </div>
+            @endif
           @endif
           <div class="row">
             <div class="col-xs-8">

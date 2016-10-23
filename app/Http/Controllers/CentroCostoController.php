@@ -55,10 +55,10 @@ class CentroCostoController extends Controller
         }else{
 
             $centrocosto = new CentroCosto;
-            $centrocosto->codigo = $request->codigo;
-            $centrocosto->nombre = $request->nombre;
-            $centrocosto->descripcion = $request->descripcion;
-            $centrocosto->direccion = $request->direccion;
+            $centrocosto->codigo = strtoupper($request->codigo);
+            $centrocosto->nombre = strtoupper($request->nombre);
+            $centrocosto->descripcion = strtoupper($request->descripcion);
+            $centrocosto->direccion = strtoupper($request->direccion);
             $centrocosto->save();
 
             //Registro de logs
@@ -109,10 +109,10 @@ class CentroCostoController extends Controller
         }else{
 
             $centrocosto = CentroCosto::find($request->input("_id"));
-            $centrocosto->codigo = $request->codigo;
-            $centrocosto->nombre = $request->nombre;
-            $centrocosto->descripcion = $request->descripcion;
-            $centrocosto->direccion = $request->direccion;
+            $centrocosto->codigo = strtoupper($request->codigo);
+            $centrocosto->nombre = strtoupper($request->nombre);
+            $centrocosto->descripcion = strtoupper($request->descripcion);
+            $centrocosto->direccion = strtoupper($request->direccion);
             $centrocosto->save();
 
             //Registro de logs

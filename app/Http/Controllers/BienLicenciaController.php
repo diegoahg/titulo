@@ -91,18 +91,18 @@ class BienLicenciaController extends Controller
            $bienlicencia->id_sector =  $request->input("oficina");
            $bienlicencia->categoria =  0;
            $bienlicencia->numero =  $request->input("numero");
-           $bienlicencia->descripcion =  $request->input("descripcion");
+           $bienlicencia->descripcion =  strtoupper($request->input("descripcion"));
            $bienlicencia->valor =  $request->input("valor");
-           $bienlicencia->unidad =  $request->input("unidad");
-           $bienlicencia->marca =  $request->input("marca");
-           $bienlicencia->modelo =  $request->input("modelo");
+           $bienlicencia->unidad =  strtoupper($request->input("unidad"));
+           $bienlicencia->marca =  strtoupper($request->input("marca"));
+           $bienlicencia->modelo =  strtoupper($request->input("modelo"));
            $bienlicencia->serie =  $request->input("serie");
            $bienlicencia->largo = 0;
            $bienlicencia->ancho = 0;
            $bienlicencia->alto =  0;
            $bienlicencia->orden =  $request->input("orden");
            $bienlicencia->fecha =  $request->input("fecha");
-           $bienlicencia->cuenta_contable =  $request->input("cuenta_contable");
+           $bienlicencia->cuenta_contable =  strtoupper($request->input("cuenta_contable"));
            $bienlicencia->alta =  $request->input("alta");
            $bienlicencia->vida_util =  $request->input("vida_util");
            $bienlicencia->tipo_inventario =  $request->input("tipo_inventario");
@@ -165,18 +165,18 @@ class BienLicenciaController extends Controller
            $bienlicencia->id_sector =  $request->input("oficina");
            $bienlicencia->categoria =  0;
            $bienlicencia->numero =  $request->input("numero");
-           $bienlicencia->descripcion =  $request->input("descripcion");
+           $bienlicencia->descripcion =  strtoupper($request->input("descripcion"));
            $bienlicencia->valor =  $request->input("valor");
-           $bienlicencia->unidad =  $request->input("unidad");
-           $bienlicencia->marca =  $request->input("marca");
-           $bienlicencia->modelo =  $request->input("modelo");
-           $bienlicencia->serie =  $request->input("serie");
+           $bienlicencia->unidad = strtoupper( $request->input("unidad"));
+           $bienlicencia->marca =  strtoupper($request->input("marca"));
+           $bienlicencia->modelo =  strtoupper($request->input("modelo"));
+           $bienlicencia->serie = strtoupper( $request->input("serie"));
            $bienlicencia->largo =  0;
            $bienlicencia->ancho =  0;
            $bienlicencia->alto =  0;
            $bienlicencia->orden =  $request->input("orden");
            $bienlicencia->fecha =  $request->input("fecha");
-           $bienlicencia->cuenta_contable =  $request->input("cuenta_contable");
+           $bienlicencia->cuenta_contable =  strtoupper($request->input("cuenta_contable"));
            $bienlicencia->alta =  $request->input("alta");
            $bienlicencia->vida_util =  $request->input("vida_util");
            $bienlicencia->tipo_inventario =  $request->input("tipo_inventario");
@@ -207,7 +207,7 @@ class BienLicenciaController extends Controller
     }
 
     public function postDescripcion(Request $request){
-          $bienlicencia = BienLicencia::where("descripcion","=",$request->input("descripcion"))->first();
+          $bienlicencia = BienLicencia::where("descripcion","=",strtoupper($request->input("descripcion")))->first();
           return $bienlicencia;
     }
 
