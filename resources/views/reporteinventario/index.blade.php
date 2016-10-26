@@ -74,7 +74,11 @@
 								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">&nbsp</label>
-										<button type="button" onclick="actionForm(this.form.id, 'buscar')" class="btn btn-block btn-primary">Filtrar</button>
+										@if($filtro == 1)
+											<button type="button" onclick="actionForm(this.form.id, 'buscar')" class="btn btn-block btn-primary">Filtrar</button>
+										@else
+											<button type="button" onclick="actionForm(this.form.id, 'reporte-inventario/buscar')" class="btn btn-block btn-primary">Filtrar</button>
+										@endif
 									</div>
 								</div>
 								@if($filtro == 1)

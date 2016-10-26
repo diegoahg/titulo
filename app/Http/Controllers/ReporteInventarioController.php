@@ -40,7 +40,6 @@ class ReporteInventarioController extends Controller
 
     public function postBuscar(Request $request)
     {
-        ini_set('memory_limit', '-1');
         $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
         $centrocostos = CentroCosto::all();
         $sectors = Sector::all();
