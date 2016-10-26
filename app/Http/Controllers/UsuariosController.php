@@ -117,7 +117,8 @@ class UsuariosController extends Controller
         $user = User::findOrFail($id);
         $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
         $sectors = Sector::orderBy("nombre", "ASC")->get();
-        return view('usuarios/edit')->with("user", $user)->with("centrocostos",$centrocostos)->with("sectors",$sectors);
+        $permisos = Auth::user();
+        return view('usuarios/edit')->with("user", $user)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("permisos",$permisos);
     }
 
     public function postEdit(Request $request)

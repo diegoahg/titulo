@@ -156,6 +156,12 @@
 													<option value="3">DIRECTOR DE UNIDAD</option> 
 													<option value="4">COLBORADOR</option> 
 													<option value="5" selected>FUNCIONARIO</option>
+												@endif
+												@if($user->permisos == "")
+													<option value="2">ENCARGADO DE INVENTARIO</option>
+													<option value="3">DIRECTOR DE UNIDAD</option> 
+													<option value="4">COLBORADOR</option> 
+													<option value="5" selected>FUNCIONARIO</option>
 												@endif			
 											</select>
 										</div>
