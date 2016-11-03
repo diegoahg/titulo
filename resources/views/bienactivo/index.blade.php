@@ -86,7 +86,7 @@
 
 			$(".observacion-data").click(function(){
 				  var data = $(this).data("role");
-				  $.get( "bien-activo/observacion/1/" + data, function( data ) {
+				  $.get( "{{asset('bien-activo/observacion/1/')}}" + data, function( data ) {
 					  $( "#modal" ).html( data );
 					  $( "#modalObservacion" ).modal();
 					});
@@ -94,7 +94,7 @@
 
 			$(".view-data").click(function(){
 				  var data = $(this).data("role");
-				  $.get( "bien-activo/view/" + data, function( data ) {
+				  $.get( "{{asset('bien-activo/view/')}}" + data, function( data ) {
 					  $( "#modal" ).html( data );
 					  $( "#modalVer" ).modal();
 					});
