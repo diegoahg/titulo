@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="form-body">	
-				<form method="post" action="/bien-activo/observacion">
+				<form method="post" action="{{asset('/bien-activo/observacion')}}">
 						<div class="form-group">
 		                  <label>Observación</label>
 		                  <textarea class="form-control" rows="2" name="observacion" placeholder="Ingresar Observación"></textarea>
