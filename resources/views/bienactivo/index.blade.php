@@ -117,7 +117,7 @@
 
 	      function CambiarEstado(key){
 	      		var estado = $("#estado").val();
-	      		$.get( "bienactivo/cambiaestado/" + key + "/" + estado, function( data ) {
+	      		$.get( "{{asset('bienactivo/cambiaestado/')}}" + key + "/" + estado, function( data ) {
 					console.log(data);
 				});
 	      }

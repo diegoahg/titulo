@@ -5,11 +5,11 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Reporte de Inventario
+	    Logs de Usuarios
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-	    <li class="active">Reporte de Vida Útil</li>
+	    <li class="active">Logs de Usuarios</li>
 	  </ol>
 	</section>
 
@@ -19,7 +19,7 @@
        	<div class="col-xs-12">
 			<div class="box">
                 <div class="box-header">
-                <h3 class="box-title">Filtrar Bienes por:</h3>
+                <h3 class="box-title">Filtrar por:</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <form action="{{url('reporte-inventario')}}"  id="form-reporte-inventario" method="post" enctype="multipart/form-data" class="horizontal-form">

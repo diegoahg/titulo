@@ -45,7 +45,7 @@ class BienRegistroController extends Controller
 
     public function postAdd(Request $request)
     {
-     /*   $messages = [
+       $messages = [
             'required'    => 'Debe ingresar el  :attribute',
             'email.required'    => 'Debe ingresar el  correo',
             'numeric' => 'El :attribute debe solo contener números',
@@ -58,25 +58,8 @@ class BienRegistroController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'centro'  => 'required|max:255',
-            'oficina'  => 'required|max:255',
-            'categoria' => 'required|max:255',
-            'numero' => 'required|max:255',
-            'valor' => 'required|max:255',
-            'unidad' => 'required|max:255',
-            'marca' => 'required|max:255',
-            'modelo' => 'required|max:255',
-            'serie' => 'required|max:255',
-            'largo' => 'required|max:255',
-            'ancho' => 'required|max:255',
-            'orden' => 'required|max:255',
-            'fecha' => 'required|max:255',
-            'cuenta_contable' => 'required|max:255',
-            'alta' => 'required|max:255',
-            'vida_util' => 'required|max:255',
-            'tipo_inventario' => 'required|max:255',
-            'tipo_bien' => 'required|max:255',
-            'enmienda' => 'required|max:255',
+            'data_centro'  => 'required|max:255',
+            'data_oficina'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -85,35 +68,36 @@ class BienRegistroController extends Controller
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
 
-           $bienregistro = new Inventario();
-           $bienregistro->id_usuario =  Auth::user()->id;
-           $bienregistro->fecha =   date_format(date_create($request->input("fecha")), 'Y-m-d');
-           $bienregistro->centro =  $request->input("centro");
-           $bienregistro->oficina =  $request->input("oficina");
-           $bienregistro->categoria =  $request->input("categoria");
-           $bienregistro->numero =  $request->input("numero");
-           $bienregistro->descripcion =  $request->input("descripcion");
-           $bienregistro->valor =  $request->input("valor");
-           $bienregistro->unidad =  $request->input("unidad");
-           $bienregistro->marca =  $request->input("marca");
-           $bienregistro->modelo =  $request->input("modelo");
-           $bienregistro->serie =  $request->input("serie");
-           $bienregistro->largo =  $request->input("largo");
-           $bienregistro->ancho =  $request->input("ancho");
-           $bienregistro->alto =  $request->input("alto");
-           $bienregistro->orden =  $request->input("orden");
-           $bienregistro->fecha =  $request->input("fecha");
-           $bienregistro->cuenta_contable =  $request->input("cuenta_contable");
-           $bienregistro->alta =  $request->input("alta");
-           $bienregistro->vida_util =  $request->input("vida_util");
-           $bienregistro->tipo_inventario =  $request->input("tipo_inventario");
-           $bienregistro->tipo_bien =  $request->input("tipo_bien");
-           $bienregistro->enmienda =  $request->input("enmienda");
-           $bienregistro->estado =  "ACTIVO";
-           $bienregistro->save();
+           $codigo =  $request->data_codigo;
+           $descripcion =  $request->data_descripcion;
+           $cantidad =  $request->data_cantidad;
+           $valor =  $request->data_valor;
+           $orden_compra =  $request->data_orden_compra;
+           $fecha_incorporacion =  $request->data_fecha;
+
+           foreach ($deletes as $delete) {
+             $delete->delete();
+           }
+
+
+           for($i=0; $i<count($codigo);$i++){
+
+             $bienregistro = new BienRegistro();
+             $bienregistro->id_centro =  $request->data_centro;
+             $bienregistro->id_sector =  $request->data_oficina;
+             $bienregistro->correlativo =  $i + 1;
+             $bienregistro->codigo =  $codigo[$i];
+             $bienregistro->descripcion =  $descripcion[$i];
+             $bienregistro->cantidad =  $cantidad[$i];
+             $bienregistro->valor =  $valor[$i];
+             $bienregistro->orden_compra =  $orden_compra[$i];
+             $bienregistro->fecha_incorporacion = $fecha_incorporacion[$i];
+             $bienregistro->save();  
+
+           }
+
             return redirect("bien-registro")->with('success', 'ingreso')->with("id_igreso", $bienregistro->id);
-                  }
-*/
+        }
 
         return redirect("bien-registro")->with('success', 'add');
 
@@ -122,6 +106,7 @@ class BienRegistroController extends Controller
     public function getEdit($key)
     {
         $id = Crypt::decrypt($key);
+
         $bienregistro = BienRegistro::find($id);
         $categorias = Categoria::all();
         $centrocostos = CentroCosto::all();
@@ -134,12 +119,14 @@ class BienRegistroController extends Controller
           }
         $json = json_encode($json);
 
+        $bienregistro = BienRegistro::find($id);
+
         return view('bienregistro/edit')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("bienregistro",$bienregistro);
     }
 
     public function postEdit(Request $request)
     {
-        /*$messages = [
+        $messages = [
             'required'    => 'Debe ingresar el  :attribute',
             'email.required'    => 'Debe ingresar el  correo',
             'numeric' => 'El :attribute debe solo contener números',
@@ -152,9 +139,8 @@ class BienRegistroController extends Controller
         ];
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
-            'fecha'  => 'required|max:255',
-            'centro'  => 'required|max:255',
-            'oficina' => 'required|max:255',
+            'data_centro'  => 'required|max:255',
+            'data_oficina'  => 'required|max:255',
         ], $messages);
 
         //Si contiene errores se devuelve al formulario con todos los errores, de lo contrario guarda en la base de datos
@@ -162,33 +148,36 @@ class BienRegistroController extends Controller
             //echo "hola";
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
-           $bienregistro = BienRegistro::find(Crypt::decrypt($request->input("_key")));
-           $bienregistro->id_usuario =  Auth::user()->id;
-           $bienregistro->fecha =   date_format(date_create($request->input("fecha")), 'Y-m-d');
-           $bienregistro->centro =  $request->input("centro");
-           $bienregistro->oficina =  $request->input("oficina");
-           $bienregistro->categoria =  $request->input("categoria");
-           $bienregistro->numero =  $request->input("numero");
-           $bienregistro->descripcion =  $request->input("descripcion");
-           $bienregistro->valor =  $request->input("valor");
-           $bienregistro->unidad =  $request->input("unidad");
-           $bienregistro->marca =  $request->input("marca");
-           $bienregistro->modelo =  $request->input("modelo");
-           $bienregistro->serie =  $request->input("serie");
-           $bienregistro->largo =  $request->input("largo");
-           $bienregistro->ancho =  $request->input("ancho");
-           $bienregistro->alto =  $request->input("alto");
-           $bienregistro->orden =  $request->input("orden");
-           $bienregistro->fecha =  $request->input("fecha");
-           $bienregistro->cuenta_contable =  $request->input("cuenta_contable");
-           $bienregistro->alta =  $request->input("alta");
-           $bienregistro->vida_util =  $request->input("vida_util");
-           $bienregistro->tipo_inventario =  $request->input("tipo_inventario");
-           $bienregistro->tipo_bien =  $request->input("tipo_bien");
-           $bienregistro->enmienda =  $request->input("enmienda");
-           $bienregistro->save();
-          return redirect("inventario")->with('success', 'edit')->with("id_igreso", $bienregistro->id);
-        }*/
+           $codigo =  $request->data_codigo;
+           $descripcion =  $request->data_descripcion;
+           $cantidad =  $request->data_cantidad;
+           $valor =  $request->data_valor;
+           $orden_compra =  $request->data_orden_compra;
+           $fecha=  $request->data_fecha;
+
+           $deletes = BienRegistro::where("id_centro", $request->data_centro)->where("id_sector", $request->data_oficina)->get();
+
+           foreach ($deletes as $delete) {
+             $delete->delete();
+           }
+
+           for($i=0; $i<count($codigo);$i++){
+
+             $bienregistro = new BienRegistro();
+             $bienregistro->id_centro =  $request->data_centro;
+             $bienregistro->id_sector =  $request->data_oficina;
+             $bienregistro->correlativo =  $i + 1;
+             $bienregistro->codigo =  $codigo[$i];
+             $bienregistro->descripcion =  $descripcion[$i];
+             $bienregistro->cantidad =  $cantidad[$i];
+             $bienregistro->valor =  $valor[$i];
+             $bienregistro->orden_compra =  $orden_compra[$i];
+             $bienregistro->fecha_incorporacion = $fecha[$i];
+             $bienregistro->save();  
+
+           }
+          return redirect("bien-registro")->with('success', 'edit')->with("id_igreso", $bienregistro->id);
+        }
         return redirect("bien-registro")->with('success', 'edit');
     }
 

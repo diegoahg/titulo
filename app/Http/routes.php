@@ -35,7 +35,10 @@ Route::controller('categorias', 'CategoriasController');
 Route::controller('centrocosto', 'CentroCostoController');
 Route::controller('sector', 'SectorController');
 Route::controller('reporte-inventario', 'ReporteInventarioController');
+Route::controller('reporte-valorizacion', 'ReporteValorizacionController');
+Route::controller('reporte-vida-util', 'ReporteVidaUtilController');
 Route::controller('login','LoginController');
 Route::controller('cuentacontable', 'CuentaContableController');
+Route::controller('logs', 'LogsController');
 
 

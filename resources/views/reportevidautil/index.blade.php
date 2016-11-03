@@ -5,7 +5,7 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Reporte de Inventario
+	    Reporte de Vida Útil
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
@@ -22,7 +22,7 @@
                 <h3 class="box-title">Filtrar Bienes por:</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <form action="{{url('reporte-inventario')}}"  id="form-reporte-inventario" method="post" enctype="multipart/form-data" class="horizontal-form">
+                  <form action="{{url('reporte-vida-util')}}"  id="form-reporte-inventario" method="post" enctype="multipart/form-data" class="horizontal-form">
                   	<div class="form-body">
 						@if ($errors->has())
 							<div class="callout callout-danger">
@@ -62,27 +62,16 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Tipo Bien (*)</label>
-										<select id="tipo_bien"  name="tipo_bien" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="activo" selected>ACTIVO</option>
-											<option value="registro">REGISTRO</option> 
-											<option value="licencia">LICENCIA</option> 
-											<option value="raiz">RAIZ</option> 
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										@if($filtro == 1)
 											<button type="button" onclick="actionForm(this.form.id, 'buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@else
-											<button type="button" onclick="actionForm(this.form.id, 'reporte-inventario/buscar')" class="btn btn-block btn-primary">Filtrar</button>
+											<button type="button" onclick="actionForm(this.form.id, 'reporte-vida-util/buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@endif
 									</div>
 								</div>
 								@if($filtro == 1)
-								<div class="col-md-2">
+								<!--<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-pdf')" class="btn btn-block btn-danger">PDF</button>
@@ -93,7 +82,7 @@
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-excel')" class="btn btn-block btn-success">EXCEL</button>
 									</div>
-								</div>
+								</div>-->
 								@endif
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -101,19 +90,14 @@
 					</div> 
                   </form>
                   <table id="example1" class="table table-bordered table-striped">
-                  @if(isset($tipo_bien))
-                  	@if($tipo_bien == "activo")
+                  @if(isset($bienes))
 	                    <thead>
 	                      <tr>
 	                        <th class="text-center">N° Inventario</th>
 	                        <th class="text-center">Descripción del Bien </th>
 	                        <th class="text-center">Fecha Incorporación</th>
-	                        <th class="text-center">Marca</th>
-	                        <th class="text-center">Modelo</th>
-	                        <th class="text-center">N° Serie</th>
-	                        <th class="text-center">Largo</th>
-	                        <th class="text-center">Ancho</th>
-	                        <th class="text-center">Alto</th>
+	                        <th class="text-center">Cuenta Contable</th>
+	                        <th class="text-center">Vida Util</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
@@ -122,16 +106,11 @@
 		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
 		                        <td class="text-center">{{$bien->descripcion}}</td>
 		                        <td class="text-center">{{$bien->fecha}}</td>
-		                        <td class="text-center">{{$bien->marca}}</td>
-		                        <td class="text-center">{{$bien->modelo}}</td>
-		                        <td class="text-center">{{$bien->serie}}</td>
-		                        <td class="text-center">{{$bien->largo}}</td>
-		                        <td class="text-center">{{$bien->ancho}}</td>
-		                        <td class="text-center">{{$bien->alto}}</td>
+		                        <td class="text-center">{{$bien->cuentacontable->nombre}}</td>
+		                        <td class="text-center">{{$bien->vida_util}}</td>
 		                    </tr>
 	                    	@endforeach
 	                    </tbody>
-	                    @endif
                     @endif
                   </table>
 	            </div><!-- /.box-body -->
@@ -181,7 +160,7 @@
 
 	      $(document).ready(function() {
 				$("#reportes").addClass( "active" );
-				$("#reporte-inventario").addClass( "active" );
+				$("#reporte-vida-util").addClass( "active" );
 		        $(".select2").select2();
 
 				
@@ -189,7 +168,6 @@
 						 $('#centro').select2('val',"{{$centro}}");
 						 $('#oficina').select2('val',"{{$oficina}}");
 						 $('#oficina').prop("disabled", false);
-						 $('#tipo_bien').select2('val',"{{$tipo_bien}}");
 		        	@endif
 			});
 	 </script> 

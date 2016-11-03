@@ -233,6 +233,16 @@
               <ul class="treeview-menu">
                 <li  id="reporte-inventario"><a href="{{ asset('reporte-inventario') }}"><i class="fa fa-circle-o"></i> Reporte Inventario</a></li>
               </ul>
+              <ul class="treeview-menu">
+                <li  id="reporte-valorizacion"><a href="{{ asset('reporte-valorizacion') }}"><i class="fa fa-circle-o"></i> Reporte Valorización</a></li>
+              </ul>
+              <ul class="treeview-menu">
+                <li  id="reporte-vida-util"><a href="{{ asset('reporte-vida-util') }}"><i class="fa fa-circle-o"></i> Reporte Vida Útil</a></li>
+              </ul>
+              <!--<ul class="treeview-menu">
+                <li  id="logs"><a href="{{ asset('logs') }}"><i class="fa fa-circle-o"></i> Logs de Usuario</a></li>
+              </ul>-->
+
             </li>
           </ul>
         </section>

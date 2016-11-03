@@ -5,11 +5,11 @@
 <!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    Reporte de Inventario
+	    Reporte de Valorización
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
-	    <li class="active">Reporte de Vida Útil</li>
+	    <li class="active">Reporte de Valorización</li>
 	  </ol>
 	</section>
 
@@ -64,7 +64,8 @@
 									<div class="form-group">
 										<label class="control-label">Tipo Bien (*)</label>
 										<select id="tipo_bien"  name="tipo_bien" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="activo" selected>ACTIVO</option>
+											<option value="TODOS" selected>TODOS</option>
+											<option value="activo">ACTIVO</option>
 											<option value="registro">REGISTRO</option> 
 											<option value="licencia">LICENCIA</option> 
 											<option value="raiz">RAIZ</option> 
@@ -77,12 +78,12 @@
 										@if($filtro == 1)
 											<button type="button" onclick="actionForm(this.form.id, 'buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@else
-											<button type="button" onclick="actionForm(this.form.id, 'reporte-inventario/buscar')" class="btn btn-block btn-primary">Filtrar</button>
+											<button type="button" onclick="actionForm(this.form.id, 'reporte-valorizacion/buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@endif
 									</div>
 								</div>
 								@if($filtro == 1)
-								<div class="col-md-2">
+								<!--<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-pdf')" class="btn btn-block btn-danger">PDF</button>
@@ -93,47 +94,107 @@
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-excel')" class="btn btn-block btn-success">EXCEL</button>
 									</div>
-								</div>
+								</div>-->
 								@endif
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						</div>
 					</div> 
                   </form>
-                  <table id="example1" class="table table-bordered table-striped">
-                  @if(isset($tipo_bien))
-                  	@if($tipo_bien == "activo")
+                  
+	                @if(isset($tipos))
+	                  	@if(count($tipos) == 1)
+	                  	<table id="example1" class="table table-bordered table-striped">
 	                    <thead>
 	                      <tr>
 	                        <th class="text-center">N° Inventario</th>
 	                        <th class="text-center">Descripción del Bien </th>
 	                        <th class="text-center">Fecha Incorporación</th>
-	                        <th class="text-center">Marca</th>
-	                        <th class="text-center">Modelo</th>
-	                        <th class="text-center">N° Serie</th>
-	                        <th class="text-center">Largo</th>
-	                        <th class="text-center">Ancho</th>
-	                        <th class="text-center">Alto</th>
+	                        <th class="text-center">Valor</th>
 	                      </tr>
 	                    </thead>
+	                    <?php
+	                    	$suma_bien = 0;
+	                    ?>
 	                    <tbody>
 	                    	@foreach($bienes as $bien)
+	                    	<?php
+	                    		$suma_bien = $suma_bien + $bien->valor;
+	                    	?>
 	                    	<tr>
 		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
 		                        <td class="text-center">{{$bien->descripcion}}</td>
 		                        <td class="text-center">{{$bien->fecha}}</td>
-		                        <td class="text-center">{{$bien->marca}}</td>
-		                        <td class="text-center">{{$bien->modelo}}</td>
-		                        <td class="text-center">{{$bien->serie}}</td>
-		                        <td class="text-center">{{$bien->largo}}</td>
-		                        <td class="text-center">{{$bien->ancho}}</td>
-		                        <td class="text-center">{{$bien->alto}}</td>
+		                        <td class="text-right">${{number_format($bien->valor, 0, '', '.')}}</td>
 		                    </tr>
 	                    	@endforeach
 	                    </tbody>
+	                    <tfoot>
+	                    	<td class="text-center"></td>
+	                        <td class="text-center"></td>
+	                        <th class="text-center"> TOTAL BIEN</th>
+	                        <th class="text-right">${{number_format($suma_bien, 0, '', '.')}}</th>
+	                    </tfoot>
+					 </table>
+	                    @endif
+	                    @if(count($tipos) > 1)
+            				<?php
+		                    	$suma_total = 0;
+		                    ?>
+	                    	@for($i=0;$i<count($tipos);$i++)
+		                    <div class="box box-info">
+					            <div class="box-header with-border">
+					              <h3 class="box-title">BIEN {{$tipos[$i]}}</h3>
+					              <div class="box-tools pull-right">
+					                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </button>
+					              </div>
+					            </div>
+					            <!-- /.box-header -->
+					            <div class="box-body">
+					              <div class="table-responsive">
+					              	<table id="example1" class="table table-bordered table-striped">
+				                    	<thead>
+					                      <tr>
+					                        <th class="text-center">N° Inventario</th>
+					                        <th class="text-center">Descripción del Bien </th>
+					                        <th class="text-center">Fecha Incorporación</th>
+					                        <th class="text-center">Valor</th>
+					                      </tr>
+					                    </thead>
+					                    <?php
+					                    	$suma_bien = 0;
+					                    ?>
+					                    <tbody>
+					                    	@foreach($bienes as $bien)
+					                    	@if($bien->bien ==  $tipos[$i])
+						                    	<?php
+						                    		$suma_bien = $suma_bien + $bien->valor;
+						                    		$suma_total = $suma_total + $bien->valor;
+						                    	?>
+						                    	<tr>
+							                        <td class="text-center">{{$bien->codigo}}</td>
+							                        <td class="text-center">{{$bien->descripcion}}</td>
+							                        <td class="text-center">{{$bien->fecha_incorporacion}}</td>
+							                        <td class="text-right">${{number_format($bien->valor, 0, '', '.')}}</td>
+							                    </tr>
+							                @endif
+					                    	@endforeach
+					                    </tbody>
+					                    <tfoot>
+					                    	<td class="text-center"></td>
+					                        <td class="text-center"></td>
+					                        <th class="text-center"> TOTAL BIEN {{$tipos[$i]}}</th>
+					                        <th class="text-right">${{number_format($suma_bien, 0, '', '.')}}</th>
+					                    </tfoot>
+			                		</table>
+			                	 </div>
+			                	</div>
+			                </div>
+			                @endfor
+			                <center><h1><strong>TOTAL BIENES ${{number_format($suma_total, 0, '', '.')}}</strong></h1></center>
 	                    @endif
                     @endif
-                  </table>
 	            </div><!-- /.box-body -->
 	         </div><!-- /.box -->
 	    </div><!-- /.col -->
@@ -181,7 +242,7 @@
 
 	      $(document).ready(function() {
 				$("#reportes").addClass( "active" );
-				$("#reporte-inventario").addClass( "active" );
+				$("#reporte-valorizacion").addClass( "active" );
 		        $(".select2").select2();
 
 				

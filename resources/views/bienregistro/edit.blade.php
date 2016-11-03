@@ -56,7 +56,11 @@
 												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina" onchange="Registros()">
 													<option value="">Elegir Oficina</option> 
 													@foreach($sectors as $sector)
-														<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+														@if($sector->id == $bienregistro->id_sector)
+														<option value="{{$sector->id}}" selected>{{$sector->nombre}}</option>
+														@else
+														<option value="{{$sector->id}}">{{$sector->nombre}}</option>
+														@endif 
 													@endforeach
 												</select>
 											</div>
@@ -111,6 +115,12 @@
 					                 </div>
 				                 <br>
 				                 <br>
+
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+				         </form>
+					<form action="add"  id="form-bien-registro" method="post" enctype="multipart/form-data" class="horizontal-form">
 								<div class="row">
 									<table id="tabla_registros" class="table table-bordered table-striped">
 									    <thead>
@@ -128,6 +138,15 @@
 									    </thead>
 									    <tbody id="registros">
 									    </tbody>
+									    <tfoot>
+									    	<tr>
+												<th colspan="5" style="text-align:right">Total</th>
+												<th class="text-center" id="monto_total"></th>
+												<th></th>
+												<th></th>
+											</tr>
+
+									    </tfoot>
 									</table>
 								</div>
 							</div>
@@ -137,8 +156,9 @@
 							<a href="../inventario"class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
 						</div>
-
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" id="data_centro" name="data_centro" value="">
+						<input type="hidden" id="data_oficina" name="data_oficina" value="">
 
 					</form>
               	</div><!-- /.box -->
@@ -189,7 +209,9 @@
 	        
 	        $("#centro").select2("val", "{{$bienregistro->id_centro}}");
 	        $("#oficina").select2("val", "{{$bienregistro->id_sector}}");
-	        //Registros();
+	        Registros();
+
+
 
 
 	        //Codigo parra TYPEAHEAD
@@ -264,7 +286,10 @@
 	                url:   '/bien-registro/registros',
 	                type:  'post',
 	                success:  function (response) {
-	                		$("#registros").html(response);          
+	                		$("#registros").html(response);   
+	                		Correlativo();
+        					calcularTotal();
+        					AgregarCentroSector(centro, sector);         
 	                    }
 			    });
 
@@ -272,13 +297,14 @@
 	      }
 
 
-	     function Addregistros(){
+	    function Addregistros(){
+	     	var centro = $("#centro").val(); 
+        	var sector = $("#oficina").val();
 	      	var dataString = $('#form-registros').serialize();
 	      	var x = $("#form-registros").serializeArray();
 	      	var sw = 0;
 		    $.each(x, function(i, field){
 		        if(field.name != "_token"){
-		        	console.log(field.value);
 		        	if(field.value == "" || field.value == undefined){
 		        		alert("Debe Completar el campo " + field.name);
 		        		sw = 1;
@@ -287,9 +313,9 @@
 		        }
 		    });
 		    if(sw==0){
-		      	$.ajax({
+		      	/*$.ajax({
 	                data:  dataString,
-	                url:   '/bien-registro/addregistros',
+	                url:   'addregistros',
 	                type:  'post',
 	                success:  function (response) {
 	                	console.log(response);
@@ -303,23 +329,76 @@
 	                		$("#fecha").val("");
 	                		$("#notificacion").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4>	<i class="icon fa fa-check"></i> Bien Registrado</h4></div>');           
 	                    }
-				});
+				});*/
+				$("#codigo").val(""); 
+        		$("#descripcion").val("");
+        		$("#cantidad").val("");
+        		$("#valor").val("");
+        		$("#orden_compra").val("");
+        		$("#fecha").val("");
+        		$("#notificacion").html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4>	<i class="icon fa fa-check"></i> Bien Registrado</h4></div>');
+        		var response = "<tr>";
+        		response += "<td><button type='button' onclick='eliminarRegistro(this);'><i class='fa fa-remove'></i></button></td>"
+        			response += "<td id='num_correlativo' class='text-center'></td>"
+        		$.each(x, function(i, field){
+        			
+        			if(field.name != "_token" && field.name != "centro" && field.name != "oficina"){
+        			response += "<td class='text-center'><div id='data'>"+ field.value + "</div><input type='hidden' value='"+ field.value + "' name='data_"+ field.name + "[]'/></td>"  
+        			}
+        		});
+        		response += "</tr>";
+        		x = "";
+        		$("#registros").append(response); 
+        		Correlativo();
+        		calcularTotal();
+        		AgregarCentroSector(centro, sector);
+
 		    }
 	      }
 
-	        function DeleteRegistros(key, tr){
+	      function eliminarRegistro(element){
+	      	//console.log(element.closest("tr"));
+	      	element.closest("tr").remove();
+	      	Correlativo();
+	      }
+
+	      function AgregarCentroSector(centro, sector){
+	      	
+	      	$("#data_centro").val(centro);
+	      	$("#data_oficina").val(sector);
+	      }
+
+	    function calcularTotal(){
+	      	var suma = 0;
+	      	$('#tabla_registros tbody tr').each(function (index2) {
+	      		//console.log("a: " + $(this).find("td").eq(5).find("div").html());
+	      		suma = suma +  parseInt($(this).find("td").eq(5).find("div").html());
+	      	});
+	      	//console.log("suma: " +suma);
+	      	$('#monto_total').html("$" + suma);
+	      }
+
+	      /*  function DeleteRegistros(key, tr){
 	      	console.log(key);
 	      	var centro = $("#centro").val();
 	      	var sector = $("#oficina").val();
 	      	$("#tr" + tr).remove();
 	      		$.ajax({
 	                data:   "key=" + key + "&centro=" + centro + "&sector=" + sector +"&_token=" + "{{csrf_token()}}",
-	                url:   '/bien-registro/deleteregistros',
+	                url:   'deleteregistros',
 	                type:  'post',
 	                success:  function (response) {
 	                		$("#registros").html(response);          
 	                    }
 			    });
+	      }*/
+
+	      function Correlativo(){
+	      	var count = 1;
+	      	$('#tabla_registros tbody tr').each(function (index2) {
+	      		$(this).find("td").eq(1).html(count);
+	      		count++;
+	      	});
 	      }
 
 
