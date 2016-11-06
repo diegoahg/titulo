@@ -54,13 +54,13 @@ class ReporteInventarioController extends Controller
         if($request->centro == "TODOS"){
             $centrocostos = CentroCosto::all();
         }else{
-            $centrocostos = CentroCosto::where("id",$request->centro);
+            $centrocostos = CentroCosto::where("id",$request->centro)->get();;
         }
 
         if($request->oficina == "TODOS"){
-            $sectors = CentroCosto::all();
+            $sectors = Sector::orderBy("id_centro_costo")->get();
         }else{
-            $sectors = CentroCosto::where("id",$request->oficina);
+            $sectors = Sector::where("id",$request->oficina)->orderBy("id_centro_costo")->get();
         }
         $componentes = array();
 
