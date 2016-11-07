@@ -184,18 +184,18 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Tipo Inventario (*)</label>
-											<select required name="tipo_inventario" id="tipo_inventario" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-												<option value="Regular">Regular</option>
-												<option value="Leasing">Leasing</option>
+											<select id="tipo_inventario" required name="tipo_inventario" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+												<option value="REGULAR">REGULAR</option>
+												<option value="LEASING">LEASING</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Tipo Bien (*)</label>
-											<select required name="tipo_bien" id="tipo_bien" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-												<option value="Simple">Simple</option>
-												<option value="Complejo">Complejo</option>
+											<select id="tipo_bien" required name="tipo_bien" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+												<option value="SIMPLE">SIMPLE</option>
+												<option value="COMPLEJO">COMPLEJO</option>
 											</select>
 										</div>
 									</div>
@@ -213,26 +213,41 @@
         				</div><!-- /.box-body -->
         				<div class="box-body" id="div_componente" style="display:none;font-size:11px"">
 							<h3 class="form-section">Componentes Equipos Computacionales</h3>
-	        				<div class="row">
-								<div class="col-md-1">
+							<div class="row">
+	        					<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Código(*)</label>
+										<label class="control-label">Categoria (*)</label>
+										<select id="add_categoria" name="add_categoria" required class="form-control select2" style="width: 100%;" data-placeholder="Elegir Categoria">
+											<option value="">Elegir Categoria</option> 
+											@foreach($categorias as $categoria)
+												<option value="{{$categoria->id}}">{{$categoria->codigo}}-{{$categoria->categoria}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">Número(*)</label>
 										<input type="text" id="add_codigo" name="add_codigo" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<div class="form-group">
 										<label class="control-label">Descripción(*)</label>
 										<input type="text" id="add_descripcion" name="add_descripcion" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-3">
+								</div>
+							</div>
+	        				<div class="row">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">Nro Serie(*)</label>
 										<input type="text" id="add_serie" name="add_serie" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">Marca(*)</label>
 										<input type="text" id="add_marca" name="add_marca" class="form-control" value="">
@@ -246,17 +261,13 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-labe_l">Categoría(*)</label>
-										<input type="text" id="add_categoria" name="add_categoria" class="form-control" value="">
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
 										<label class="control-label">Tipo Componentes(*)</label>
 										<input type="text" id="add_tipo" name="add_tipo" class="form-control" value="">
 									</div>
 								</div>
 								<div class="col-md-1">
+								</div>
+								<div class="col-md-3">
 									<label class="control-label">&nbsp</label>
 									<button class="btn btn-block btn-info" type="button" onclick="AgregarLinea()"><i class="fa fa-plus-circle"></i></button>
 								</div>
@@ -269,7 +280,6 @@
 				                        <th width="10%">N° de Serie</th>
 				                        <th width="12%">Marca</th>
 				                        <th width="12%">Modelo</th>
-				                        <th width="10%">Categoría</th>
 				                        <th width="15%">Tipo Componente</th>
 				                      </tr>
 				                    </thead>
@@ -277,13 +287,13 @@
 				                    	@foreach($componentes as $key => $componente)
 				                    		<tr>
 				                    			<td><a href='javascript:EliminarLinea({{$key+1}});'><i class='fa fa-times'></i></a></td>
-				                    			<td>{{$componente->codigo}}<input type='hidden' name='comp_codigo' value='{{$componente->codigo}}'></td>
-				                    			<td>{{$componente->descripcion}}<input type='hidden' name='comp_descripcion' value='{{$componente->descripcion}}'></td>
-				                    			<td>{{$componente->serie}}<input type='hidden' name='comp_serie' value='{{$componente->serie}}'></td>
-				                    			<td>{{$componente->marca}}<input type='hidden' name='comp_marca' value='{{$componente->marca}}'></td>
-				                    			<td>{{$componente->modelo}}<input type='hidden' name='comp_modelo' value='{{$componente->modelo}}'></td>
-				                    			<td>{{$componente->categoria}}<input type='hidden' name='comp_categoria' value='{{$componente->categoria}}'>
-				                    			<td>{{$componente->tipo}}<input type='hidden' name='comp_tipo' value='{{$componente->tipo}}'></td></td>
+				                    			<td>{{$componente->category->codigo}}-{{$componente->codigo}}<input type='hidden' name='comp_codigo[]' value='{{$componente->codigo}}'></td>
+				                    			<td>{{$componente->descripcion}}<input type='hidden' name='comp_descripcion[]' value='{{$componente->descripcion}}'></td>
+				                    			<td>{{$componente->serie}}<input type='hidden' name='comp_serie[]' value='{{$componente->serie}}'></td>
+				                    			<td>{{$componente->marca}}<input type='hidden' name='comp_marca[]' value='{{$componente->marca}}'></td>
+				                    			<td>{{$componente->modelo}}<input type='hidden' name='comp_modelo[]' value='{{$componente->modelo}}'></td>
+				                    			<input type='hidden' name='comp_categoria[]' value='{{$componente->categoria}}'>
+				                    			<td>{{$componente->tipo}}<input type='hidden' name='comp_tipo[]' value='{{$componente->tipo}}'></td>
 				                    		</tr>
 				                    	@endforeach
 				                    </tbody>
@@ -326,10 +336,10 @@
 		//Evento que rellena el select cuando se escoge un elemento
 		$('#tipo_bien').change(function() {
 			var tipo_bien = $("#tipo_bien").val();
-			if(tipo_bien == "Simple"){
+			if(tipo_bien == "SIMPLE"){
 				$('#div_componente').hide();
 			}
-			if(tipo_bien == "Complejo"){
+			if(tipo_bien == "COMPLEJO"){
 				$('#div_componente').show();
 			}
 
@@ -417,15 +427,24 @@
 	      	var add_categoria = $("#add_categoria").val();
 	      	var add_tipo = $("#add_tipo").val();
 
+	      	var categorias =  {!!$categorias!!};
+
+	      	$.each(categorias, function(index, value) {
+				if (value.id == add_categoria) {
+					nom_categoria = value.categoria;
+					cod_categoria = value.codigo;
+				}
+			})
+
 	      	var table = "<tr id='tr" + cont + "'>";
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-	      	table += "<td>" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
-	      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
-	      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
-	      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
-	      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
-	      	table += "<td>" + add_categoria + "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'></td>";
-	      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
+	      	table += "<td>" + cod_categoria.toUpperCase() + "-" + add_codigo + "<input type='hidden' name='comp_codigo[]' value='" + add_codigo + "'></td>";
+	      	table += "<td>" + add_descripcion.toUpperCase() + "<input type='hidden' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
+	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
+	      	table += "<td>" + add_marca.toUpperCase() + "<input type='hidden' name='comp_marca[]' value='" + add_marca + "'></td>";
+	      	table += "<td>" + add_modelo.toUpperCase() + "<input type='hidden' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+	      	table += "<input type='hidden' name='comp_categoria[]' value='" + add_categoria + "'>";
+	      	table += "<td>" + add_tipo.toUpperCase() + "<input type='hidden' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
 
 	      	$("#componentes").append(table);

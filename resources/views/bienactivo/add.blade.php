@@ -184,8 +184,8 @@
 										<div class="form-group">
 											<label class="control-label">Tipo Inventario (*)</label>
 											<select id="tipo_inventario" required name="tipo_inventario" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-												<option value="Regular">Regular</option>
-												<option value="Leasing">Leasing</option>
+												<option value="REGULAR">REGULAR</option>
+												<option value="LEASING">LEASING</option>
 											</select>
 										</div>
 									</div>
@@ -193,8 +193,8 @@
 										<div class="form-group">
 											<label class="control-label">Tipo Bien (*)</label>
 											<select id="tipo_bien" required name="tipo_bien" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-												<option value="Simple">Simple</option>
-												<option value="Complejo">Complejo</option>
+												<option value="SIMPLE">SIMPLE</option>
+												<option value="COMPLEJO">COMPLEJO</option>
 											</select>
 										</div>
 									</div>
@@ -527,13 +527,13 @@
 
 	      	var table = "<tr id='tr" + cont + "'>";
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-	      	table += "<td>" + cod_categoria + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
-	      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
-	      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
-	      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
-	      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
-	      	table += "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'>";
-	      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
+	      	table += "<td>" + cod_categoria.toUpperCase() + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
+	      	table += "<td>" + add_descripcion.toUpperCase() + "<input type='hidden' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
+	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
+	      	table += "<td>" + add_marca.toUpperCase() + "<input type='hidden' name='comp_marca[]' value='" + add_marca + "'></td>";
+	      	table += "<td>" + add_modelo.toUpperCase() + "<input type='hidden' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+	      	table += "<input type='hidden' name='comp_categoria[]' value='" + add_categoria + "'>";
+	      	table += "<td>" + add_tipo.toUpperCase() + "<input type='hidden' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
 
 	      	$("#componentes").append(table);

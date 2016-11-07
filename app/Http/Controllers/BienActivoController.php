@@ -97,6 +97,7 @@ class BienActivoController extends Controller
             //echo "hola";
             return redirect()->back()->withInput($request->all)->withErrors($validator);
         }else{
+         
 
            $bienactivo = new BienActivo();
            $date = str_replace('/', '-', $request->fecha);
@@ -125,7 +126,7 @@ class BienActivoController extends Controller
            $bienactivo->estado =  "ACTIVO";
            $bienactivo->save();
 
-           if($bienactivo->tipo_bien == "Complejo"){
+           if($bienactivo->tipo_bien == "COMPLEJO"){
               $comp_codigo = $request->comp_codigo;
               $comp_descripcion = $request->comp_descripcion;
               $comp_serie = $request->comp_serie;
@@ -232,7 +233,7 @@ class BienActivoController extends Controller
            $bienactivo->enmienda =  strtoupper($request->input("enmienda"));
            $bienactivo->save();
 
-           if($bienactivo->tipo_bien == "Complejo"){
+           if($bienactivo->tipo_bien == "COMPLEJO"){
 
               $deletes = Componentes::where("id_bien", $bienactivo->id)->get();
               foreach ($deletes as $delete) {
