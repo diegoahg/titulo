@@ -75,6 +75,8 @@ class BienRegistroController extends Controller
            $orden_compra =  $request->data_orden_compra;
            $fecha_incorporacion =  $request->data_fecha;
 
+           $deletes = BienRegistro::where("id_centro", $request->data_centro)->where("id_sector", $request->data_oficina)->get();
+           
            foreach ($deletes as $delete) {
              $delete->delete();
            }
