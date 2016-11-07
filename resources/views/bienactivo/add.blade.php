@@ -121,19 +121,19 @@
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Largo(cm). (*)</label>
+											<label class="control-label">Largo(m). (*)</label>
 											<input type="text" id="largo" name="largo" class="form-control" required value="">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Ancho(cm). (*)</label>
+											<label class="control-label">Ancho(m). (*)</label>
 											<input type="text" id="ancho" name="ancho" class="form-control"  required value="">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Alto(cm). (*)</label>
+											<label class="control-label">Alto(m). (*)</label>
 											<input type="text" id="alto" name="alto" class="form-control" required  value="">
 										</div>
 									</div>
@@ -177,7 +177,7 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Vida Util (años). (*)</label>
-											<input type="text" id="vida_util" name="vida_util" class="form-control" required value="">
+											<input type="text" id="vida_util" name="vida_util" class="form-control" required value="10">
 										</div>
 									</div>
 									<div class="col-md-3">

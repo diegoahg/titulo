@@ -119,20 +119,20 @@
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Largo(cm). (*)</label>
+											<label class="control-label">Largo(m). (*)</label>
 											<input type="text" id="largo" name="largo" class="form-control" required value="{{ $bienactivo->largo }}">
 
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Ancho(cm). (*)</label>
+											<label class="control-label">Ancho(m). (*)</label>
 											<input type="text" id="ancho" name="ancho" class="form-control"  required value="{{ $bienactivo->ancho }}">
 										</div>
 									</div>
 									<div class="col-md-2">
 										<div class="form-group">
-											<label class="control-label">Alto(cm). (*)</label>
+											<label class="control-label">Alto(m). (*)</label>
 											<input type="text" id="alto" name="alto" class="form-control" required  value="{{ $bienactivo->alto }}">
 										</div>
 									</div>
@@ -313,7 +313,7 @@
 			$('#oficina').select2('val',"");
 			$.each(sectors, function(index, value) {
 				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					$('#oficina').append('<option value="' + value.id + '">' + value.codigo + " " + value.nombre + '</option>');
 				}
 			});
 

@@ -46,7 +46,7 @@ class BienActivoController extends Controller
         $sectors = Sector::orderBy("nombre", "ASC")->get();
         $cuentacontables = CuentaContable::all();
 
-        $tipobienes = TipoBien::orderBy("descripcion","ASC")->get();
+        $tipobienes = TipoBien::orderBy("descripcion","ASC")->groupBy("descripcion")->get();
           $json = array();
           foreach($tipobienes as $tipobien){
             array_push($json, $tipobien->descripcion);
