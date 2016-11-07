@@ -283,7 +283,7 @@
 	      	if(sector!=0){
 	      		$.ajax({
 	                data:  "centro=" + centro + "&sector=" + sector +"&_token=" + "{{csrf_token()}}",
-	                url:   '/bien-registro/registros',
+	                url:   "{{asset('/bien-registro/registros')}}",
 	                type:  'post',
 	                success:  function (response) {
 	                		$("#registros").html(response);   
