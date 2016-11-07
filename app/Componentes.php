@@ -19,4 +19,9 @@ class Componentes extends Model
 	{
 	    return $this->belongsTo('App\BienActivo', 'id_bien');
 	}
+
+	public function category()
+	{
+	    return $this->belongsTo('App\Categoria', 'categoria');
+	}
 }

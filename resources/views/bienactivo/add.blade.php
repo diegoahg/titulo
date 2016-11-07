@@ -215,19 +215,34 @@
         				<div class="box-body" id="div_componente" style="display:none;font-size:11px">
 							<h3 class="form-section">Componentes Equipos Computacionales</h3>
 	        				<div class="row">
-								<div class="col-md-1">
+	        					<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Código(*)</label>
+										<label class="control-label">Categoria (*)</label>
+										<select id="add_categoria" name="add_categoria" required class="form-control select2" style="width: 100%;" data-placeholder="Elegir Categoria">
+											<option value="">Elegir Categoria</option> 
+											@foreach($categorias as $categoria)
+												<option value="{{$categoria->id}}">{{$categoria->codigo}}-{{$categoria->categoria}}</option>
+											@endforeach
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label class="control-label">Número(*)</label>
 										<input type="text" id="add_codigo" name="add_codigo" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<div class="form-group">
 										<label class="control-label">Descripción(*)</label>
 										<input type="text" id="add_descripcion" name="add_descripcion" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-1">
+								<div class="col-md-3">
+								</div>
+							</div>
+						 	<div class="row">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">Nro Serie(*)</label>
 										<input type="text" id="add_serie" name="add_serie" class="form-control" value="">
@@ -245,21 +260,18 @@
 										<input type="text" id="add_modelo" name="add_modelo" class="form-control" value="">
 									</div>
 								</div>
-								<div class="col-md-1">
-									<div class="form-group">
-										<label class="control-labe_l">Categoría(*)</label>
-										<input type="text" id="add_categoria" name="add_categoria" class="form-control" value="">
-									</div>
-								</div>
 								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">Tipo Componentes(*)</label>
 										<input type="text" id="add_tipo" name="add_tipo" class="form-control" value="">
 									</div>
 								</div>
+
 								<div class="col-md-1">
+								</div>
+								<div class="col-md-3">
 									<label class="control-label">&nbsp</label>
-									<button class="btn btn-block btn-info" type="button" onclick="AgregarLinea()"><i class="fa fa-plus-circle"></i></button>
+									<button class="btn btn-block btn-info" type="button" onclick="AgregarLinea()">Agregar Componenete<i class="fa fa-plus-circle"></i></button>
 								</div>
 	        					<table id="" class="table table-bordered">
 				                    <thead>
@@ -270,7 +282,6 @@
 				                        <th width="10%">N° de Serie</th>
 				                        <th width="12%">Marca</th>
 				                        <th width="12%">Modelo</th>
-				                        <th width="10%">Categoría</th>
 				                        <th width="15%">Tipo Componente</th>
 				                      </tr>
 				                    </thead>
@@ -413,7 +424,7 @@
 			  };
 			};
 
-			var bienes = {!!$json!!}
+			var bienes = {!!$json!!};
 
 			$('#bienes .typeahead').typeahead({
 			  hint: true,
@@ -445,7 +456,7 @@
                 		$("#cuenta_contable").val(response.cuenta_contable);     
                 		$("#alta").val(response.alta);   
                 		$("#vida_util").val(response.vida_util);  
-                		$("#tipo_inventario").select2("val",response.tipo_inventario);
+                		$("#tipo_inventario").select2("val","'" + response.tipo_inventario + "'");
                 		$("#enmienda").select2("val",response.enmienda);       
 
                     }
@@ -503,15 +514,25 @@
 	      	var add_modelo = $("#add_modelo").val();
 	      	var add_categoria = $("#add_categoria").val();
 	      	var add_tipo = $("#add_tipo").val();
+	      	var nom_categoria;
+	      	var cod_categoria;
+			var categorias =  {!!$categorias!!};
+
+	      	$.each(categorias, function(index, value) {
+				if (value.id == add_categoria) {
+					nom_categoria = value.categoria;
+					cod_categoria = value.codigo;
+				}
+			})
 
 	      	var table = "<tr id='tr" + cont + "'>";
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-	      	table += "<td>" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
+	      	table += "<td>" + cod_categoria + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
 	      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
 	      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
 	      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
 	      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
-	      	table += "<td>" + add_categoria + "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'></td>";
+	      	table += "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'>";
 	      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
 
