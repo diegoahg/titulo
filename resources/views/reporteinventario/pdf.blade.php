@@ -82,7 +82,7 @@
         <tbody>
           @foreach($bienes as $orden => $bien)
               <tr>
-                    <td>{{$orden + 1}}</td>
+                    <td>{{$orden + 1}})</td>
                     <td>{{$bien->category->codigo}}-{{$bien->numero}}</td>
                     <td>{{$bien->descripcion}}</td>
                     <td>{{$bien->fecha}}</td>

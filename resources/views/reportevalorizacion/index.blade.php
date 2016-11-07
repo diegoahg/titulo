@@ -68,7 +68,7 @@
 											<option value="activo">ACTIVO</option>
 											<option value="registro">REGISTRO</option> 
 											<option value="licencia">LICENCIA</option> 
-											<option value="raiz">RAIZ</option> 
+											<!--<option value="raiz">RAIZ</option> -->
 										</select>
 									</div>
 								</div>
@@ -83,7 +83,7 @@
 									</div>
 								</div>
 								@if($filtro == 1)
-								<!--<div class="col-md-2">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-pdf')" class="btn btn-block btn-danger">PDF</button>
@@ -94,107 +94,76 @@
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-excel')" class="btn btn-block btn-success">EXCEL</button>
 									</div>
-								</div>-->
+								</div>
 								@endif
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						</div>
 					</div> 
                   </form>
-                  
-	                @if(isset($tipos))
-	                  	@if(count($tipos) == 1)
-	                  	<table id="example1" class="table table-bordered table-striped">
-	                    <thead>
-	                      <tr>
-	                        <th class="text-center">N° Inventario</th>
-	                        <th class="text-center">Descripción del Bien </th>
-	                        <th class="text-center">Fecha Incorporación</th>
-	                        <th class="text-center">Valor</th>
-	                      </tr>
-	                    </thead>
-	                    <?php
-	                    	$suma_bien = 0;
-	                    ?>
-	                    <tbody>
-	                    	@foreach($bienes as $bien)
-	                    	<?php
-	                    		$suma_bien = $suma_bien + $bien->valor;
-	                    	?>
-	                    	<tr>
-		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
-		                        <td class="text-center">{{$bien->descripcion}}</td>
-		                        <td class="text-center">{{$bien->fecha}}</td>
-		                        <td class="text-right">${{number_format($bien->valor, 0, '', '.')}}</td>
-		                    </tr>
-	                    	@endforeach
-	                    </tbody>
-	                    <tfoot>
-	                    	<td class="text-center"></td>
-	                        <td class="text-center"></td>
-	                        <th class="text-center"> TOTAL BIEN</th>
-	                        <th class="text-right">${{number_format($suma_bien, 0, '', '.')}}</th>
-	                    </tfoot>
-					 </table>
-	                    @endif
-	                    @if(count($tipos) > 1)
-            				<?php
-		                    	$suma_total = 0;
-		                    ?>
-	                    	@for($i=0;$i<count($tipos);$i++)
-		                    <div class="box box-info">
-					            <div class="box-header with-border">
-					              <h3 class="box-title">BIEN {{$tipos[$i]}}</h3>
-					              <div class="box-tools pull-right">
-					                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-					                </button>
-					              </div>
-					            </div>
-					            <!-- /.box-header -->
-					            <div class="box-body">
-					              <div class="table-responsive">
-					              	<table id="example1" class="table table-bordered table-striped">
-				                    	<thead>
-					                      <tr>
-					                        <th class="text-center">N° Inventario</th>
-					                        <th class="text-center">Descripción del Bien </th>
-					                        <th class="text-center">Fecha Incorporación</th>
-					                        <th class="text-center">Valor</th>
-					                      </tr>
-					                    </thead>
-					                    <?php
-					                    	$suma_bien = 0;
-					                    ?>
-					                    <tbody>
-					                    	@foreach($bienes as $bien)
-					                    	@if($bien->bien ==  $tipos[$i])
-						                    	<?php
-						                    		$suma_bien = $suma_bien + $bien->valor;
-						                    		$suma_total = $suma_total + $bien->valor;
-						                    	?>
-						                    	<tr>
-							                        <td class="text-center">{{$bien->codigo}}</td>
-							                        <td class="text-center">{{$bien->descripcion}}</td>
-							                        <td class="text-center">{{$bien->fecha_incorporacion}}</td>
-							                        <td class="text-right">${{number_format($bien->valor, 0, '', '.')}}</td>
-							                    </tr>
-							                @endif
-					                    	@endforeach
-					                    </tbody>
-					                    <tfoot>
-					                    	<td class="text-center"></td>
-					                        <td class="text-center"></td>
-					                        <th class="text-center"> TOTAL BIEN {{$tipos[$i]}}</th>
-					                        <th class="text-right">${{number_format($suma_bien, 0, '', '.')}}</th>
-					                    </tfoot>
-			                		</table>
-			                	 </div>
-			                	</div>
-			                </div>
-			                @endfor
-			                <center><h1><strong>TOTAL BIENES ${{number_format($suma_total, 0, '', '.')}}</strong></h1></center>
-	                    @endif
-                    @endif
+                  <?php $suma_total_inicial = 0; $suma_total_residual = 0;?>
+                 	@foreach($preg_sectors as $key => $sector)
+                 	    <div class="box box-info">
+					        <div class="box-header with-border">
+				              <h3 class="box-title">SECTOR: {{$sector->codigo}} {{$sector->nombre}}, CENTRO COSTO: {{$sector->centrocosto->codigo}} {{$sector->centrocosto->nombre}} </h3>
+				              <div class="box-tools pull-right">
+				                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				                </button>
+				              </div>
+				            </div>
+				            <!-- /.box-header -->
+				            <div class="box-body">
+				              <div class="table-responsive">
+			                  	<table id="example1" class="table table-bordered table-striped">
+			                    <thead>
+				                      <th>Orden</th>
+							          <th>Número Inventario</th>
+							          <th>Descripción del Bien</th>
+							          <th>Fecha Incorporación</th>
+							          <th>Tipo Bien</th>
+							          <th>Vida Util</th>
+							          <th>Valor Inicial</th>
+							          <th>Valor Residual</th>
+			                    </thead>
+			                    <tbody>
+						      	<?php $suma_sector_inicial = 0; $suma_sector_residual = 0; ?>
+						        @foreach($bienes as $s => $bien)
+						          @if($sector->id == $bien->id_sector)
+						          <tr>
+						            <td class="text-center">{{$s + 1}})</td>
+						            <td class="text-center">{{$bien->codigo}}</td>
+						            <td class="text-center">{{$bien->descripcion}}</td>
+						            <td class="text-center">{{$bien->fecha_incorporacion}}</td>
+						            <td class="text-center">{{$bien->bien}}</td>
+						            <td class="text-center">{{$bien->vida_util}}</td>
+						            <td class="text-right">${{number_format($bien->valor, 0, '', '.')}}</td>
+						            <td class="text-right">${{number_format($bien->residual, 0, '', '.')}}</td>
+						          </tr>
+						          <?php $suma_sector_inicial = $bien->valor + $suma_sector_inicial; ?>
+						          <?php $suma_sector_residual = $bien->valor + $suma_sector_residual; ?>
+						          <?php $suma_total_inicial = $bien->valor + $suma_total_inicial; ?>
+						          <?php $suma_total_residual = $bien->valor + $suma_total_residual; ?>
+						          @endif
+						        @endforeach
+						        </tbody>
+			                    <tfoot>
+			                    	<td class="text-center"></td>
+			                    	<td class="text-center"></td>
+			                    	<td class="text-center"></td>
+			                    	<td class="text-center"></td>
+			                    	<td class="text-center"></td>
+			                        <td class="text-center">TOTAL SECTOR</td>
+			                        <th class="text-right">${{number_format($suma_sector_inicial, 0, '', '.')}}</th>
+			                        <th class="text-right">${{number_format($suma_sector_residual, 0, '', '.')}}</th>
+			                    </tfoot>
+							 </table>
+
+		                	 </div>
+		                	</div>
+		                </div>
+                   	@endforeach
+			                <center><h1><strong>TOTAL VALOR INICIAL ${{number_format($suma_total_inicial, 0, '', '.')}}</strong></h1></center>
+			                <center><h1><strong>TOTAL VALOR RESIDUAL ${{number_format($suma_total_residual, 0, '', '.')}}</strong></h1></center>
 	            </div><!-- /.box-body -->
 	         </div><!-- /.box -->
 	    </div><!-- /.col -->

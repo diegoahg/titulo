@@ -1,3 +1,4 @@
+<?php use App\Sector as Sector; ?>
 <html>
   <title>
     Plancheta
@@ -18,71 +19,34 @@
     <table>
         <thead>
           <tr>
-            <th class="text-center">ORDEN</th>
-            <th class="text-center">N° INVENTARIO</th>
-            <th class="text-center">DESCRIPCION DEL BIEN </th>
-            <th class="text-center">FECHA INSCRIPCIÓN</th>
-            <th class="text-center">MARCA</th>
-            <th class="text-center">MODELO</th>
-            <th class="text-center">N° SERIE</th>
-            <th class="text-center">LARGO</th>
-            <th class="text-center">ANCHO</th>
-            <th class="text-center">ALTO</th>
+            <th>Orden</th>
+            <th>Número Inventario</th>
+            <th>Descripción del Bien</th>
+            <th>Fecha Incorporación</th>
+            <th>Centro de Costo</th>
+            <th>Sector</th>
+            <th>Tipo Bien</th>
+            <th>Vida Util</th>
+            <th>Valor Inicial</th>
+            <th>Valor Residual</th>
           </tr>
         </thead>
         <tbody>
-          @if($tipo_bien == "activo")
             @foreach($bienes as $key => $bien)
+              <?php $sector = Sector::find($bien->id_sector); ?>
                 <tr>
-                      <td class="text-center">{{$key + 1}}</td>
-                      <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
-                      <td class="text-center">{{$bien->descripcion}}</td>
-                      <td class="text-center">{{$bien->fecha}}</td>
-                      <td class="text-center">{{$bien->marca}}</td>
-                      <td class="text-center">{{$bien->modelo}}</td>
-                      <td class="text-center">{{$bien->serie}}</td>
-                      <td class="text-center">{{$bien->largo}}</td>
-                      <td class="text-center">{{$bien->ancho}}</td>
-                      <td class="text-center">{{$bien->alto}}</td>
+                      <td>{{$key + 1}}</td>
+                      <td>{{$bien->codigo}}</td>
+                      <td>{{$bien->descripcion}}</td>
+                      <td>{{$bien->fecha_incorporacion}}</td>
+                      <td>{{$sector->centrocosto->nombre}}</td>
+                      <td>{{$sector->nombre}}</td>
+                      <td>{{$bien->bien}}</td>
+                      <td>{{$bien->vida_util}}</td>
+                      <td>{{$bien->valor}}</td>
+                      <td>{{$bien->residual}}</td>
                   </tr>
-                  <?php $bien_components = array_get($componentes, $bien->id); ?>
-                  @if(count($bien_components)>0)
-                      <tr>
-                          <th class="text-center"></th>
-                          <th class="text-center"></th>
-                          <th class="text-center">Código</th>
-                          <th class="text-center" colspan="3">Descripción del Componente </th>
-                          <th class="text-center">Marca</th>
-                          <th class="text-center">Modelo</th>
-                          <th class="text-center">Número de Serie</th>
-                          <th class="text-center"></th>
-                      </tr>
-                      <tr>
-                          <th class="text-center"></th>
-                          <td class="text-center"></td>
-                          <td class="text-center" colspan="8"><hr style="border:1px dotted;"></td>
-                      </tr> 
-                  @foreach($bien_components as $bien_component)
-                      <tr>
-                          <th class="text-center"></th>
-                          <td class="text-center"></td>
-                          <td class="text-center">{{$bien_component["codigo"]}}</td>
-                          <td class="text-center" colspan="3">{{$bien_component["descripcion"]}}</td>
-                          <td class="text-center">{{$bien_component["marca"]}}</td>
-                          <td class="text-center">{{$bien_component["modelo"]}}</td>
-                          <td class="text-center">{{$bien_component["serie"]}}</td>
-                          <td class="text-center"></td>
-                      </tr>  
-                  @endforeach
-
-                  <tr>
-                      <th class="text-center"></th>
-                      <td class="text-center"></td>
-                      <td class="text-center" colspan="8" ><hr></td>
-                  </tr>
-                  @endif
             @endforeach
-          @endif
         </tbody>
       </table>  
   </body>

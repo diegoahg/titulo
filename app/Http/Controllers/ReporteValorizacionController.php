@@ -43,67 +43,175 @@ class ReporteValorizacionController extends Controller
         $sectors = Sector::all();
         $filtro = 1;
         if($request->tipo_bien == "TODOS"){
-            $tipos = array("ACTIVO", "REGISTRO", "LICENCIA", "RAIZ");
+            $tipos = array("ACTIVO", "REGISTRO", "LICENCIA");
         }
         else{
            $tipos = array("BIEN"); 
         }
-        return view('reportevalorizacion/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("bienes",$bienes)->with("filtro",$filtro)->with("centro", $request->centro)->with("oficina", $request->oficina)->with("tipo_bien", $request->tipo_bien)->with("tipos", $tipos);
+
+        if($request->oficina == "TODOS"){
+            $preg_sectors = Sector::orderBy("id_centro_costo")->get();
+        }else{
+            $preg_sectors = Sector::where("id",$request->oficina)->orderBy("id_centro_costo")->get();
+        }
+
+        return view('reportevalorizacion/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("preg_sectors",$preg_sectors)->with("bienes",$bienes)->with("filtro",$filtro)->with("centro", $request->centro)->with("oficina", $request->oficina)->with("tipo_bien", $request->tipo_bien)->with("tipos", $tipos);
+    }
+
+    public function postExportarPdf(Request $request)
+    {
+        $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
+
+        if($request->centro == "TODOS"){
+            $centrocostos = CentroCosto::all();
+        }else{
+            $centrocostos = CentroCosto::where("id",$request->centro)->get();;
+        }
+
+        if($request->oficina == "TODOS"){
+            $sectors = Sector::orderBy("id_centro_costo")->get();
+        }else{
+            $sectors = Sector::where("id",$request->oficina)->orderBy("id_centro_costo")->get();
+        }
+
+        $filtro = 1;
+        if($request->tipo_bien == "TODOS"){
+            $tipos = array("ACTIVO", "REGISTRO", "LICENCIA");
+        }
+        else{
+           $tipos = array("BIEN"); 
+        }
+
+        $html = view('reportevalorizacion/pdf')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("bienes",$bienes)->with("filtro",$filtro)->with("centro", $request->centro)->with("oficina", $request->oficina)->with("tipo_bien", $request->tipo_bien)->with("tipos", $tipos);
+         return PDF::loadHTML($html)->setPaper('letter')->setWarnings(false)->stream();
+    }
+
+     public function postExportarExcel(Request $request){
+        Excel::create('Reporte Inventario', function($excel) use ($request){
+            $excel->sheet('Reporte Inventario', function($sheet) use ($request){
+                $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
+                
+                
+                $sheet->loadView('reportevalorizacion/excel')->with("bienes",$bienes);
+            });
+        })->export('xls');
     }
 
     public function obtieneBien($tipo_bien, $centro, $oficina){
+        $bienes = [];
         switch ($tipo_bien) {
             case 'activo':
                 if($centro == "TODOS"){
-                    $bienes = BienActivo::all();
+                    $values = BienActivo::all();
                 }
                 else{
                     if($oficina == "TODOS"){
-                        $bienes = BienActivo::where("id_centro",$centro)->get();
+                        $values = BienActivo::where("id_centro",$centro)->get();
                     }else{
-                        $bienes = BienActivo::where("id_centro",$centro)->where("id_sector",$oficina)->get();
+                        $values = BienActivo::where("id_centro",$centro)->where("id_sector",$oficina)->get();
                     }
+                }
+                foreach ($values as $key => $value) {
+                    $data = new \stdClass;
+                    $data->codigo = $value->category->codigo."-".$value->numero;
+                    $data->descripcion = $value->descripcion;
+                    $data->fecha_incorporacion = $value->fecha;
+                    $data->valor = $value->valor;
+                    $data->id_centro = $value->id_centro;
+                    $data->id_sector = $value->id_sector;
+                    $data->vida_util = $value->vida_util;
+                    $particion = explode("/", $data->fecha_incorporacion);
+
+                    //CALCULAR VALOR RESIDUAL
+                    $depreciacion = $value->valor/(pow($value->vida_util,1));
+                    $valor_final = $value->valor;
+                    $anos = date("Y")-$particion[2];
+                    if($anos>=$data->vida_util){
+                        $valor_final = 0;
+                    }else{
+                        $valor_final = $valor_final - ($depreciacion * $anos);
+                    }
+                    //FINCALCULAR VALOR RESIDUAL
+
+                    $data->residual = round($valor_final);
+                    $data->bien = "ACTIVO";
+                    $bienes[] = $data;
                 }
                 break;
             case 'registro':
                 if($centro == "TODOS"){
-                    $bienes = BienRegistro::all();
+                    $values = BienRegistro::all();
                 }
                 else{
                     if($oficina == "TODOS"){
-                        $bienes = BienRegistro::where("id_centro",$centro)->get();
+                        $values = BienRegistro::where("id_centro",$centro)->get();
                     }else{
-                        $bienes = BienRegistro::where("id_centro",$centro)->where("id_sector",$oficina)->get();
+                        $values = BienRegistro::where("id_centro",$centro)->where("id_sector",$oficina)->get();
                     }
+                }
+                foreach ($values as $key => $value) {
+                    $data = new \stdClass;
+                    $data->codigo = $value->numero;
+                    $data->descripcion = $value->descripcion;
+                    $data->fecha_incorporacion = $value->fecha_incorporacion;
+                    $data->valor = $value->valor;
+                    $data->id_centro = $value->id_centro;
+                    $data->id_sector = $value->id_sector;
+                    $data->residual = $value->valor;
+                    $data->bien = "LICENCIA";
+                    $bienes[] = $data;
                 }
                 break;
             case 'licencia':
                 if($centro == "TODOS"){
-                    $bienes = BienLicencia::all();
+                    $values = BienLicencia::all();
                 }
                 else{
                     if($oficina == "TODOS"){
-                        $bienes = BienLicencia::where("id_centro",$centro)->get();
+                        $values = BienLicencia::where("id_centro",$centro)->get();
                     }else{
-                        $bienes = BienLicencia::where("id_centro",$centro)->where("id_sector",$oficina)->get();
+                        $values = BienLicencia::where("id_centro",$centro)->where("id_sector",$oficina)->get();
                     }
+                }
+                foreach ($values as $key => $value) {
+                    $data = new \stdClass;
+                    $data->codigo = $value->numero;
+                    $data->descripcion = $value->descripcion;
+                    $data->fecha_incorporacion = $value->fecha_incorporacion;
+                    $data->valor = $value->valor;
+                    $data->id_centro = $value->id_centro;
+                    $data->id_sector = $value->id_sector;
+                    $data->residual = $value->valor;
+                    $data->bien = "LICENCIA";
+                    $bienes[] = $data;
                 }
                 break;
             case 'raiz':
                 if($centro == "TODOS"){
-                    $bienes = BienRaiz::all();
+                    $values = BienRaiz::all();
                 }
                 else{
                     if($oficina == "TODOS"){
-                        $bienes = BienRaiz::where("id_centro",$centro)->get();
+                        $values = BienRaiz::where("id_centro",$centro)->get();
                     }else{
-                        $bienes = BienRaiz::where("id_centro",$centro)->where("id_sector",$oficina)->get();
+                        $values = BienRaiz::where("id_centro",$centro)->where("id_sector",$oficina)->get();
                     }
+                }
+                foreach ($values as $key => $value) {
+                    $data = new \stdClass;
+                    $data->codigo = "";
+                    $data->descripcion = $value->descripcion;
+                    $data->fecha_incorporacion = $value->fecha_incorporacion;
+                    $data->valor = $value->avaluo_fiscal;
+                    $data->id_centro = $value->id_centro;
+                    $data->id_sector = $value->id_sector;
+                    $data->residual = $value->valor;
+                    $data->bien = "RAIZ";
+                    $bienes[] = $data;
                 }
                 break;
 
             case 'TODOS':
-                $bienes = [];
                 if($centro == "TODOS"){
                     $values = BienActivo::all();
                     foreach ($values as $key => $value) {
@@ -112,6 +220,23 @@ class ReporteValorizacionController extends Controller
                         $data->descripcion = $value->descripcion;
                         $data->fecha_incorporacion = $value->fecha;
                         $data->valor = $value->valor;
+                        $data->id_centro = $value->id_centro;
+                        $data->id_sector = $value->id_sector;
+                        $data->vida_util = $value->vida_util;
+                        $particion = explode("/", $data->fecha_incorporacion);
+
+                        //CALCULAR VALOR RESIDUAL
+                        $depreciacion = $value->valor/(pow($value->vida_util,1));
+                        $valor_final = $value->valor;
+                        $anos = date("Y")-$particion[2];
+                        if($anos>=$data->vida_util){
+                            $valor_final = 0;
+                        }else{
+                            $valor_final = $valor_final - ($depreciacion * $anos);
+                        }
+                        //FINCALCULAR VALOR RESIDUAL
+
+                        $data->residual = round($valor_final);
                         $data->bien = "ACTIVO";
                         $bienes[] = $data;
                     }
@@ -122,6 +247,9 @@ class ReporteValorizacionController extends Controller
                         $data->descripcion = $value->descripcion;
                         $data->fecha_incorporacion = $value->fecha_incorporacion;
                         $data->valor = $value->valor;
+                        $data->id_centro = $value->id_centro;
+                        $data->id_sector = $value->id_sector;
+                        $data->residual = $value->valor;
                         $data->bien = "LICENCIA";
                         $bienes[] = $data;
                     }
@@ -132,6 +260,9 @@ class ReporteValorizacionController extends Controller
                         $data->descripcion = $value->descripcion;
                         $data->fecha_incorporacion = $value->fecha_incorporacion;
                         $data->valor = $value->valor;
+                        $data->id_centro = $value->id_centro;
+                        $data->id_sector = $value->id_sector;
+                        $data->residual = $value->valor;
                         $data->bien = "REGISTRO";
                         $bienes[] = $data;
                     }
@@ -142,6 +273,9 @@ class ReporteValorizacionController extends Controller
                         $data->descripcion = $value->descripcion;
                         $data->fecha_incorporacion = $value->fecha_incorporacion;
                         $data->valor = $value->avaluo_fiscal;
+                        $data->id_centro = $value->id_centro;
+                        $data->id_sector = $value->id_sector;
+                        $data->residual = $value->valor;
                         $data->bien = "RAIZ";
                         $bienes[] = $data;
                     }
@@ -155,6 +289,24 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = $value->vida_util;
+
+                            $particion = explode("/", $data->fecha_incorporacion);
+                            
+                            //CALCULAR VALOR RESIDUAL
+                            $depreciacion = $value->valor/(pow($value->vida_util,1));
+                            $valor_final = $value->valor;
+                            $anos = date("Y")-$particion[2];
+                            if($anos>=$data->vida_util){
+                                $valor_final = 0;
+                            }else{
+                                $valor_final = $valor_final - ($depreciacion * $anos);
+                            }
+                            //FINCALCULAR VALOR RESIDUAL
+
+                            $data->residual = round($valor_final);
                             $data->bien = "ACTIVO";
                             $bienes[] = $data;
                         }
@@ -165,6 +317,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "LICENCIA";
                             $bienes[] = $data;
                         }
@@ -175,6 +331,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "REGISTRO";
                             $bienes[] = $data;
                         }
@@ -185,6 +345,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->avaluo_fiscal;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "RAIZ";
                             $bienes[] = $data;
                         }
@@ -196,6 +360,23 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = $value->vida_util;
+
+                            $particion = explode("/", $data->fecha_incorporacion);
+                            //CALCULAR VALOR RESIDUAL
+                            $depreciacion = $value->valor/(pow($value->vida_util,1));
+                            $valor_final = $value->valor;
+                            $anos = date("Y")-$particion[2];
+                            if($anos>=$data->vida_util){
+                                $valor_final = 0;
+                            }else{
+                                $valor_final = $valor_final - ($depreciacion * $anos);
+                            }
+                            //FINCALCULAR VALOR RESIDUAL
+
+                            $data->residual = round($valor_final);
                             $data->bien = "ACTIVO";
                             $bienes[] = $data;
                         }
@@ -206,6 +387,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "LICENCIA";
                             $bienes[] = $data;
                         }
@@ -216,6 +401,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->valor;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "REGISTRO";
                             $bienes[] = $data;
                         }
@@ -226,6 +415,10 @@ class ReporteValorizacionController extends Controller
                             $data->descripcion = $value->descripcion;
                             $data->fecha_incorporacion = $value->fecha_incorporacion;
                             $data->valor = $value->avaluo_fiscal;
+                            $data->id_centro = $value->id_centro;
+                            $data->id_sector = $value->id_sector;
+                            $data->vida_util = 0;
+                            $data->residual = $value->valor;
                             $data->bien = "RAIZ";
                             $bienes[] = $data;
                         }
