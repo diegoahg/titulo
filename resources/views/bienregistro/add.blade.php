@@ -178,7 +178,7 @@
 			$('#oficina').select2('val',"");
 			$.each(sectors, function(index, value) {
 				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					$('#oficina').append('<option value="' + value.id + '">' + value.codigo + ' '  + value.nombre + '</option>');
 				}
 			});
 
