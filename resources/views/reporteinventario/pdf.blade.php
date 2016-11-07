@@ -15,9 +15,9 @@
         <td style="text-align: center;width: 40%">UNIVERSIDAD TECNÓLOGICA METROPOLITANA<br>DEPARTAMENTO DE ABASTECIMIENTO<br>UNIDAD DE INVENTARIOS</td>
         <td style=";width: 42%"></td>
         <td style="text-align: left;width: 18%"> 
-              FECHA  : {{date("d/m/Y")}}<br>
-              HORA   : {{date("H:i:s")}}<br>
-              PÁGINA :  <span class="page"> </span><br>
+              FECHA  : <span style="text-align: right;">{{date("d/m/Y")}} </span><br>
+              HORA   : <span style="text-align: right;">{{date("H:i:s")}} </span><br>
+              PÁGINA :  <span class="page" style="text-align: right;"> </span><br>
         </td>
       </tr>
     </table>

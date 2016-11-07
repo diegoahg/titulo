@@ -45,7 +45,7 @@
 												<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 													<option value="">Elegir Centro de Costo</option> 
 													@foreach($centrocostos as $centrocosto)
-														<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+														<option value="{{$centrocosto->id}}">{{$centrocosto->codigo}} {{$centrocosto->nombre}}</option> 
 													@endforeach
 												</select>
 											</div>
@@ -57,9 +57,9 @@
 													<option value="">Elegir Oficina</option> 
 													@foreach($sectors as $sector)
 														@if($sector->id == $bienregistro->id_sector)
-														<option value="{{$sector->id}}" selected>{{$sector->nombre}}</option>
+														<option value="{{$sector->id}}" selected>{{$sector->codigo}} {{$sector->nombre}}</option>
 														@else
-														<option value="{{$sector->id}}">{{$sector->nombre}}</option>
+														<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option>
 														@endif 
 													@endforeach
 												</select>
@@ -182,7 +182,7 @@
 			$('#oficina').select2('val',"");
 			$.each(sectors, function(index, value) {
 				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					$('#oficina').append('<option value="' + value.id + '">' + value.codigo + ' ' + value.nombre + '</option>');
 				}
 			});
 
