@@ -33,27 +33,53 @@ class ReporteVidaUtilController extends Controller
         $centrocostos = CentroCosto::all();
         $sectors = Sector::all();
         $filtro = 0;
-        return view('reportevidautil/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("filtro",$filtro);
+        return view('reportevidautil/index')->with("filtro",$filtro);
     }
 
     public function postBuscar(Request $request)
     {
-        $bienes = $this->obtieneBien($request->centro,$request->oficina);
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $bienes = $this->obtieneBien($request->ano);
+        $bienes = $this->filtroBien($bienes,$request->ano);
         $filtro = 1;
-        return view('reportevidautil/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("bienes",$bienes)->with("filtro",$filtro)->with("centro", $request->centro)->with("oficina", $request->oficina);
+        return view('reportevidautil/index')->with("bienes",$bienes)->with("filtro",$filtro)->with("ano", $request->ano);
     }
 
-    public function obtieneBien($centro, $oficina){
-        if($centro == "TODOS"){
-            $bienes = BienActivo::all();
+    public function obtieneBien(){
+        $values = BienActivo::all();
+        $bienes = [];
+        foreach ($values as $key => $value) {
+            $data = new \stdClass;
+            $data->codigo = $value->category->codigo."-".$value->numero;
+            $data->descripcion = $value->descripcion;
+            $data->fecha_incorporacion = $value->fecha;
+            $data->id_centro = $value->id_centro;
+            $data->id_sector = $value->id_sector;
+            $data->id_cuenta_contable = $value->id_sector;
+            $data->centro = $value->centrocosto->nombre;
+            $data->sector = $value->sector->nombre;
+            $data->cuenta_contable = $value->cuenta_contable->nombre;
+            $data->vida_util = $value->vida_util;
+
+            $particion = explode("/", $data->fecha_incorporacion);
+            $data->expiracion = $particion[2]+$value->vida_util;
+            $bienes[] = $data;
         }
-        else{
-            if($oficina == "TODOS"){
-                $bienes = BienActivo::where("id_centro",$centro)->get();
-            }else{
-                $bienes = BienActivo::where("id_centro",$centro)->where("id_sector",$oficina)->get();
+        return $bienes;
+    }
+
+    public function filtroBien($values, $ano){
+        $bienes = [];
+        if($ano == 0){
+            foreach ($values as $key => $value) {
+                if($value->expiracion < date("Y")){
+                    $bienes[] = $value;
+                }
+            }
+        }else{
+            foreach ($values as $key => $value) {
+                if($value->expiracion = $ano){
+                    $bienes[] = $value;
+                }
             }
         }
         return $bienes;

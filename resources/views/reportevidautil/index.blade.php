@@ -39,24 +39,12 @@
 						<div class="row">
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Centro de Costo (*)</label>
-										<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-											<option value="TODOS">TODOS</option> 
-											@foreach($centrocostos as $centrocosto)
-
-												<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
-											@endforeach
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">Oficina (*)</label>
-										<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="TODOS">TODOS</option> 
-											@foreach($sectors as $sector)
-												<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
-											@endforeach
+										<label class="control-label">Año de Caducidad</label>
+										<select id="ano" name="ano" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+											<option value="0">HASTA LA FECHA</option> 
+											@for($i=date("Y");$i<(date("Y")+21);$i++)
+												<option value="{{$i}}">{{$i}}</option> 
+											@endfor
 										</select>
 									</div>
 								</div>
@@ -71,7 +59,7 @@
 									</div>
 								</div>
 								@if($filtro == 1)
-								<!--<div class="col-md-2">
+								<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-pdf')" class="btn btn-block btn-danger">PDF</button>
@@ -82,7 +70,7 @@
 										<label class="control-label">&nbsp</label>
 										<button type="button" onclick="actionForm(this.form.id, 'exportar-excel')" class="btn btn-block btn-success">EXCEL</button>
 									</div>
-								</div>-->
+								</div>
 								@endif
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -96,8 +84,11 @@
 	                        <th class="text-center">N° Inventario</th>
 	                        <th class="text-center">Descripción del Bien </th>
 	                        <th class="text-center">Fecha Incorporación</th>
+	                        <th class="text-center">Centro de Costo</th>
+	                        <th class="text-center">Sector</th>
 	                        <th class="text-center">Cuenta Contable</th>
 	                        <th class="text-center">Vida Util</th>
+	                        <th class="text-center">Año Expiración</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
@@ -106,8 +97,11 @@
 		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
 		                        <td class="text-center">{{$bien->descripcion}}</td>
 		                        <td class="text-center">{{$bien->fecha}}</td>
-		                        <td class="text-center">{{$bien->cuentacontable->nombre}}</td>
+		                        <td class="text-center">{{$bien->centro}}</td>
+		                        <td class="text-center">{{$bien->secto}}</td>
+		                        <td class="text-center">{{$bien->cuentacontable}}</td>
 		                        <td class="text-center">{{$bien->vida_util}}</td>
+		                        <td class="text-center">{{$bien->expiracion}}</td>
 		                    </tr>
 	                    	@endforeach
 	                    </tbody>
@@ -125,33 +119,7 @@
 	<script>
 
 
-		//Evento que rellena el select cuando se escoge un elemento
-		$('#centro').change(function() {
-			$('#oficina').prop("disabled", false);
-			var sectors = {!!$sectors!!};
 
-			if($('#centro').val()=="TODOS"){
-				$('#oficina').empty();
-				$('#oficina').append('<option value="TODOS">TODOS</option>');
-				$('#oficina').select2('val',"TODOS");
-				$('#oficina').prop("disabled", true);
-				return false;
-			}
-
-			$('#oficina').empty();
-			$('#oficina').append('<option value="TODOS">TODOS</option>');
-			$('#oficina').select2('val',"TODOS");
-			$.each(sectors, function(index, value) {
-				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
-				}
-			});
-
-			if ($('#centro').val() == '') {
-				$('#oficina').prop("disabled", true);
-			}
-
-		});
 
 		function actionForm(formid,url){
 				$("#" + formid).attr('action', url);
@@ -165,9 +133,7 @@
 
 				
 				 	@if($filtro == 1)
-						 $('#centro').select2('val',"{{$centro}}");
-						 $('#oficina').select2('val',"{{$oficina}}");
-						 $('#oficina').prop("disabled", false);
+						 $('#ano').select2('val',"{{$ano}}");
 		        	@endif
 			});
 	 </script> 
