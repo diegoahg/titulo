@@ -334,7 +334,7 @@
         		$.each(x, function(i, field){
         			
         			if(field.name != "_token" && field.name != "centro" && field.name != "oficina"){
-        			response += "<td class='text-center'><div id='data'>"+ field.value + "</div><input type='hidden' value='"+ field.value + "' name='data_"+ field.name + "[]'/></td>"  
+        			response += "<td class='text-center'><div id='data'>"+ field.value.toUpperCase() + "</div><input type='hidden' value='"+ field.value.toUpperCase() + "' name='data_"+ field.name + "[]'/></td>"  
         			}
         		});
         		response += "</tr>";

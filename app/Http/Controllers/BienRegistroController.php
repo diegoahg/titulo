@@ -76,7 +76,7 @@ class BienRegistroController extends Controller
            $fecha_incorporacion =  $request->data_fecha;
 
            $deletes = BienRegistro::where("id_centro", $request->data_centro)->where("id_sector", $request->data_oficina)->get();
-           
+
            foreach ($deletes as $delete) {
              $delete->delete();
            }
@@ -88,11 +88,11 @@ class BienRegistroController extends Controller
              $bienregistro->id_centro =  $request->data_centro;
              $bienregistro->id_sector =  $request->data_oficina;
              $bienregistro->correlativo =  $i + 1;
-             $bienregistro->codigo =  $codigo[$i];
-             $bienregistro->descripcion =  $descripcion[$i];
+             $bienregistro->codigo =  strtoupper($codigo[$i]);
+             $bienregistro->descripcion =  strtoupper($descripcion[$i]);
              $bienregistro->cantidad =  $cantidad[$i];
              $bienregistro->valor =  $valor[$i];
-             $bienregistro->orden_compra =  $orden_compra[$i];
+             $bienregistro->orden_compra =  strtoupper($orden_compra[$i]);
              $bienregistro->fecha_incorporacion = $fecha_incorporacion[$i];
              $bienregistro->save();  
 
@@ -169,11 +169,11 @@ class BienRegistroController extends Controller
              $bienregistro->id_centro =  $request->data_centro;
              $bienregistro->id_sector =  $request->data_oficina;
              $bienregistro->correlativo =  $i + 1;
-             $bienregistro->codigo =  $codigo[$i];
-             $bienregistro->descripcion =  $descripcion[$i];
+             $bienregistro->codigo =  strtoupper($codigo[$i]);
+             $bienregistro->descripcion =  strtoupper($descripcion[$i]);
              $bienregistro->cantidad =  $cantidad[$i];
              $bienregistro->valor =  $valor[$i];
-             $bienregistro->orden_compra =  $orden_compra[$i];
+             $bienregistro->orden_compra =  strtoupper($orden_compra[$i]);
              $bienregistro->fecha_incorporacion = $fecha[$i];
              $bienregistro->save();  
 
