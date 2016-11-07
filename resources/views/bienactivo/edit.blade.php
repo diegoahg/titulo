@@ -43,7 +43,7 @@
 												<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 													<option value="">Elegir Centro de Costo</option> 
 													@foreach($centrocostos as $centrocosto)
-														<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+														<option value="{{$centrocosto->id}}">{{$centrocosto->codigo}} {{$centrocosto->nombre}}</option> 
 													@endforeach
 												</select>
 											</div>
@@ -54,7 +54,7 @@
 												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
 													<option value="">Elegir Oficina</option> 
 													@foreach($sectors as $sector)
-														<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+														<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option> 
 													@endforeach
 												</select>
 											</div>
