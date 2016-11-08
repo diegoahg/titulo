@@ -1,159 +1,40 @@
 <html>
-	<title>
-		Plancheta
-	</title>
-	<head>
-		<style type="text/css">
-			body{
-				font-size: 8px;
-        font-family: '911', "Agency FB", verdana, helvetica, sans-serif; 
-			}
-
-			.text-center{
-				text-align: center;
-			}
-
-      .header,{
-          width: 100%;
-          text-align: center;
-          position: relative;
-      }
-      .header {
-          top: 0px;
-      }
-      .pagenum:before {
-          content: counter(page);
-      }
-		</style>
-	</head>
-	<body>
-    
-		<div class="header">
-      <table  width="100%" border="0">
-        <tr>
-            <td style="text-align: left;width:50%">
-              UNIVERSIDAD TECNOLÓGICA METROPOLITANA<br>
-              DEPARTAMENTO DE ABASTECIMIENTO<br>
-              UNIDAD DE INVENTARIOS<br>
-            </td>
-            <td style="text-align: right;width:50%">
-              FECHA  : {{date("Y-m-d")}}<br>
-              HORA   : {{date("H-i-s")}}<br>
-              Página :  <span class="pagenum"></span><br>
-            </td>
-         <tr>
-      </table>
-
-      <U><center>PLANCHETA DE BIENES</center></u>
-
-      <table  width="100%" border="0">
-        <tr>
-            <td style="text-align: left;width:50%">
-              CENTRO DE COSTO<br>
-              OFICINA<br>
-              DIRECCIÓN<br>
-            </td>
-         <tr>
-      </table>
-
-      
-      <br>
-      <br>
-    </div>
-		<table width="100%" class="text-center">
-      @if($tipo_bien == "activo")
-        <thead>
-          @for($i=0; $i<30; $i++)
-          <tr>
-            <th class="text-center">ORDEN</th>
-            <th class="text-center">N° INVENTARIO</th>
-            <th class="text-center">DESCRIPCION DEL BIEN </th>
-            <th class="text-center">FECHA INSCRIPCIÓN</th>
-            <th class="text-center">MARCA</th>
-            <th class="text-center">MODELO</th>
-            <th class="text-center">N° SERIE</th>
-            <th class="text-center">LARGO</th>
-            <th class="text-center">ANCHO</th>
-            <th class="text-center">ALTO</th>
-          </tr>
-          @endfor
-        </thead>
-        <tbody>
-        	@foreach($bienes as $key => $bien)
-            	<tr>
-                    <td class="text-center">{{$key + 1}})</td>
-                    <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
-                    <td class="text-center">{{$bien->descripcion}}</td>
-                    <td class="text-center">{{$bien->fecha}}</td>
-                    <td class="text-center">{{$bien->marca}}</td>
-                    <td class="text-center">{{$bien->modelo}}</td>
-                    <td class="text-center">{{$bien->serie}}</td>
-                    <td class="text-center">{{$bien->largo}}</td>
-                    <td class="text-center">{{$bien->ancho}}</td>
-                    <td class="text-center">{{$bien->alto}}</td>
-                </tr>
-                <?php $bien_components = array_get($componentes, $bien->id); ?>
-                @if(count($bien_components)>0)
-                    <tr>
-                        <th class="text-center"></th>
-                        <th class="text-center"></th>
-                        <th class="text-center">Código</th>
-                        <th class="text-center" colspan="3">Descripción del Componente </th>
-                        <th class="text-center">Marca</th>
-                        <th class="text-center">Modelo</th>
-                        <th class="text-center">Número de Serie</th>
-                        <th class="text-center"></th>
-                    </tr>
-                    <tr>
-                        <th class="text-center"></th>
-                        <td class="text-center"></td>
-                        <td class="text-center" colspan="8"><hr style="border:1px dotted;"></td>
-                    </tr> 
-                @foreach($bien_components as $bien_component)
-                    <tr>
-                        <th class="text-center"></th>
-                        <td class="text-center"></td>
-                        <td class="text-center">{{$bien_component["codigo"]}}</td>
-                        <td class="text-center" colspan="3">{{$bien_component["descripcion"]}}</td>
-                        <td class="text-center">{{$bien_component["marca"]}}</td>
-                        <td class="text-center">{{$bien_component["modelo"]}}</td>
-                        <td class="text-center">{{$bien_component["serie"]}}</td>
-                        <td class="text-center"></td>
-                    </tr>  
-                @endforeach
-
-                <tr>
-                    <th class="text-center"></th>
-                    <td class="text-center"></td>
-                    <td class="text-center" colspan="8" ><hr></td>
-                </tr>
-                @endif
-        	@endforeach
-
-        </tbody>
-        @endif
-      </table>  
-      <br><br><br><br><br><br><br><br><br>
-        <table  width="100%" border="0">
-            <tr>
-              <td style="width:20%">
-              </td>
-              <td style="width:20%">
-              <hr><br>
-              <center>Firma Unidad</center><br>
-              </td>
-              <td style="width:20%">
-              </td>
-              <td style="width:20%">
-              <hr>
-              <center>Firma Encargado de Oficina</center><br>
-              </td>
-              <td style="width:20%">
-              </td>
-           <tr>
-        </table>
-        <br>
-     <table  width="50%" border="0">
+<title>Reporte</title>
+<head>
+  <style>
+    @page { margin-top: 150px; margin-bottom: 150px;font-size: 12px}
+    #header { position: fixed; left: 0px; top: -150px; right: 0px; height: 150px; margin-top: 20px}
+    #nota { position: fixed; left: 0px; bottom: -150px; right: 0px; height: 150px; }
+    #header .page:after { content: counter(page); }
+    #content { margin-left: : 50px;  margin-right: 50px }
+  </style>
+<body>
+  <div id="header">
+    <table width="100%" border="0">
+      <tr>
+        <td style="text-align: center;width: 40%">UNIVERSIDAD TECNÓLOGICA METROPOLITANA<br>DEPARTAMENTO DE ABASTECIMIENTO<br>UNIDAD DE INVENTARIOS</td>
+        <td style=";width: 42%"></td>
+        <td style="text-align: left;width: 18%"> 
+              FECHA  : <span style="text-align: right;">{{date("d/m/Y")}} </span><br>
+              HORA   : <span style="text-align: right;">{{date("H:i:s")}} </span><br>
+              PÁGINA :  <span class="page" style="text-align: right;"> </span><br>
+        </td>
+      </tr>
+    </table>
+    <table width="100%" border="0">
+      <tr>
+        <td style="text-align: center;">PLANCHETA DE BIENES</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">---------------------------------------------</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">REPORTE DE VIDA UTIL</td>
+      </tr>
+    </table>
+  </div>
+  <div id="nota">
+    <table  width="50%" border="0">
         <tr>
           <td style="width:10%" style="text-align: right;">
             NOTA:
@@ -162,7 +43,38 @@
             ESTA ESTRICTAMENTE PROHIBIDO EFECTUAR MOVIMIENTO DE LOS BIENES AQUÍ ESPEFICADOS SIN LA AUTORIZACION DEL JEFE DE LA OFICINA Y DE LA UNIDAD DE INVENTARIOS
           </td>
        <tr>
+    </table> 
+  </div>
+  <div id="content">   
+    <table width="100%" style="margin-top: 20px; margin-bottom: 20px;text-align:center;">
+      <thead>
+        <tr>
+          <th>N° Inventario</th>
+          <th>Descripción del Bien </th>
+          <th>Fecha Incorporación</th>
+          <th>Centro de Costo</th>
+          <th>Sector</th>
+          <th>Cuenta Contable</th>
+          <th>Vida Util</th>
+          <th>Año Expiración</th>
+        </tr>
+      </thead>
+      <tbody>
+            @foreach($bienes as $bien)
+            <tr>
+                <td class="text-center">{{$bien->codigo}}</td>
+                <td class="text-center">{{$bien->descripcion}}</td>
+                <td class="text-center">{{$bien->fecha_incorporacion}}</td>
+                <td class="text-center">{{$bien->centro}}</td>
+                <td class="text-center">{{$bien->sector}}</td>
+                <td class="text-center">{{$bien->cuenta_contable}}</td>
+                <td class="text-center">{{$bien->vida_util}}</td>
+                <td class="text-center">{{$bien->expiracion}}</td>
+            </tr>
+            @endforeach
+        </tbody>
+      
     </table>
-        
-	</body>
+  </div>
+</body>
 </html>

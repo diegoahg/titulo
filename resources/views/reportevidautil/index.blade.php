@@ -94,12 +94,12 @@
 	                    <tbody>
 	                    	@foreach($bienes as $bien)
 	                    	<tr>
-		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
+		                        <td class="text-center">{{$bien->codigo}}</td>
 		                        <td class="text-center">{{$bien->descripcion}}</td>
-		                        <td class="text-center">{{$bien->fecha}}</td>
+		                        <td class="text-center">{{$bien->fecha_incorporacion}}</td>
 		                        <td class="text-center">{{$bien->centro}}</td>
-		                        <td class="text-center">{{$bien->secto}}</td>
-		                        <td class="text-center">{{$bien->cuentacontable}}</td>
+		                        <td class="text-center">{{$bien->sector}}</td>
+		                        <td class="text-center">{{$bien->cuenta_contable}}</td>
 		                        <td class="text-center">{{$bien->vida_util}}</td>
 		                        <td class="text-center">{{$bien->expiracion}}</td>
 		                    </tr>

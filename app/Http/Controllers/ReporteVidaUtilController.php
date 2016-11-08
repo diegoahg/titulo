@@ -44,6 +44,27 @@ class ReporteVidaUtilController extends Controller
         return view('reportevidautil/index')->with("bienes",$bienes)->with("filtro",$filtro)->with("ano", $request->ano);
     }
 
+    public function postExportarPdf(Request $request)
+    {
+        $bienes = $this->obtieneBien($request->ano);
+        $bienes = $this->filtroBien($bienes,$request->ano);
+
+        $html = view('reportevidautil/pdf')->with("bienes",$bienes);
+         return PDF::loadHTML($html)->setPaper('letter')->setWarnings(false)->stream();
+    }
+
+     public function postExportarExcel(Request $request){
+        Excel::create('Reporte Inventario', function($excel) use ($request){
+            $excel->sheet('Reporte Inventario', function($sheet) use ($request){
+                $bienes = $this->obtieneBien($request->ano);
+                $bienes = $this->filtroBien($bienes,$request->ano);
+                
+                
+                $sheet->loadView('reportevidautil/excel')->with("bienes",$bienes);
+            });
+        })->export('xls');
+    }
+
     public function obtieneBien(){
         $values = BienActivo::all();
         $bienes = [];
@@ -54,10 +75,10 @@ class ReporteVidaUtilController extends Controller
             $data->fecha_incorporacion = $value->fecha;
             $data->id_centro = $value->id_centro;
             $data->id_sector = $value->id_sector;
-            $data->id_cuenta_contable = $value->id_sector;
+            $data->id_cuenta_contable = $value->cuenta_contable;
             $data->centro = $value->centrocosto->nombre;
             $data->sector = $value->sector->nombre;
-            $data->cuenta_contable = $value->cuenta_contable->nombre;
+            $data->cuenta_contable = $value->cuentacontable->nombre;
             $data->vida_util = $value->vida_util;
 
             $particion = explode("/", $data->fecha_incorporacion);
@@ -77,7 +98,7 @@ class ReporteVidaUtilController extends Controller
             }
         }else{
             foreach ($values as $key => $value) {
-                if($value->expiracion = $ano){
+                if($value->expiracion == $ano){
                     $bienes[] = $value;
                 }
             }
