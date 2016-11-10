@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -41,10 +42,12 @@
 									<div class="form-group">
 										<label class="control-label">Centro de Costo (*)</label>
 										<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-											<option value="TODOS">TODOS</option> 
+											@if($auth_user->permisos<=3)
+											<option value="TODOS">TODOS</option>
+										@endif 
 											@foreach($centrocostos as $centrocosto)
 
-												<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+												<option value="{{$centrocosto->id}}">{{$centrocosto->codigo}} {{$centrocosto->nombre}}</option> 
 											@endforeach
 										</select>
 									</div>
@@ -53,10 +56,12 @@
 									<div class="form-group">
 										<label class="control-label">Oficina (*)</label>
 										<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="TODOS">TODOS</option> 
-											@foreach($sectors as $sector)
-												<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
-											@endforeach
+											@if($auth_user->permisos<=3)
+												<option value="TODOS">TODOS</option>
+											@endif 
+											<!--@foreach($sectors as $sector)
+												<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option> 
+											@endforeach-->
 										</select>
 									</div>
 								</div>
@@ -194,7 +199,7 @@
 			$('#oficina').select2('val',"TODOS");
 			$.each(sectors, function(index, value) {
 				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					$('#oficina').append('<option value="' + value.id + '">' + value.codigo + ' ' + value.nombre + '</option>');
 				}
 			});
 
@@ -205,6 +210,10 @@
 		});
 
 		function actionForm(formid,url){
+			console.log(url);
+				if(url != "buscar" && url != "reporte-valorizacion/buscar"){
+					$("#" + formid).attr('target', "_blank");
+				}
 				$("#" + formid).attr('action', url);
 	  	   		$("#" + formid).submit();
 	  	}
@@ -213,6 +222,8 @@
 				$("#reportes").addClass( "active" );
 				$("#reporte-valorizacion").addClass( "active" );
 		        $(".select2").select2();
+
+		        $('#oficina').prop("disabled", false);
 
 				
 				 	@if($filtro == 1)

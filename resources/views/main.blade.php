@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -18,6 +19,7 @@
 	<section class="content">
 	  <!-- Small boxes (Stat box) -->
 	  <div class="row">
+	  	@if($auth_user->permisos <= 3)
 	    <div class="col-lg-3 col-xs-6">
 	      <!-- small box -->
 	      <div class="small-box bg-aqua">
@@ -70,6 +72,12 @@
 	        <a href="{{asset('sector')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
+	    @else
+	    	<div class="col-lg-12 col-xs-12">
+	   			<center><h2>Bienvenido al Software de Inventario de</h2></center> 	
+	   			<center><h2>la Universidad Tecnologica Metropolitana</h2></center>
+	   		</div>
+	    @endif
 	  </div><!-- /.row -->
 	  <!-- Main row -->
 

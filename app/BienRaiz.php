@@ -29,4 +29,9 @@ class BienRaiz extends Model
 	{
 	    return $this->belongsTo('App\Sector', 'id_sector');
 	}
+
+	public function cuentacontable()
+	{
+	    return $this->belongsTo('App\CuentaContable', 'cuenta_contable');
+	}
 }

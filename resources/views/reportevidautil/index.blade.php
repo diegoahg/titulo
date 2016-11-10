@@ -122,6 +122,9 @@
 
 
 		function actionForm(formid,url){
+				if(url != "buscar" && url != "reporte-vida-util/buscar"){
+					$("#" + formid).attr('target', "_blank");
+				}
 				$("#" + formid).attr('action', url);
 	  	   		$("#" + formid).submit();
 	  	}

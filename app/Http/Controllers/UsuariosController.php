@@ -159,7 +159,7 @@ class UsuariosController extends Controller
            $user->apellido_paterno = strtoupper($request->input("apellido_paterno"));
            $user->apellido_materno = strtoupper($request->input("apellido_materno"));
            $user->email = strtoupper($request->input("correo"));
-           $user->password = Hash::make($request->input("password"));
+           //$user->password = Hash::make($request->input("password"));
            $user->fono = strtoupper($request->input("fono"));
            $user->movil = strtoupper($request->input("movil"));
            $user->departamento = "";

@@ -29,7 +29,18 @@ class BienActivoController extends Controller
     
     public function getIndex()
     {
-        $bienactivos = BienActivo::all();
+
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $bienactivos = BienActivo::all();
+        }
+        elseif($auth_user->permisos==3 || $auth_user->permisos==4){
+          $bienactivos = BienActivo::where("id_centro",$auth_user->id_centro)->get();
+        }
+        elseif($auth_user->permisos==5){
+          $bienactivos = BienActivo::where("id_sector",$auth_user->id_sector)->get();
+        }
+        
         return view('bienactivo/index')->with("bienactivos",$bienactivos);
     }
 

@@ -30,17 +30,40 @@ class ReporteValorizacionController extends Controller
 
     public function getIndex()
     {
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $centrocostos = CentroCosto::all();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==3 ){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==5 || $auth_user->permisos==4){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::where("id",$auth_user->sector)->get();
+        }
         $filtro = 0;
-        return view('reportevalorizacion/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("filtro",$filtro);
+        $preg_sectors = array();
+        return view('reportevalorizacion/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("filtro",$filtro)->with("preg_sectors",$preg_sectors);
     }
 
     public function postBuscar(Request $request)
     {
         $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $centrocostos = CentroCosto::all();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==3 ){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==5 || $auth_user->permisos==4){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::where("id",$auth_user->sector)->get();
+        }
         $filtro = 1;
         if($request->tipo_bien == "TODOS"){
             $tipos = array("ACTIVO", "REGISTRO", "LICENCIA");

@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -54,7 +55,6 @@
 	                        <th width="35%">Descripcion</th>
 	                        <th width="20%">Centro de Costo</th>
 	                        <th width="20%">Sector</th>
-	                        <th width="20%">Estado</th>
 	                        <th width="15%">Acción</th>
 	                      </tr>
 	                    </thead>
@@ -66,16 +66,10 @@
 	                        <td>{{$bienlicencia->centrocosto->nombre}}</td>
 	                        <td>{{$bienlicencia->sector->nombre}}</td>
 	                        <td>
-	                        	<select class="form-control select2" style="width: 100%;" name="estado" id="estado" onchange="CambiarEstado('{{Crypt::encrypt($bienlicencia->id)}}')">
-			                      	<option value="{{$bienlicencia->estado}}" selected="selected">{{$bienlicencia->estado}}</option>
-			                      	<option value="ACTIVO">ACTIVO</option>
-			                      	<option value="SUMARIO">SUMARIO</option>
-			                      	<option value="BAJA">BAJA</option>
-			                    </select>
-			                    <input type="hidden" name="_key" value="{{Crypt::encrypt($bienlicencia->id)}}">
-	                        </td>
-	                        <td>
-	                        	<a href="/bien-licencia/edit/{{Crypt::encrypt($bienlicencia->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        	<button type="button" class="btn btn-info view-data" data-role="{{$bienlicencia->id}}"><i class="fa fa-info"></i></button>
+	                        	@if($auth_user->permisos<=2)
+	                        	<a href="/bien-licencia/edit/{{Crypt::encrypt($bienlicencia->id)}}" class="btn btn-block btn-success"><i class="fa fa-edit"></i></a>
+	                        	@endif
 	                        </td>
 	                      </tr>
 	                     @endforeach
@@ -86,7 +80,6 @@
                         <th>Descripcion</th>
                         <th>Centro de Costo</th>
                         <th>Sector</th>
-	                    <th>Estado</th>
                         <th>Acción</th>
                       </tr>
                     </tfoot>
@@ -122,6 +115,14 @@
 					console.log(data);
 				});
 	      }
+
+	      $(".view-data").click(function(){
+				  var data = $(this).data("role");
+				  $.get( "{{asset('bien-licencia/view/')}}/" + data, function( data ) {
+					  $( "#modal" ).html( data );
+					  $( "#modalVer" ).modal();
+					});
+				});
 
 	    </script> 
 	@stop     

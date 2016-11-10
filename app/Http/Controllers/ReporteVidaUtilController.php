@@ -30,8 +30,6 @@ class ReporteVidaUtilController extends Controller
 
     public function getIndex()
     {
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
         $filtro = 0;
         return view('reportevidautil/index')->with("filtro",$filtro);
     }

@@ -45,12 +45,12 @@
 												<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 													<option value="">Elegir Centro de Costo</option> 
 													@foreach($centrocostos as $centrocosto)
-														<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+														<option value="{{$centrocosto->id}}">{{$centrocosto->codigo}} {{$centrocosto->nombre}}</option> 
 													@endforeach
 												</select>
 											</div>
 										</div>
-										<div class="col-md-3">
+										<!--<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Oficina (*)</label>
 												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
@@ -60,7 +60,7 @@
 													@endforeach
 												</select>
 											</div>
-										</div>
+										</div>-->
 								</div>
 								<h3 class="form-section">Datos de Bien Raiz</h3>
 								<div class="row">							
@@ -96,12 +96,14 @@
 											<input type="text" id="valor_total" required name="valor_total" class="form-control"  value="">
 										</div>
 									</div>											
-									<div class="col-md-3">
-										<div class="form-group">
+									<div class="form-group">
 											<label class="control-label">Cuenta Contable. (*)</label>
-											<input type="text" id="cuenta_contable" required name="cuenta_contable" class="form-control"  value="">
-										</div>
-									</div>											
+											<select id="cuenta_contable" required name="cuenta_contable" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+													@foreach($cuentacontables as $cuentacontable)
+														<option value="{{$cuentacontable->id}}">{{$cuentacontable->nombre}}</option> 
+													@endforeach
+											</select>
+										</div>										
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Numero Alta. (*)</label>
@@ -187,7 +189,7 @@
 		<script>
 
 		//Evento que rellena el select cuando se escoge un elemento
-		$('#centro').change(function() {
+		/*$('#centro').change(function() {
 			$('#oficina').prop("disabled", false);
 			var sectors = {!!$sectors!!};
 
@@ -204,7 +206,7 @@
 				$('#oficina').prop("disabled", true);
 			}
 
-		});
+		});*/
 
 	      $(function () {
 	        $("#example1").DataTable();
@@ -224,7 +226,7 @@
 
 	        //console.log("asd");
 	         $("#centro").select2("val","{{ $bienraiz->id_centro }}");
-	         $("#oficina").select2("val","{{$bienraiz->id_sector}}");
+	         //$("#oficina").select2("val","{{$bienraiz->id_sector}}");
 	         $("#valor_inicial").val("{{$bienraiz->valor_inicial}}");
 	         $("#avaluo_fiscal").val("{{$bienraiz->avaluo_fiscal}}");
 	         $("#num_rol").val("{{$bienraiz->num_rol}}");
@@ -232,7 +234,7 @@
 	         $("#num_alta").val("{{$bienraiz->num_alta}}");
 	         $("#orden_compra").val("{{$bienraiz->orden_compra}}");
 	         $("#fecha").val("{{$bienraiz->fecha_incorporacion}}");
-	         $("#cuenta_contable").val("{{$bienraiz->cuenta_contable}}");
+	         $("#cuenta_contable").select2("val","{{$bienraiz->cuenta_contable}}");
 	         $("#tipo_inventario").select2("val","{{$bienraiz->tipo_inventario}}");
 	         $("#tipo_bien").select2("val","{{$bienraiz->tipo_bien}}");
 	         $("#mejora").select2("val","{{$bienraiz->mejora}}");
@@ -241,7 +243,7 @@
 
 	        @if(old('centro'))
 	         $("#centro").select2("val","{{old('centro')}}");
-	         $("#oficina").select2("val","{{old('oficina')}}");
+	         //$("#oficina").select2("val","{{old('oficina')}}");
 	         $("#valor_inicial").val("{{old('valor_inicial')}}");
 	         $("#avaluo_fiscal").val("{{old('avaluo_fiscal')}}");
 	         $("#num_rol").val("{{old('num_rol')}}");

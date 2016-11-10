@@ -24,8 +24,23 @@ class BienLicenciaController extends Controller
     
     public function getIndex()
     {
+      $auth_user = Auth::user();
+      if($auth_user->permisos<=2){
         $bienlicencias = BienLicencia::all();
-        return view('bienlicencia/index')->with("bienlicencias",$bienlicencias);
+      }
+      elseif($auth_user->permisos==3 || $auth_user->permisos==4){
+        $bienlicencias = BienLicencia::where("id_centro",$auth_user->id_centro)->get();
+      }
+      elseif($auth_user->permisos==5){
+        $bienlicencias = BienLicencia::where("id_sector",$auth_user->id_sector)->get();
+      }
+      return view('bienlicencia/index')->with("bienlicencias",$bienlicencias);
+    }
+
+    public function getView($id)
+    {
+        $bienlicencia = BienLicencia::findOrFail($id);
+        return view('bienlicencia/modalview')->with("bienlicencia", $bienlicencia);
     }
 
     public function getAdd()

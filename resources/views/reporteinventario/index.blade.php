@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -41,10 +42,12 @@
 									<div class="form-group">
 										<label class="control-label">Centro de Costo (*)</label>
 										<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-											<option value="TODOS">TODOS</option> 
+										@if($auth_user->permisos<=3)
+											<option value="TODOS">TODOS</option>
+										@endif 
 											@foreach($centrocostos as $centrocosto)
 
-												<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+												<option value="{{$centrocosto->id}}">{{$centrocosto->codigo}} {{$centrocosto->nombre}}</option> 
 											@endforeach
 										</select>
 									</div>
@@ -53,10 +56,12 @@
 									<div class="form-group">
 										<label class="control-label">Oficina (*)</label>
 										<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
+											@if($auth_user->permisos<=3)
 											<option value="TODOS">TODOS</option> 
-											@foreach($sectors as $sector)
-												<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
-											@endforeach
+											@endif 
+											<!--@foreach($sectors as $sector)
+												<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option> 
+											@endforeach-->
 										</select>
 									</div>
 								</div>
@@ -67,7 +72,7 @@
 											<option value="activo" selected>ACTIVO</option>
 											<option value="registro">REGISTRO</option> 
 											<option value="licencia">LICENCIA</option> 
-											<option value="raiz">RAIZ</option> 
+											<!--<option value="raiz">RAIZ</option> -->
 										</select>
 									</div>
 								</div>
@@ -131,8 +136,54 @@
 		                    </tr>
 	                    	@endforeach
 	                    </tbody>
-	                    @endif
-                    @endif
+	                @endif
+	                @if($tipo_bien == "registro")
+	                    <thead>
+	                      <tr>
+	                        <th class="text-center">Codigo</th>
+	                        <th class="text-center">Descripción</th>
+	                        <th class="text-center">Cantidad</th>
+	                        <th class="text-center">Orden Compra</th>
+	                        <th class="text-center">Fecha de Registro</th>
+	                      </tr>
+	                    </thead>
+	                    <tbody>
+	                    	@foreach($bienes as $bien)
+	                    	<tr>
+		                        <td class="text-center">{{$bien->codigo}}</td>
+		                        <td class="text-center">{{$bien->descripcion}}</td>
+		                        <td class="text-center">{{$bien->cantidad}}</td>
+		                        <td class="text-center">{{$bien->orden_compra}}</td>
+		                        <td class="text-center">{{$bien->fecha_incorporacion}}</td>
+		                    </tr>
+	                    	@endforeach
+	                    </tbody>
+	                @endif
+                  	@if($tipo_bien == "licencia")
+	                    <thead>
+	                      <tr>
+	                        <th class="text-center">Codigo</th>
+	                        <th class="text-center">Descripción del Bien </th>
+	                        <th class="text-center">Fecha Incorporación</th>
+	                        <th class="text-center">Marca</th>
+	                        <th class="text-center">Modelo</th>
+	                        <th class="text-center">N° Serie</th>
+	                      </tr>
+	                    </thead>
+	                    <tbody>
+	                    	@foreach($bienes as $bien)
+	                    	<tr>
+		                        <td class="text-center">{{$bien->numero}}</td>
+		                        <td class="text-center">{{$bien->descripcion}}</td>
+		                        <td class="text-center">{{$bien->fecha}}</td>
+		                        <td class="text-center">{{$bien->marca}}</td>
+		                        <td class="text-center">{{$bien->modelo}}</td>
+		                        <td class="text-center">{{$bien->serie}}</td>
+		                    </tr>
+	                    	@endforeach
+	                    </tbody>
+	                @endif
+                @endif
                   </table>
 	            </div><!-- /.box-body -->
 	         </div><!-- /.box -->
@@ -153,18 +204,22 @@
 
 			if($('#centro').val()=="TODOS"){
 				$('#oficina').empty();
+				@if($auth_user->permisos<=3)
 				$('#oficina').append('<option value="TODOS">TODOS</option>');
 				$('#oficina').select2('val',"TODOS");
+				@endif
 				$('#oficina').prop("disabled", true);
 				return false;
 			}
 
 			$('#oficina').empty();
+			@if($auth_user->permisos<=3)
 			$('#oficina').append('<option value="TODOS">TODOS</option>');
 			$('#oficina').select2('val',"TODOS");
+			@endif
 			$.each(sectors, function(index, value) {
 				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+					$('#oficina').append('<option value="' + value.id + '">' + value.codigo + ' ' + value.nombre + '</option>');
 				}
 			});
 
@@ -175,6 +230,9 @@
 		});
 
 		function actionForm(formid,url){
+				if(url != "buscar" && url != "reporte-inventario/buscar"){
+					$("#" + formid).attr('target', "_blank");
+				}
 				$("#" + formid).attr('action', url);
 	  	   		$("#" + formid).submit();
 	  	}
@@ -184,11 +242,13 @@
 				$("#reporte-inventario").addClass( "active" );
 		        $(".select2").select2();
 
+		       
+
+						 $('#oficina').prop("disabled", false);
 				
 				 	@if($filtro == 1)
 						 $('#centro').select2('val',"{{$centro}}");
 						 $('#oficina').select2('val',"{{$oficina}}");
-						 $('#oficina').prop("disabled", false);
 						 $('#tipo_bien').select2('val',"{{$tipo_bien}}");
 		        	@endif
 			});

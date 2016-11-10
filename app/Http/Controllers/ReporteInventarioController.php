@@ -31,8 +31,20 @@ class ReporteInventarioController extends Controller
     
     public function getIndex()
     {
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $centrocostos = CentroCosto::all();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==3 ){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==5 || $auth_user->permisos==4){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::where("id",$auth_user->sector)->get();
+        }
+        
         $bienactivos = array();
         $filtro = 0;
         return view('reporteinventario/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("bienactivos",$bienactivos)->with("bienactivos",$bienactivos)->with("filtro",$filtro);
@@ -42,8 +54,19 @@ class ReporteInventarioController extends Controller
     {
         ini_set('memory_limit', '-1');
         $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
-        $centrocostos = CentroCosto::all();
-        $sectors = Sector::all();
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $centrocostos = CentroCosto::all();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==3 ){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::all();
+        }
+        elseif($auth_user->permisos==5 || $auth_user->permisos==4){
+          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $sectors = Sector::where("id",$auth_user->sector)->get();
+        }
         $filtro = 1;
         return view('reporteinventario/index')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("bienes",$bienes)->with("filtro",$filtro)->with("centro", $request->centro)->with("oficina", $request->oficina)->with("tipo_bien", $request->tipo_bien);
     }

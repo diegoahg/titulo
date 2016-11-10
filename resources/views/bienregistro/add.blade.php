@@ -149,7 +149,7 @@
 
         				</div><!-- /.box-body -->
 						<div class="box-footer">
-							<a href="../inventario"class="btn btn-default">Cancelar</a>
+							<a href="{{asset("bien-registro")}}" class="btn btn-default">Cancelar</a>
 							<button type="submit" class="btn btn-info pull-right"><i class="fa fa-check"></i> Guardar</button>
 						</div>
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">

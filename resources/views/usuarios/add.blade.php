@@ -124,7 +124,7 @@
 											<select id="permiso" name="permiso" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Permisos">
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5" selected>FUNCIONARIO</option> 
 											</select>
 										</div>

@@ -23,8 +23,23 @@ class BienRegistroController extends Controller
     
     public function getIndex()
     {
-        $bienregistros = BienRegistro::all();
+        $auth_user = Auth::user();
+        if($auth_user->permisos<=2){
+          $bienregistros = BienRegistro::all();
+        }
+        elseif($auth_user->permisos==3 || $auth_user->permisos==4){
+          $bienregistros = BienRegistro::where("id_centro",$auth_user->id_centro)->get();
+        }
+        elseif($auth_user->permisos==5){
+          $bienregistros = BienRegistro::where("id_sector",$auth_user->id_sector)->get();
+        }
         return view('bienregistro/index')->with("bienregistros",$bienregistros);
+    }
+
+    public function getView($id)
+    {
+        $bienregistro = BienRegistro::findOrFail($id);
+        return view('bienregistro/modalview')->with("bienregistro", $bienregistro);
     }
 
     public function getAdd()

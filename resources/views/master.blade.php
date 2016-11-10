@@ -179,16 +179,19 @@
                 <i class="fa fa-home"></i> <span>Home</span>
               </a>
             </li>
+            @if($auth_user->permisos<=3)
             <li  id="usuarios"  class="treeview">
               <a href="{{ asset('usuarios') }}">
                 <i class="fa fa-user"></i> <span>Usuarios</span>
               </a>
             </li>
+            @endif
             <!--<li id="productos" class="treeview">
               <a href="/productos">
                 <i class="fa fa-cube"></i> <span>Productos</span>
               </a>
             </li>-->
+            @if($auth_user->permisos<=5)
              <li  id="inventario" class="treeview">
               <a href="#">
                 <i class="fa fa-cubes"></i>
@@ -201,30 +204,40 @@
                 <li  id="bien-raiz"><a href="{{ asset('bien-raiz') }}"><i class="fa fa-circle-o"></i> Bienes Raices</a></li>
               </ul>
             </li>
+            @endif
+            @if($auth_user->permisos<=2)
             <li id="categorias" class="treeview">
               <a href="{{ asset('categorias') }}">
                 <i class="fa fa-bars"></i>
                 <span>Categorias</span>
               </a>
             </li>
+            @endif
+            @if($auth_user->permisos<=2)
             <li id="centrocosto" class="treeview">
               <a href="{{ asset('centrocosto') }}">
                 <i class="fa fa-institution "></i>
                 <span>Centros de Costo</span>
               </a>
             </li>
+            @endif
+            @if($auth_user->permisos<=2)
             <li id="sector" class="treeview">
               <a href="{{ asset('sector') }}">
                 <i class="fa fa-building"></i>
                 <span>Sector</span>
               </a>
             </li>
+            @endif
+            @if($auth_user->permisos<=2)
             <li id="cuentacontable" class="treeview">
               <a href="{{ asset('cuentacontable') }}">
                 <i class="fa fa-creative-commons"></i>
                 <span>Cuenta Contable</span>
               </a>
             </li>
+            @endif
+            @if($auth_user->permisos<=4)
             <li  id="reportes" class="treeview">
               <a href="#">
                 <i class="fa fa-line-chart"></i>
@@ -244,6 +257,7 @@
               </ul>-->
 
             </li>
+            @endif
           </ul>
         </section>
         <!-- /.sidebar -->

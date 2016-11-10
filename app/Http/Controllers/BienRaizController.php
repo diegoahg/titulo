@@ -10,6 +10,7 @@ use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
 use App\BienRaiz as BienRaiz;
 use App\Logs as Logs;
+use App\CuentaContable as CuentaContable;
 use DB;
 use Auth;
 use Crypt;
@@ -24,8 +25,20 @@ class BienRaizController extends Controller
     
     public function getIndex()
     {
+      $auth_user = Auth::user();
+      if($auth_user->permisos<=2){
         $bienraices = BienRaiz::all();
-        return view('bienraiz/index')->with("bienraices",$bienraices);
+      }
+      elseif($auth_user->permisos>=3 ){
+        $bienraices = BienRaiz::where("id_centro",$auth_user->id_centro)->get();
+      }
+      return view('bienraiz/index')->with("bienraices",$bienraices);
+    }
+
+    public function getView($id)
+    {
+        $bienraiz = BienRaiz::findOrFail($id);
+        return view('bienraiz/modalview')->with("bienraiz", $bienraiz);
     }
 
     public function getAdd()
@@ -33,6 +46,7 @@ class BienRaizController extends Controller
         $categorias = Categoria::all();
         $centrocostos = CentroCosto::all();
         $sectors = Sector::all();
+        $cuentacontables = CuentaContable::all();
 
         $bienraices = BienRaiz::all();
           $json = array();
@@ -41,7 +55,7 @@ class BienRaizController extends Controller
           }
         $json = json_encode($json);
 
-        return view('bienraiz/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias);
+        return view('bienraiz/add')->with("json",$json)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("cuentacontables",$cuentacontables);
     }
 
     public function postAdd(Request $request)
@@ -60,7 +74,6 @@ class BienRaizController extends Controller
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
             'centro'  => 'required|max:255',
-            'oficina'  => 'required|max:255',
             'valor_inicial' => 'required|max:255',
             'avaluo_fiscal' => 'required|max:255',
             'num_rol' => 'required|max:255',
@@ -76,7 +89,8 @@ class BienRaizController extends Controller
 
            $bienraiz = new BienRaiz();
            $bienraiz->id_centro =  $request->input("centro");
-           $bienraiz->id_sector =  $request->input("oficina");
+           //$bienraiz->id_sector =  $request->input("oficina");
+           $bienraiz->id_sector =  0;
            $bienraiz->descripcion =  strtoupper($request->input("descripcion"));
            $bienraiz->valor_inicial =  $request->input("valor_inicial");
            $bienraiz->avaluo_fiscal =  $request->input("avaluo_fiscal");
@@ -112,8 +126,9 @@ class BienRaizController extends Controller
         $bienraiz = BienRaiz::find($id);
         $categorias = Categoria::all();
         $centrocostos = CentroCosto::all();
+        $cuentacontables = CuentaContable::all();
         $sectors = Sector::all();
-        return view('bienraiz/edit')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("bienraiz",$bienraiz);
+        return view('bienraiz/edit')->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("categorias",$categorias)->with("bienraiz",$bienraiz)->with("cuentacontables",$cuentacontables);
     }
 
     public function postEdit(Request $request)
@@ -132,7 +147,6 @@ class BienRaizController extends Controller
         //validador de los input del formulario
         $validator = Validator::make($request->all(), [
             'centro'  => 'required|max:255',
-            'oficina'  => 'required|max:255',
             'valor_inicial' => 'required|max:255',
             'avaluo_fiscal' => 'required|max:255',
             'num_rol' => 'required|max:255',
@@ -147,7 +161,8 @@ class BienRaizController extends Controller
         }else{
            $bienraiz = BienRaiz::find(Crypt::decrypt($request->input("_key")));
            $bienraiz->id_centro =  $request->input("centro");
-           $bienraiz->id_sector =  $request->input("oficina");
+           //$bienraiz->id_sector =  $request->input("oficina");
+           $bienraiz->id_sector =  0;
            $bienraiz->descripcion =  strtoupper($request->input("descripcion"));
            $bienraiz->valor_inicial =  $request->input("valor_inicial");
            $bienraiz->avaluo_fiscal =  $request->input("avaluo_fiscal");

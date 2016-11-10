@@ -330,10 +330,10 @@
 		$('#tipo_bien').change(function() {
 			var tipo_bien = $("#tipo_bien").val();
 			console.log(tipo_bien);
-			if(tipo_bien == "Simple"){
+			if(tipo_bien == "SIMPLE"){
 				$('#div_componente').hide();
 			}
-			if(tipo_bien == "Complejo"){
+			if(tipo_bien == "COMPLEJO"){
 				$('#div_componente').show();
 			}
 
@@ -470,6 +470,8 @@
                 		console.log(response.length);
                 		if(response.length>0){
 							$('#div_componente').show();
+
+							var categorias =  {!!$categorias!!};
 							$.each(response,function(key,data){
 	                			cont ++;
 						      	var add_codigo = data.codigo;
@@ -480,14 +482,21 @@
 						      	var add_categoria = data.categoria;
 						      	var add_tipo = data.tipo;
 
+						      	$.each(categorias, function(index, value) {
+									if (value.id == add_categoria) {
+										nom_categoria = value.categoria;
+										cod_categoria = value.codigo;
+									}
+								})
+
 						      	var table = "<tr id='tr" + cont + "'>";
 						      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-						      	table += "<td>" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
+						      	table += "<td>" + cod_categoria + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
 						      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
 						      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
 						      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
 						      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
-						      	table += "<td>" + add_categoria + "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'></td>";
+						      	table += "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'>";
 						      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
 						      	table += "</tr>";
 

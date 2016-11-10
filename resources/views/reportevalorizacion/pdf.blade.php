@@ -2,9 +2,9 @@
 <title>Reporte</title>
 <head>
   <style>
-    @page { margin-top: 150px; margin-bottom: 150px;font-size: 12px}
+    @page { margin-top: 150px; margin-bottom: 300px;font-size: 12px}
     #header { position: fixed; left: 0px; top: -150px; right: 0px; height: 150px; margin-top: 20px}
-    #nota { position: fixed; left: 0px; bottom: -150px; right: 0px; height: 150px; }
+    #nota { position: fixed; left: 0px; bottom: -300px; right: 0px; height: 300px; }
     #header .page:after { content: counter(page); }
     #content { margin-left: : 50px;  margin-right: 50px }
   </style>
@@ -32,18 +32,6 @@
         <td style="text-align: center;">REPORTE DE INVENTARIO VALORIZADO</td>
       </tr>
     </table>
-  </div>
-  <div id="nota">
-    <table  width="50%" border="0">
-        <tr>
-          <td style="width:10%" style="text-align: right;">
-            NOTA:
-          </td>
-          <td style="width:90%" style="text-align: left !important;">
-            ESTA ESTRICTAMENTE PROHIBIDO EFECTUAR MOVIMIENTO DE LOS BIENES AQUÍ ESPEFICADOS SIN LA AUTORIZACION DEL JEFE DE LA OFICINA Y DE LA UNIDAD DE INVENTARIOS
-          </td>
-       <tr>
-    </table> 
   </div>
   <div id="content">
 
@@ -106,7 +94,9 @@
           </tr>
       </tfoot>
       
-    </table> 
+    </table>
+
+  <div id="nota">
     <table  width="100%" border="0" style="margin-top: 70px; margin-bottom: 20px;">
         <tr>
           <td style="width:20%">
@@ -137,6 +127,17 @@
           </td>
        <tr>
     </table>
+    <table  width="50%" border="0">
+        <tr>
+          <td style="width:10%" style="text-align: right;">
+            NOTA:
+          </td>
+          <td style="width:90%" style="text-align: left !important;">
+            ESTA ESTRICTAMENTE PROHIBIDO EFECTUAR MOVIMIENTO DE LOS BIENES AQUÍ ESPEFICADOS SIN LA AUTORIZACION DEL JEFE DE LA OFICINA Y DE LA UNIDAD DE INVENTARIOS
+          </td>
+       <tr>
+    </table> 
+  </div>
     @endforeach
     <center><h1><strong>TOTAL VALOR INICIAL ${{number_format($suma_total_inicial, 0, '', '.')}}</strong></h1></center>
                       <center><h1><strong>TOTAL VALOR RESIDUAL ${{number_format($suma_total_residual, 0, '', '.')}}</strong></h1></center>

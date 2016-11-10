@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -69,7 +70,10 @@
 	                        <td>{{$bienraiz->num_rol}}</td>
 	                        <td>{{$bienraiz->valor_total}}</td>
 	                        <td>
-	                        	<a href="bien-raiz/edit/{{Crypt::encrypt($bienraiz->id)}}" class="btn btn-block btn-success">Ver</a>
+	                        	<button type="button" class="btn btn-info view-data" data-role="{{$bienraiz->id}}"><i class="fa fa-info"></i></button>
+	                        	@if($auth_user->permisos<=2)
+	                        	<a href="bien-raiz/edit/{{Crypt::encrypt($bienraiz->id)}}" class="btn btn-block btn-warning"><i class="fa fa-edit"></i></a>
+	                        	@endif
 	                        </td>
 	                      </tr>
 	                     @endforeach
@@ -117,6 +121,14 @@
 					console.log(data);
 				});
 	      }
+
+	      $(".view-data").click(function(){
+				  var data = $(this).data("role");
+				  $.get( "{{asset('bien-raiz/view/')}}/" + data, function( data ) {
+					  $( "#modal" ).html( data );
+					  $( "#modalVer" ).modal();
+					});
+				});
 
 	    </script> 
 	@stop     

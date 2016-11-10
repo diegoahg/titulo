@@ -130,37 +130,37 @@
 													<option value="1" selected>ADMINISTRADOR</option>
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5">FUNCIONARIO</option>
 												@endif
 												@if($user->permisos == 2)
 													<option value="2" selected>ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5">FUNCIONARIO</option>
 												@endif
 												@if($user->permisos == 3)
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3" selected>DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5">FUNCIONARIO</option>
 												@endif
 												@if($user->permisos == 4)
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4" selected>COLBORADOR</option> 
+													<option value="4" selected>COLABORADOR</option> 
 													<option value="5">FUNCIONARIO</option>
 												@endif
 												@if($user->permisos == 5)
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5" selected>FUNCIONARIO</option>
 												@endif
 												@if($user->permisos == "")
 													<option value="2">ENCARGADO DE INVENTARIO</option>
 													<option value="3">DIRECTOR DE UNIDAD</option> 
-													<option value="4">COLBORADOR</option> 
+													<option value="4">COLABORADOR</option> 
 													<option value="5" selected>FUNCIONARIO</option>
 												@endif			
 											</select>

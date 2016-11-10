@@ -48,7 +48,7 @@
 												</select>
 											</div>
 										</div>
-										<div class="col-md-3">
+										<!--<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Oficina (*)</label>
 												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
@@ -58,7 +58,7 @@
 													@endforeach
 												</select>
 											</div>
-										</div>
+										</div>-->
 								</div>
 								<h3 class="form-section">Datos de Bien Raiz</h3>
 								<div class="row">							
@@ -97,7 +97,11 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Cuenta Contable. (*)</label>
-											<input type="text" id="cuenta_contable" required name="cuenta_contable" class="form-control"  value="">
+											<select id="cuenta_contable" required name="cuenta_contable" class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+													@foreach($cuentacontables as $cuentacontable)
+														<option value="{{$cuentacontable->id}}">{{$cuentacontable->nombre}}</option> 
+													@endforeach
+											</select>
 										</div>
 									</div>											
 									<div class="col-md-3">
@@ -185,7 +189,7 @@
 		<script>
 
 		//Evento que rellena el select cuando se escoge un elemento
-		$('#centro').change(function() {
+		/*$('#centro').change(function() {
 			$('#oficina').prop("disabled", false);
 			var sectors = {!!$sectors!!};
 
@@ -202,7 +206,7 @@
 				$('#oficina').prop("disabled", true);
 			}
 
-		});
+		});*/
 
 	      $(function () {
 	        $("#example1").DataTable();
