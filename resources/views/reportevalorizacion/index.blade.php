@@ -59,9 +59,9 @@
 											@if($auth_user->permisos<=3)
 												<option value="TODOS">TODOS</option>
 											@endif 
-											<!--@foreach($sectors as $sector)
+											@foreach($sectors as $sector)
 												<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option> 
-											@endforeach-->
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -223,7 +223,9 @@
 				$("#reporte-valorizacion").addClass( "active" );
 		        $(".select2").select2();
 
-		        $('#oficina').prop("disabled", false);
+		        @if($auth_user->permisos>3)
+		       		$('#oficina').prop("disabled", false);
+		       	@endif
 
 				
 				 	@if($filtro == 1)

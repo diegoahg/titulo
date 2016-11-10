@@ -59,9 +59,9 @@
 											@if($auth_user->permisos<=3)
 											<option value="TODOS">TODOS</option> 
 											@endif 
-											<!--@foreach($sectors as $sector)
+											@foreach($sectors as $sector)
 												<option value="{{$sector->id}}">{{$sector->codigo}} {{$sector->nombre}}</option> 
-											@endforeach-->
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -208,7 +208,7 @@
 				$('#oficina').append('<option value="TODOS">TODOS</option>');
 				$('#oficina').select2('val',"TODOS");
 				@endif
-				$('#oficina').prop("disabled", true);
+				$('#oficina').prop("readonly", true);
 				return false;
 			}
 
@@ -242,11 +242,13 @@
 				$("#reporte-inventario").addClass( "active" );
 		        $(".select2").select2();
 
-		       
+		       	@if($auth_user->permisos>3)
+		       		$('#oficina').prop("disabled", false);
+		       	@endif
 
-						 $('#oficina').prop("disabled", false);
 				
 				 	@if($filtro == 1)
+						 $('#oficina').prop("disabled", false);
 						 $('#centro').select2('val',"{{$centro}}");
 						 $('#oficina').select2('val',"{{$oficina}}");
 						 $('#tipo_bien').select2('val',"{{$tipo_bien}}");
