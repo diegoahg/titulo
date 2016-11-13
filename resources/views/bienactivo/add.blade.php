@@ -218,7 +218,7 @@
 	        					<div class="col-md-2">
 									<div class="form-group">
 										<label class="control-label">Categoria (*)</label>
-										<select id="add_categoria" name="add_categoria" required class="form-control select2" style="width: 100%;" data-placeholder="Elegir Categoria">
+										<select id="add_categoria" name="add_categoria" class="form-control select2" style="width: 100%;" data-placeholder="Elegir Categoria">
 											<option value="">Elegir Categoria</option> 
 											@foreach($categorias as $categoria)
 												<option value="{{$categoria->id}}">{{$categoria->codigo}}-{{$categoria->categoria}}</option>
