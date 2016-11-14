@@ -53,7 +53,7 @@
 										<div class="col-md-3">
 											<div class="form-group">
 												<label class="control-label">Oficina (*)</label>
-												<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
+												<select id="oficina" disabled name="oficina" required class="form-control select2" onchange="Registros()" style="width: 100%;" data-placeholder="Seleccionar Oficina">
 													<option value="">Elegir Oficina</option> 
 													@foreach($sectors as $sector)
 														<option value="{{$sector->id}}">{{$sector->codigo}}  {{$sector->nombre}}</option> 

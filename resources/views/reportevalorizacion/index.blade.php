@@ -145,9 +145,9 @@
 						            <td class="text-right">${{number_format($bien->residual, 0, '', '.')}}</td>
 						          </tr>
 						          <?php $suma_sector_inicial = $bien->valor + $suma_sector_inicial; ?>
-						          <?php $suma_sector_residual = $bien->valor + $suma_sector_residual; ?>
+						          <?php $suma_sector_residual = $bien->residual + $suma_sector_residual; ?>
 						          <?php $suma_total_inicial = $bien->valor + $suma_total_inicial; ?>
-						          <?php $suma_total_residual = $bien->valor + $suma_total_residual; ?>
+						          <?php $suma_total_residual = $bien->residual + $suma_total_residual; ?>
 						          @endif
 						        @endforeach
 						        </tbody>

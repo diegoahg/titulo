@@ -244,12 +244,6 @@
 						 	<div class="row">
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Nro Serie(*)</label>
-										<input type="text" id="add_serie" name="add_serie" class="form-control" value="">
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
 										<label class="control-label">Marca(*)</label>
 										<input type="text" id="add_marca" name="add_marca" class="form-control" value="">
 									</div>
@@ -258,6 +252,12 @@
 									<div class="form-group">
 										<label class="control-label">Modelo(*)</label>
 										<input type="text" id="add_modelo" name="add_modelo" class="form-control" value="">
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label class="control-label">Nro Serie(*)</label>
+										<input type="text" id="add_serie" name="add_serie" class="form-control" value="">
 									</div>
 								</div>
 								<div class="col-md-2">
@@ -279,9 +279,9 @@
 				                        <th width="2%"></th>
 				                        <th width="8%">Código</th>
 				                        <th width="15%">Descripcion</th>
-				                        <th width="10%">N° de Serie</th>
 				                        <th width="12%">Marca</th>
 				                        <th width="12%">Modelo</th>
+				                        <th width="10%">N° de Serie</th>
 				                        <th width="15%">Tipo Componente</th>
 				                      </tr>
 				                    </thead>
@@ -456,7 +456,8 @@
                 		$("#cuenta_contable").val(response.cuenta_contable);     
                 		$("#alta").val(response.alta);   
                 		$("#vida_util").val(response.vida_util);  
-                		$("#tipo_inventario").select2("val","'" + response.tipo_inventario + "'");
+                		console.log( response.tipo_inventario);
+                		$("#tipo_inventario").select2("val", response.tipo_inventario);
                 		$("#enmienda").select2("val",response.enmienda);       
 
                     }
@@ -493,9 +494,9 @@
 						      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
 						      	table += "<td>" + cod_categoria + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
 						      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
-						      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
 						      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
 						      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
+						      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
 						      	table += "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'>";
 						      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
 						      	table += "</tr>";
@@ -538,9 +539,10 @@
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
 	      	table += "<td>" + cod_categoria.toUpperCase() + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
 	      	table += "<td>" + add_descripcion.toUpperCase() + "<input type='hidden' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
-	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
 	      	table += "<td>" + add_marca.toUpperCase() + "<input type='hidden' name='comp_marca[]' value='" + add_marca + "'></td>";
 	      	table += "<td>" + add_modelo.toUpperCase() + "<input type='hidden' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+
+	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
 	      	table += "<input type='hidden' name='comp_categoria[]' value='" + add_categoria + "'>";
 	      	table += "<td>" + add_tipo.toUpperCase() + "<input type='hidden' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
