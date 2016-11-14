@@ -140,9 +140,9 @@
                     </p>
                   </li>
                   <li class="user-footer">
-                    <div class="pull-left">
+                   <!-- <div class="pull-left">
                       <a href="#" class="btn btn-default btn-flat">Perfil</a>
-                    </div>
+                    </div>-->
                     <div class="pull-right">
                       <a href="{{asset('login/logout')}}" class="btn btn-default btn-flat">Desconectar</a>
                     </div>
