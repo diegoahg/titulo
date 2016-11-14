@@ -109,7 +109,17 @@ class BienRegistroController extends Controller
              $bienregistro->valor =  $valor[$i];
              $bienregistro->orden_compra =  strtoupper($orden_compra[$i]);
              $bienregistro->fecha_incorporacion = $fecha_incorporacion[$i];
-             $bienregistro->save();  
+             $bienregistro->save(); 
+
+             //Registro de logs
+             $logs = new Logs();
+             $logs->fecha =  date("Y-m-d H:m:s");
+             $logs->accion = "agregar";
+             $logs->modulo = "BIEN REGISTRO";
+             $logs->id_ref = $bienregistro->id;
+             $logs->id_user = Auth::user()->id;
+             $logs->detalle = "Se agrego el BIEN REGISTRO ".$bienregistro->descripcion;
+             $logs->save(); 
 
            }
 
@@ -190,7 +200,17 @@ class BienRegistroController extends Controller
              $bienregistro->valor =  $valor[$i];
              $bienregistro->orden_compra =  strtoupper($orden_compra[$i]);
              $bienregistro->fecha_incorporacion = $fecha[$i];
-             $bienregistro->save();  
+             $bienregistro->save(); 
+
+             //Registro de logs
+             $logs = new Logs();
+             $logs->fecha =  date("Y-m-d H:m:s");
+             $logs->accion = "editar";
+             $logs->modulo = "BIEN REGISTRO";
+             $logs->id_ref = $bienregistro->id;
+             $logs->id_user = Auth::user()->id;
+             $logs->detalle = "Se editó el BIEN REGISTRO ".$bienregistro->descripcion;
+             $logs->save(); 
 
            }
           return redirect("bien-registro")->with('success', 'edit')->with("id_igreso", $bienregistro->id);

@@ -24,38 +24,17 @@
                 <div class="box-body">
                   <form action="{{url('reporte-inventario')}}"  id="form-reporte-inventario" method="post" enctype="multipart/form-data" class="horizontal-form">
                   	<div class="form-body">
-						@if ($errors->has())
-							<div class="callout callout-danger">
-								<h4 class="block">Debe Completar los siguientes campos:</h4>
-								<ul>
-						            @foreach ($errors->all() as $error)
-						                <li>{{ $error }}</li>
-						            @endforeach
-						        </ul>
-							</div>
-						@endif
 						<div id="notificacion">
 						</div>
 						<div class="row">
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Centro de Costo (*)</label>
-										<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
+										<label class="control-label">Usuario (*)</label>
+										<select id="usuario" name="usuario" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
 											<option value="TODOS">TODOS</option> 
-											@foreach($centrocostos as $centrocosto)
+											@foreach($usuarios as $usuario)
 
-												<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
-											@endforeach
-										</select>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">Oficina (*)</label>
-										<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="TODOS">TODOS</option> 
-											@foreach($sectors as $sector)
-												<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+												<option value="{{$usuario->id}}">{{$usuario->name}} {{$usuario->apellido_paterno}}</option> 
 											@endforeach
 										</select>
 									</div>
@@ -77,61 +56,37 @@
 										@if($filtro == 1)
 											<button type="button" onclick="actionForm(this.form.id, 'buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@else
-											<button type="button" onclick="actionForm(this.form.id, 'reporte-inventario/buscar')" class="btn btn-block btn-primary">Filtrar</button>
+											<button type="button" onclick="actionForm(this.form.id, 'logs/buscar')" class="btn btn-block btn-primary">Filtrar</button>
 										@endif
 									</div>
 								</div>
-								@if($filtro == 1)
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">&nbsp</label>
-										<button type="button" onclick="actionForm(this.form.id, 'exportar-pdf')" class="btn btn-block btn-danger">PDF</button>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">&nbsp</label>
-										<button type="button" onclick="actionForm(this.form.id, 'exportar-excel')" class="btn btn-block btn-success">EXCEL</button>
-									</div>
-								</div>
-								@endif
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						</div>
 					</div> 
                   </form>
                   <table id="example1" class="table table-bordered table-striped">
-                  @if(isset($tipo_bien))
-                  	@if($tipo_bien == "activo")
+                  @if(isset($infos))
 	                    <thead>
 	                      <tr>
-	                        <th class="text-center">N° Inventario</th>
-	                        <th class="text-center">Descripción del Bien </th>
-	                        <th class="text-center">Fecha Incorporación</th>
-	                        <th class="text-center">Marca</th>
-	                        <th class="text-center">Modelo</th>
-	                        <th class="text-center">N° Serie</th>
-	                        <th class="text-center">Largo</th>
-	                        <th class="text-center">Ancho</th>
-	                        <th class="text-center">Alto</th>
+	                        <th class="text-center">Modulo</th>
+	                        <th class="text-center">Detalle </th>
+	                        <th class="text-center">Usuario </th>
+	                        <th class="text-center">Acción</th>
+	                        <th class="text-center">Fecha</th>
 	                      </tr>
 	                    </thead>
 	                    <tbody>
-	                    	@foreach($bienes as $bien)
+	                    	@foreach($infos as $info)
 	                    	<tr>
-		                        <td class="text-center">{{$bien->category->codigo}}-{{$bien->numero}}</td>
-		                        <td class="text-center">{{$bien->descripcion}}</td>
-		                        <td class="text-center">{{$bien->fecha}}</td>
-		                        <td class="text-center">{{$bien->marca}}</td>
-		                        <td class="text-center">{{$bien->modelo}}</td>
-		                        <td class="text-center">{{$bien->serie}}</td>
-		                        <td class="text-center">{{$bien->largo}}</td>
-		                        <td class="text-center">{{$bien->ancho}}</td>
-		                        <td class="text-center">{{$bien->alto}}</td>
+		                        <td class="text-center">{{$info->modulo}}</td>
+		                        <td class="text-center">{{$info->detalle}}</td>
+		                        <td class="text-center">{{$info->getuser->nombre}} {{$info->getuser->apellido_paterno}} {{$info->getuser->apellido_materno}}</td>
+		                        <td class="text-center">{{$info->accion}}</td>
+		                        <td class="text-center">{{$info->created_at}}</td>
 		                    </tr>
 	                    	@endforeach
 	                    </tbody>
-	                    @endif
                     @endif
                   </table>
 	            </div><!-- /.box-body -->
@@ -145,50 +100,18 @@
 @section('script')
 	<script>
 
-
-		//Evento que rellena el select cuando se escoge un elemento
-		$('#centro').change(function() {
-			$('#oficina').prop("disabled", false);
-			var sectors = {!!$sectors!!};
-
-			if($('#centro').val()=="TODOS"){
-				$('#oficina').empty();
-				$('#oficina').append('<option value="TODOS">TODOS</option>');
-				$('#oficina').select2('val',"TODOS");
-				$('#oficina').prop("disabled", true);
-				return false;
-			}
-
-			$('#oficina').empty();
-			$('#oficina').append('<option value="TODOS">TODOS</option>');
-			$('#oficina').select2('val',"TODOS");
-			$.each(sectors, function(index, value) {
-				if (value.id_centro_costo == $('#centro').val()) {
-					$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
-				}
-			});
-
-			if ($('#centro').val() == '') {
-				$('#oficina').prop("disabled", true);
-			}
-
-		});
-
 		function actionForm(formid,url){
 				$("#" + formid).attr('action', url);
 	  	   		$("#" + formid).submit();
 	  	}
 
 	      $(document).ready(function() {
-				$("#reportes").addClass( "active" );
-				$("#reporte-inventario").addClass( "active" );
+				$("#registros").addClass( "active" );
 		        $(".select2").select2();
 
 				
 				 	@if($filtro == 1)
-						 $('#centro').select2('val',"{{$centro}}");
-						 $('#oficina').select2('val',"{{$oficina}}");
-						 $('#oficina').prop("disabled", false);
+						 $('#usuario').select2('val',"{{$data_usuario}}");
 						 $('#tipo_bien').select2('val',"{{$tipo_bien}}");
 		        	@endif
 			});

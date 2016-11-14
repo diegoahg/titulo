@@ -258,6 +258,15 @@
 
             </li>
             @endif
+
+            @if($auth_user->permisos<=2)
+            <li id="registros" class="treeview">
+              <a href="{{ asset('logs') }}">
+                <i class="fa fa-database "></i>
+                <span>Registros</span>
+              </a>
+            </li>
+            @endif
           </ul>
         </section>
         <!-- /.sidebar -->
