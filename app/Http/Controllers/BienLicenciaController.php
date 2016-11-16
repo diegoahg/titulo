@@ -29,10 +29,10 @@ class BienLicenciaController extends Controller
         $bienlicencias = BienLicencia::all();
       }
       elseif($auth_user->permisos==3 || $auth_user->permisos==4){
-        $bienlicencias = BienLicencia::where("id_centro",$auth_user->id_centro)->get();
+        $bienlicencias = BienLicencia::where("id_centro",$auth_user->centro)->get();
       }
       elseif($auth_user->permisos==5){
-        $bienlicencias = BienLicencia::where("id_sector",$auth_user->id_sector)->get();
+        $bienlicencias = BienLicencia::where("id_sector",$auth_user->sector)->get();
       }
       return view('bienlicencia/index')->with("bienlicencias",$bienlicencias);
     }

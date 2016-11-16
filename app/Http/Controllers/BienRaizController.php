@@ -30,7 +30,7 @@ class BienRaizController extends Controller
         $bienraices = BienRaiz::all();
       }
       elseif($auth_user->permisos>=3 ){
-        $bienraices = BienRaiz::where("id_centro",$auth_user->id_centro)->get();
+        $bienraices = BienRaiz::where("id_centro",$auth_user->centro)->get();
       }
       return view('bienraiz/index')->with("bienraices",$bienraices);
     }

@@ -35,10 +35,10 @@ class BienActivoController extends Controller
           $bienactivos = BienActivo::all();
         }
         elseif($auth_user->permisos==3 || $auth_user->permisos==4){
-          $bienactivos = BienActivo::where("id_centro",$auth_user->id_centro)->get();
+          $bienactivos = BienActivo::where("id_centro",$auth_user->centro)->get();
         }
         elseif($auth_user->permisos==5){
-          $bienactivos = BienActivo::where("id_sector",$auth_user->id_sector)->get();
+          $bienactivos = BienActivo::where("id_sector",$auth_user->sector)->get();
         }
         
         return view('bienactivo/index')->with("bienactivos",$bienactivos);

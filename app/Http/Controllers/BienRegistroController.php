@@ -28,10 +28,10 @@ class BienRegistroController extends Controller
           $bienregistros = BienRegistro::all();
         }
         elseif($auth_user->permisos==3 || $auth_user->permisos==4){
-          $bienregistros = BienRegistro::where("id_centro",$auth_user->id_centro)->get();
+          $bienregistros = BienRegistro::where("id_centro",$auth_user->centro)->get();
         }
         elseif($auth_user->permisos==5){
-          $bienregistros = BienRegistro::where("id_sector",$auth_user->id_sector)->get();
+          $bienregistros = BienRegistro::where("id_sector",$auth_user->sector)->get();
         }
         return view('bienregistro/index')->with("bienregistros",$bienregistros);
     }
