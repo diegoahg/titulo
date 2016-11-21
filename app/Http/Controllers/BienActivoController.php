@@ -35,7 +35,7 @@ class BienActivoController extends Controller
         if($auth_user->permisos<=2){
           $bienactivos = BienActivo::all();
         }
-        elseif($auth_user->permisos==4){
+        elseif($auth_user->permisos==3){
           $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
           $params = [];
           foreach ($sectorusuarios as $key => $sectorusuario) {
@@ -43,7 +43,7 @@ class BienActivoController extends Controller
           }
           $bienactivos = BienActivo::whereIn("id_centro",$params)->get();
         }
-        elseif($auth_user->permisos==3 || $auth_user->permisos==5){
+        elseif( $auth_user->permisos==5 ||$auth_user->permisos==4 ){
           $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_sector")->get();
           $params = [];
           foreach ($sectorusuarios as $key => $sectorusuario) {
