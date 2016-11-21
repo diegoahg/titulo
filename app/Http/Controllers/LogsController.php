@@ -32,19 +32,30 @@ class LogsController extends Controller
     public function getIndex()
     {
         $usuarios = User::all();
+        $opciones = Logs::groupBy("modulo")->get();
         $filtro = 0;
-        return view('logs/index')->with("usuarios",$usuarios)->with("filtro",$filtro);
+        return view('logs/index')->with("usuarios",$usuarios)->with("filtro",$filtro)->with("opciones",$opciones);
     }
 
     public function postBuscar(Request $request)
     {
         $usuarios = User::all();
         $filtro = 1;
+        $opciones = Logs::groupBy("modulo")->get();
         if($request->usuario == "TODOS"){
-            $infos = logs::where("modulo", "BIEN ".$request->tipo_bien)->get();
+            if($request->modulo == "TODOS"){
+                $infos = logs::all();
+            }else{
+                $infos = logs::where("modulo", $request->modulo)->get();
+            }
         }else{
-            $infos = logs::where("modulo", "BIEN ".$request->tipo_bien)->where("id_user", $request->usuario)->get();
+            if($request->modulo == "TODOS"){
+                $infos = logs::where("id_user", $request->usuario)->get();
+            }else{
+                $infos = logs::where("modulo", $request->modulo)->where("id_user", $request->usuario)->get();
+            }
+            
         }
-        return view('logs/index')->with("data_usuario",$request->usuario)->with("tipo_bien",$request->tipo_bien)->with("usuarios",$usuarios)->with("filtro",$filtro)->with("infos",$infos);
+        return view('logs/index')->with("data_usuario",$request->usuario)->with("modulo",$request->modulo)->with("usuarios",$usuarios)->with("filtro",$filtro)->with("infos",$infos)->with("opciones",$opciones);
     }
 }

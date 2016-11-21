@@ -11,6 +11,7 @@ use App\Logs as Logs;
 use Auth;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 
 class UsuariosController extends Controller
 {
@@ -82,9 +83,21 @@ class UsuariosController extends Controller
            $user->cargo = strtoupper($request->input("cargo"));
            $user->permisos = $request->permiso;
            $user->activo = $request->estado;
-           $user->centro = $request->centro;
-           $user->sector = $request->oficina;
+           $user->centro = $request->centro[0];
+           $user->sector = $request->oficina[0];
            $user->save();
+
+           $sectores = $request->oficina;
+
+           //ARREGLO DE SECTORES Y OFICINA
+           for($i=0; $i<count($sectores); $i++){
+              $sector = Sector::find($sectores[$i]);
+              $sectorusuario = new SectorUsuario();
+              $sectorusuario->id_usuario = $user->id;
+              $sectorusuario->id_centro  = $sector->id_centro_costo;
+              $sectorusuario->id_sector  = $sector->id;
+              $sectorusuario->save();
+           }
 
            //Registro de logs
            $logs = new Logs();
@@ -109,7 +122,13 @@ class UsuariosController extends Controller
     public function getView($id)
     {
         $user = User::findOrFail($id);
-        return view('usuarios/modalview')->with("user", $user);
+
+        //PERMISOS A CENTROS Y SECTORES
+        $centros = SectorUsuario::where("id_usuario",$id)->groupBy("id_centro")->get();
+        $sectors = SectorUsuario::where("id_usuario",$id)->groupBy("id_sector")->get();
+        //FIN PERMISOS A CENTROS Y SECTOES
+
+        return view('usuarios/modalview')->with("user", $user)->with("centros", $centros)->with("sectors", $sectors);
     }
 
     public function getEdit($id)
@@ -118,7 +137,9 @@ class UsuariosController extends Controller
         $centrocostos = CentroCosto::orderBy("nombre", "ASC")->get();
         $sectors = Sector::orderBy("nombre", "ASC")->get();
         $permisos = Auth::user();
-        return view('usuarios/edit')->with("user", $user)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("permisos",$permisos);
+        $centros = SectorUsuario::where("id_usuario", $id)->groupBy("id_centro")->get();
+        $oficinas = SectorUsuario::where("id_usuario", $id)->groupBy("id_sector")->get();
+        return view('usuarios/edit')->with("user", $user)->with("centrocostos",$centrocostos)->with("sectors",$sectors)->with("permisos",$permisos)->with("centros",$centros)->with("oficinas",$oficinas);
     }
 
     public function postEdit(Request $request)
@@ -166,9 +187,25 @@ class UsuariosController extends Controller
            $user->cargo = strtoupper($request->input("cargo"));
            $user->permisos = $request->permiso;
            $user->activo = $request->estado;
-           $user->centro = $request->centro;
-           $user->sector = $request->oficina;
+           $user->centro = $request->centro[0];
+           $user->sector = $request->oficina[0];
            $user->save();
+
+           $sectorusuarios = SectorUsuario::where("id_usuario",$request->input("_id"))->get();
+           foreach ($sectorusuarios as $key => $sectorusuario) {
+             $sectorusuario->delete();
+           }
+           $sectores = $request->oficina;
+
+           //ARREGLO DE SECTORES Y OFICINA
+           for($i=0; $i<count($sectores); $i++){
+              $sector = Sector::find($sectores[$i]);
+              $sectorusuario = new SectorUsuario();
+              $sectorusuario->id_usuario = $user->id;
+              $sectorusuario->id_centro  = $sector->id_centro_costo;
+              $sectorusuario->id_sector  = $sector->id;
+              $sectorusuario->save();
+           }
 
            //Registro de logs
            $logs = new Logs();

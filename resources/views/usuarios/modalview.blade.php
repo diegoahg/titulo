@@ -1,6 +1,6 @@
 <div id="modalVer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
+		<div class="modal-content" style="width: 80%">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 				<h4 class="modal-title">Información del Usuario</h4>
@@ -11,26 +11,40 @@
 						<table class="table table-bordered table-hover table-responsive">
 							<tbody>
 								<tr>
-									<td width="15%">Nombre:</td>
+									<th width="15%">Nombre:</th>
 									<td width="35%"> {{$user->name}} {{$user->apellido_paterno}} {{$user->apellido_materno}}</td>
-									<td width="15%">Email:</td>
+									<th width="15%">Email:</th>
 									<td width="35%">{{$user->email}}</td>
 								</tr>
 								<tr>
 								</tr>
 								<tr>
-									<td>Teléfono Fijo:</td>
+									<th>Teléfono Fijo:</th>
 									<td>{{$user->fono}}</td>
-									<td>Teléfono Móvil:</td>
+									<th>Teléfono Móvil:</th>
 									<td>{{$user->movil}}</td>
 								</tr>
 								<tr>
 								</tr>
 								<tr>
-									<td>Departamento:</td>
+									<th>Departamento:</th>
 									<td>{{$user->departamento}}</td>
-									<td>Cargo:</td>
+									<th>Cargo:</th>
 									<td>{{$user->cargo}}</td>
+								</tr>
+								<tr>
+									<th>Centros de Costo:</th>
+									<td>
+										@foreach($centros as $centro)
+										<li>{{$centro->centrocosto->nombre}}</li>
+										@endforeach
+									</td>
+									<th>Sectores:</th>
+									<td>
+										@foreach($sectors as $sector)
+										<li>{{$sector->sector->nombre}}</li>
+										@endforeach
+									</td>
 								</tr>
 							</tbody>
 						</table>

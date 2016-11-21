@@ -8,6 +8,7 @@ use App\Categoria as Categoria;
 use App\Inventario as Inventario;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 use App\BienRaiz as BienRaiz;
 use App\Logs as Logs;
 use App\CuentaContable as CuentaContable;
@@ -30,7 +31,12 @@ class BienRaizController extends Controller
         $bienraices = BienRaiz::all();
       }
       elseif($auth_user->permisos>=3 ){
-        $bienraices = BienRaiz::where("id_centro",$auth_user->centro)->get();
+        $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
+          $params = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params[] =  $sectorusuario->id_centro;
+          }
+        $bienraices = BienRaiz::whereIn("id_centro",$params)->get();
       }
       return view('bienraiz/index')->with("bienraices",$bienraices);
     }

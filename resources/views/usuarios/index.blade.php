@@ -1,3 +1,4 @@
+<?php $auth_user = Auth::user();?>
 @extends('master')
 @section('contenido')
 <!-- Content Wrapper. Contains page content -->
@@ -70,7 +71,9 @@
 	                        	<div class="btn-group">
 	                        		<button type="button" class="btn btn-info view-data" data-role="{{$user->id}}"><i class="fa fa-info"></i></button>
 	                        		<a href="usuarios/edit/{{$user->id}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
+	                        		@if($auth_user->permisos<=1)
 	                        		<button type="button" class="btn btn-danger delete-data"  data-role="{{$user->id}}"><i class="fa fa-trash-o"></i></button>
+	                        		@endif
 	                        		<!--<button type="button" class="btn btn-success"><i class="fa fa-key"></i></button>-->
 	                        	</div>
 	                        </td>

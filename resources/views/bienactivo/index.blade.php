@@ -42,7 +42,7 @@
 							</div>
 						@endif
 					@endif
-					@if($auth_user->permisos<=2)
+					@if($auth_user->permisos<=4)
 		              <div class="pull-right">
 		              	<span><a class="btn btn-block btn-success" href="bien-activo/add"><i class="fa fa-sign-in"> Agregar</i></a></span>
 	                  </div>

@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="{{asset('/plugins/daterangepicker/daterangepicker-bs3.css')}}">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{asset('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">  
+    <!-- bootstrap select editor -->
+    <link rel="stylesheet" href="{{asset('/plugins/bootstrap-select/css/bootstrap-select.min.css')}}"> 
     <style type="text/css" media="screen">input {text-transform:uppercase;} </style>
 
      <style type="text/css">
@@ -329,6 +331,10 @@
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('/dist/js/demo.js')}}"></script>
     <script src="{{asset('/plugins/typehead/typeahead.bundle.js')}}"></script>
+    <!-- Bootstrap SELECT -->
+    <script src="{{asset('/plugins/bootstrap-select/js/bootstrap-select.min.js')}}"></script>
+    <!-- Bootstrap SELECT -->
+    <script src="{{asset('/plugins/bootstrap-select/js/i18n/defaults-es_CL.min.js')}}"></script>
 
 
     @section('script')      

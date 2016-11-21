@@ -42,10 +42,11 @@
 							</div>
 						@endif
 					@endif
-
+					@if($auth_user->permisos<=4)
 		              <div class="pull-right">
-		              	<span><a class="btn btn-block btn-success" href="bien-licencia/add"><i class="fa fa-sign-in"> Ingresos</i></a></span>
+		              	<span><a class="btn btn-block btn-success" href="bien-licencia/add"><i class="fa fa-sign-in"> Agregar</i></a></span>
 	                  </div>
+	                 @endif
 	                </div><!-- /.box-header -->
 	                <div class="box-body">
 	                  <table id="example1" class="table table-bordered table-striped">

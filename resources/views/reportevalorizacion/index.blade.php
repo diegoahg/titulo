@@ -188,8 +188,10 @@
 
 			if($('#centro').val()=="TODOS"){
 				$('#oficina').empty();
+				@if($auth_user->permisos<=3)
 				$('#oficina').append('<option value="TODOS">TODOS</option>');
 				$('#oficina').select2('val',"TODOS");
+				@endif
 				$('#oficina').prop("disabled", true);
 				return false;
 			}

@@ -8,6 +8,7 @@ use App\Categoria as Categoria;
 use App\Inventario as Inventario;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 use App\BienLicencia as BienLicencia;
 use App\Logs as Logs;
 use DB;
@@ -29,10 +30,20 @@ class BienLicenciaController extends Controller
         $bienlicencias = BienLicencia::all();
       }
       elseif($auth_user->permisos==3 || $auth_user->permisos==4){
-        $bienlicencias = BienLicencia::where("id_centro",$auth_user->centro)->get();
+        $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
+          $params = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params[] =  $sectorusuario->id_centro;
+          }
+        $bienlicencias = BienLicencia::whereIn("id_centro",$params)->get();
       }
       elseif($auth_user->permisos==5){
-        $bienlicencias = BienLicencia::where("id_sector",$auth_user->sector)->get();
+          $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_sector")->get();
+          $params = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params[] =  $sectorusuario->id_sector;
+          }
+          $bienlicencias = BienLicencia::where("id_sector",$params)->get();
       }
       return view('bienlicencia/index')->with("bienlicencias",$bienlicencias);
     }

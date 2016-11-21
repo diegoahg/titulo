@@ -12,6 +12,7 @@ use App\BienLicencia as BienLicencia;
 use App\BienRaiz as BienRaiz;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 use App\Componentes as Componentes;
 use App\Logs as Logs;
 
@@ -31,17 +32,32 @@ class ReporteValorizacionController extends Controller
     public function getIndex()
     {
         $auth_user = Auth::user();
+
+        //PERMISOS A CENTROS Y SECTORES
+         $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
+          $params_centro = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params_centro[] =  $sectorusuario->id_centro;
+          }
+        $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_sector")->get();
+          $params_sector = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params_sector[] =  $sectorusuario->id_sector;
+          }
+        //FIN PERMISOS A CENTROS Y SECTOES
+
+
         if($auth_user->permisos<=2){
           $centrocostos = CentroCosto::all();
           $sectors = Sector::all();
         }
         elseif($auth_user->permisos==3 ){
-          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
+          $centrocostos = CentroCosto::whereIn("id",$params_centro)->get();
           $sectors = Sector::all();
         }
         elseif($auth_user->permisos==5 || $auth_user->permisos==4){
-          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
-          $sectors = Sector::where("id",$auth_user->sector)->get();
+          $centrocostos = CentroCosto::whereIn("id",$params_centro)->get();
+          $sectors = Sector::whereIn("id",$params_sector)->get();
         }
         $filtro = 0;
         $preg_sectors = array();
@@ -52,17 +68,31 @@ class ReporteValorizacionController extends Controller
     {
         $bienes = $this->obtieneBien($request->tipo_bien,$request->centro,$request->oficina);
         $auth_user = Auth::user();
+
+        //PERMISOS A CENTROS Y SECTORES
+         $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
+          $params_centro = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params_centro[] =  $sectorusuario->id_centro;
+          }
+        $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_sector")->get();
+          $params_sector = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params_sector[] =  $sectorusuario->id_sector;
+          }
+        //FIN PERMISOS A CENTROS Y SECTOES
+
         if($auth_user->permisos<=2){
           $centrocostos = CentroCosto::all();
           $sectors = Sector::all();
         }
         elseif($auth_user->permisos==3 ){
-          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
-          $sectors = Sector::all();
+          $centrocostos = CentroCosto::whereIn("id",$params_centro)->get();
+          $sectors = Sector::whereIn("id",$params_sector)->get();
         }
         elseif($auth_user->permisos==5 || $auth_user->permisos==4){
-          $centrocostos = CentroCosto::where("id",$auth_user->centro)->get();
-          $sectors = Sector::where("id",$auth_user->sector)->get();
+          $centrocostos = CentroCosto::whereIn("id",$params_centro)->get();
+          $sectors = Sector::whereIn("id",$params_sector)->get();
         }
         $filtro = 1;
         if($request->tipo_bien == "TODOS"){

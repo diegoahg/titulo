@@ -95,12 +95,11 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Centro de Costo. (*)</label>
-											<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="SELECCIONAR CENTRO DE COSTO">
-													<option value="">ELEGIR CENTRO DE COSTO</option> 
-													@foreach($centrocostos as $centrocosto)
-														<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
-													@endforeach
-												</select>
+											<select id="centro" name="centro[]" style="width: 100%;" class="form-control selectpicker" required multiple data-actions-box="true" data-placeholder="SELECCIONAR CENTRO DE COSTO" data-live-search="true">
+												@foreach($centrocostos as $centrocosto)
+													<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
+												@endforeach
+											</select>
 										</div>
 									</div>
 									<!--/span-->
@@ -108,12 +107,11 @@
 									<div class="col-md-3">
 										<div class="form-group">
 											<label class="control-label">Sector. (*)</label>
-											<select id="oficina" disabled name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="SELECCIONAR SECTOR">
-													<option value="">ELEGIR SECTOR</option> 
-													@foreach($sectors as $sector)
-														<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
-													@endforeach
-												</select>
+											<select id="oficina" name="oficina[]" style="width: 100%;" class="form-control selectpicker" disabled required multiple data-actions-box="true" data-placeholder="SELECCIONAR CENTRO DE COSTO" data-live-search="true">
+												@foreach($sectors as $sector)
+													<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
+												@endforeach
+											</select>
 										</div>
 									</div>
 									<!--/span-->
@@ -146,6 +144,7 @@
 											<input type="text" id="cargo" name="cargo" class="form-control" value="{{ old('cargo') }}" placeholder="Ej: Gerencia" required>
 										</div>
 									</div>
+
 								</div>
 								<!--/row-->
 								<input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -166,7 +165,7 @@
 @section('script')
 	<script>
 
-			$('#centro').change(function() {
+			/*$('#centro').change(function() {
 				$('#oficina').prop("disabled", false);
 				var sectors = {!!$sectors!!};
 
@@ -184,6 +183,34 @@
 					$('#oficina').prop("disabled", true);
 				}
 
+			});*/
+
+			$('#centro').on('changed.bs.select', function (e) {
+				$('#oficina').prop('disabled', false);
+				var sectors = {!!$sectors!!};
+
+				$('#oficina').empty();
+				$('#oficina').selectpicker('refresh');
+
+				var centros = $(this).val();
+
+				console.log(centros);
+				 
+				if(centros != null){
+					$.each(centros, function(i, centro) {
+						console.log(centro);
+						$.each(sectors, function(index, value) {
+							if (value.id_centro_costo == centro) {
+								$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+							}
+						});
+					  
+					});
+					$('#oficina').selectpicker('refresh');
+				}else{
+					$('#oficina').prop('disabled', true);
+					$('#oficina').selectpicker('refresh');
+				}
 			});
 
 	      $(function () {
@@ -198,7 +225,44 @@
 	        });
 	      $(".select2").select2();
 
-		$("#usuarios").addClass( "active" );
+	      $('.selectpicker').selectpicker({
+			  size: 10
+			});
+
+
+			$("#usuarios").addClass( "active" );
+
+			@if(old("centro"))
+				$('#oficina').prop('disabled', false);
+				$('#oficina').selectpicker('refresh');
+				<?php
+					$centros = old("centro");
+					$selected = "[";
+					for($i=0; $i<count($centros); $i++){
+						if($i!=0){
+							$selected .= ",";
+						}
+						$selected .= $centros[$i];
+					}
+					$selected .= "]";
+				?>
+				$('#centro').selectpicker('val', {{$selected}});
+				@if(old("oficina"))
+					<?php
+						$oficinas = old("oficina");
+						$selected = "[";
+						for($i=0; $i<count($oficinas); $i++){
+							if($i!=0){
+								$selected .= ",";
+							}
+							$selected .= $oficinas[$i];
+						}
+						$selected .= "]";
+					?>
+					$('#oficina').selectpicker('val', {{$selected}});
+				@endif
+
+			@endif
 	      });
 	    </script> 
 

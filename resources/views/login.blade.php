@@ -24,7 +24,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition login-page">
+  <body class="hold-transition login-page" background="{{asset('/dist/img/bgimage.jpg')}}">
     <div class="login-box">
       <div class="login-logo">
         <center><img  class="img-responsive" src="http://www.utem.cl/wp-content/themes/utem_05_10_16/images/01_img_cor/00_id_corp/imagotipo_utem.png" ></center>
@@ -86,7 +86,7 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('/bootstrap/js/bootstrap.min.js')}}"></script>
     <!-- iCheck -->
-    <script src=" plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{asset('/plugins/iCheck/icheck.min.js')}}"></script>
     <script>
       $(function () {
         $('input').iCheck({

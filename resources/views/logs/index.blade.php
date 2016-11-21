@@ -19,7 +19,7 @@
        	<div class="col-xs-12">
 			<div class="box">
                 <div class="box-header">
-                <h3 class="box-title">Filtrar por:</h3>
+                <h3 class="box-title">Buscar por:</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <form action="{{url('reporte-inventario')}}"  id="form-reporte-inventario" method="post" enctype="multipart/form-data" class="horizontal-form">
@@ -41,12 +41,12 @@
 								</div>
 								<div class="col-md-2">
 									<div class="form-group">
-										<label class="control-label">Tipo Bien (*)</label>
-										<select id="tipo_bien"  name="tipo_bien" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-											<option value="activo" selected>ACTIVO</option>
-											<option value="registro">REGISTRO</option> 
-											<option value="licencia">LICENCIA</option> 
-											<option value="raiz">RAIZ</option> 
+										<label class="control-label">Modulo (*)</label>
+										<select id="modulo"  name="modulo" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
+											<option value="TODOS">TODOS</option> 
+											@foreach($opciones as $opcion)
+												<option value="{{$opcion->modulo}}">{{$opcion->modulo}}</option> 
+											@endforeach
 										</select>
 									</div>
 								</div>
@@ -108,13 +108,16 @@
 	      $(document).ready(function() {
 				$("#registros").addClass( "active" );
 		        $(".select2").select2();
+		        $("#example1").DataTable();
 
 				
 				 	@if($filtro == 1)
 						 $('#usuario').select2('val',"{{$data_usuario}}");
-						 $('#tipo_bien').select2('val',"{{$tipo_bien}}");
+						 $('#modulo').select2('val',"{{$modulo}}");
 		        	@endif
 			});
+
+
 	 </script> 
 	@stop      
 @stop

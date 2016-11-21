@@ -92,20 +92,19 @@
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Centro de Costo (*)</label>
-											<select id="centro" name="centro" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Centro de Costo">
-												<option value="">Elegir Centro de Costo</option> 
+											<label class="control-label">Centro de Costo. (*)</label>
+											<select id="centro" name="centro[]" style="width: 100%;" class="form-control selectpicker" required multiple data-actions-box="true" data-placeholder="SELECCIONAR CENTRO DE COSTO" data-live-search="true">
 												@foreach($centrocostos as $centrocosto)
 													<option value="{{$centrocosto->id}}">{{$centrocosto->nombre}}</option> 
 												@endforeach
 											</select>
 										</div>
 									</div>
+									<!--/span-->
 									<div class="col-md-3">
 										<div class="form-group">
-											<label class="control-label">Sector (*)</label>
-											<select id="oficina" name="oficina" required class="form-control select2" style="width: 100%;" data-placeholder="Seleccionar Oficina">
-												<option value="">Elegir Oficina</option> 
+											<label class="control-label">Sector. (*)</label>
+											<select id="oficina" name="oficina[]" style="width: 100%;" class="form-control selectpicker" disabled required multiple data-actions-box="true" data-placeholder="SELECCIONAR CENTRO DE COSTO" data-live-search="true">
 												@foreach($sectors as $sector)
 													<option value="{{$sector->id}}">{{$sector->nombre}}</option> 
 												@endforeach
@@ -211,7 +210,7 @@
 	<script>
 
 		//Evento que rellena el select cuando se escoge un elemento
-		$('#centro').change(function() {
+		/*$('#centro').change(function() {
 			$('#oficina').prop("disabled", false);
 			var sectors = {!!$sectors!!};
 
@@ -228,26 +227,118 @@
 				$('#oficina').prop("disabled", true);
 			}
 
+		});*/
+
+		$('#centro').on('changed.bs.select', function (e) {
+			$('#oficina').prop('disabled', false);
+			var sectors = {!!$sectors!!};
+
+			$('#oficina').empty();
+			$('#oficina').selectpicker('refresh');
+
+			var centros = $(this).val();
+			 
+			if(centros != null){
+				$.each(centros, function(i, centro) {
+					console.log(centro);
+					$.each(sectors, function(index, value) {
+						if (value.id_centro_costo == centro) {
+							$('#oficina').append('<option value="' + value.id + '">' + value.nombre + '</option>');
+						}
+					});
+				  
+				});
+				$('#oficina').selectpicker('refresh');
+			}else{
+				$('#oficina').prop('disabled', true);
+				$('#oficina').selectpicker('refresh');
+			}
 		});
 
 	      $(function () {
-	        $("#example1").DataTable();
-	        $('#example2').DataTable({
-	          "paging": true,
-	          "lengthChange": false,
-	          "searching": false,
-	          "ordering": true,
-	          "info": true,
-	          "autoWidth": false
-	        });
 
 	        $(".select2").select2();
 
-	        $('#centro').select2('val',"{{$user->centro}}");
-			$('#oficina').select2('val',"{{$user->sector}}");
+	        $('.selectpicker').selectpicker({
+			  size: 5
+			});
+
+	        //$('#centro').select2('val',"{{$user->centro}}");
+			//$('#oficina').select2('val',"{{$user->sector}}");
+
+	      	$("#usuarios").addClass( "active" );
+
+			@if(old("centro"))
+				$('#oficina').prop('disabled', false);
+				$('#oficina').selectpicker('refresh');
+				<?php
+					$centros = old("centro");
+					$selected = "[";
+					for($i=0; $i<count($centros); $i++){
+						if($i!=0){
+							$selected .= ",";
+						}
+						$selected .= $centros[$i];
+					}
+					$selected .= "]";
+				?>
+				$('#centro').selectpicker('val', {{$selected}});
+				@if(old("oficina"))
+					<?php
+						$oficinas = old("oficina");
+						$selected = "[";
+						for($i=0; $i<count($oficinas); $i++){
+							if($i!=0){
+								$selected .= ",";
+							}
+							$selected .= $oficinas[$i];
+						}
+						$selected .= "]";
+					?>
+					$('#oficina').selectpicker('val', {{$selected}});
+				@endif
+
+			@endif
+
+			@if(isset($centros))
+				$('#oficina').prop('disabled', false);
+				$('#oficina').selectpicker('refresh');
+				<?php
+					$selected = "[";
+					for($i=0; $i<count($centros); $i++){
+						if($i!=0){
+							$selected .= ",";
+						}
+						$selected .= $centros[$i]->id_centro;
+					}
+					$selected .= "]";
+				?>
+				$('#centro').selectpicker('val', {{$selected}});
+
+
+				@if(isset($oficinas))
+					<?php
+						$selected = "[";
+						for($i=0; $i<count($oficinas); $i++){
+							if($i!=0){
+								$selected .= ",";
+							}
+							$selected .= $oficinas[$i]->id_sector;
+						}
+						$selected .= "]";
+					?>
+					$('#oficina').selectpicker('val', {{$selected}});
+				@endif
+
+			@endif
+
+
 	      });
 
-	      $("#usuarios").addClass( "active" );
+
+	      
+
+
 	    </script> 
 	@stop      
 @stop

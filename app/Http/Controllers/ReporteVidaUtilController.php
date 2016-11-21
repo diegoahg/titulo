@@ -12,6 +12,7 @@ use App\BienLicencia as BienLicencia;
 use App\BienRaiz as BienRaiz;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 use App\Componentes as Componentes;
 use App\Logs as Logs;
 

@@ -8,6 +8,7 @@ use App\Categoria as Categoria;
 use App\BienActivo as BienActivo;
 use App\CentroCosto as CentroCosto;
 use App\Sector as Sector;
+use App\SectorUsuario as SectorUsuario;
 use App\Componentes as Componentes;
 use App\Logs as Logs;
 use App\TipoBien as TipoBien;
@@ -35,10 +36,20 @@ class BienActivoController extends Controller
           $bienactivos = BienActivo::all();
         }
         elseif($auth_user->permisos==3 || $auth_user->permisos==4){
-          $bienactivos = BienActivo::where("id_centro",$auth_user->centro)->get();
+          $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_centro")->get();
+          $params = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params[] =  $sectorusuario->id_centro;
+          }
+          $bienactivos = BienActivo::whereIn("id_centro",$params)->get();
         }
         elseif($auth_user->permisos==5){
-          $bienactivos = BienActivo::where("id_sector",$auth_user->sector)->get();
+          $sectorusuarios = SectorUsuario::where("id_usuario",$auth_user->id)->groupBy("id_sector")->get();
+          $params = [];
+          foreach ($sectorusuarios as $key => $sectorusuario) {
+            $params[] =  $sectorusuario->id_sector;
+          }
+          $bienactivos = BienActivo::whereIn("id_sector",$params)->get();
         }
         
         return view('bienactivo/index')->with("bienactivos",$bienactivos);
@@ -47,7 +58,8 @@ class BienActivoController extends Controller
     public function getView($id)
     {
         $bienactivo = BienActivo::findOrFail($id);
-        return view('bienactivo/modalview')->with("bienactivo", $bienactivo);
+        $componentes = Componentes::where("id_bien",$id)->get();
+        return view('bienactivo/modalview')->with("bienactivo", $bienactivo)->with("componentes", $componentes);
     }
 
     public function getAdd()
@@ -320,6 +332,16 @@ class BienActivoController extends Controller
           $observacion->tipo_bien = $request->tipo_bien;
           $observacion->id_bien = Crypt::decrypt($request->id_bien);
           $observacion->save();
+
+          //Registro de logs
+           $logs = new Logs();
+           $logs->fecha =  date("Y-m-d H:m:s");
+           $logs->accion = "observacion";
+           $logs->modulo = "BIEN ACTIVO";
+           $logs->id_ref =  Crypt::decrypt($request->id_bien);
+           $logs->id_user = Auth::user()->id;
+           $logs->detalle = "Se agregó Observacion el BIEN ACTIVO (".$logs->id_ref."): ".$observacion->observacion;
+           $logs->save();
 
           return back();
     }
