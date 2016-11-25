@@ -25,6 +25,7 @@
     <![endif]-->
   </head>
   <body class="hold-transition login-page" background="{{asset('/dist/img/bgimage.jpg')}}">
+
     <div class="login-box">
       <div class="login-logo">
         <center><img  class="img-responsive" src="http://www.utem.cl/wp-content/themes/utem_05_10_16/images/01_img_cor/00_id_corp/imagotipo_utem.png" ></center>
@@ -79,7 +80,9 @@
         <a href="register.html" class="text-center">Register a new membership</a>-->
 
       </div><!-- /.login-box-body -->
+
     </div><!-- /.login-box -->
+    <div class="row"><center><img src="http://www.utem.cl/wp-content/themes/utem_05_10_16/images/00_comunes/00_portales/ico_cna.png" alt="Acreditacion"></center></div>
 
     <!-- jQuery 2.1.4 -->
     <script src="{{asset('/plugins/jQuery/jQuery-2.1.4.min.js')}}"></script>
