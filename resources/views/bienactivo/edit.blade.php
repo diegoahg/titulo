@@ -275,7 +275,8 @@
 				                    <thead>
 				                      <tr>
 				                        <th width="2%"></th>
-				                        <th width="8%">Código</th>
+				                        <th width="3%">Categoria</th>
+				                        <th width="5%">Código</th>
 				                        <th width="15%">Descripcion</th>
 				                        <th width="12%">Marca</th>
 				                        <th width="12%">Modelo</th>
@@ -287,13 +288,19 @@
 				                    	@foreach($componentes as $key => $componente)
 				                    		<tr>
 				                    			<td><a href='javascript:EliminarLinea({{$key+1}});'><i class='fa fa-times'></i></a></td>
-				                    			<td>{{$componente->category->codigo}}-{{$componente->codigo}}<input type='hidden' name='comp_codigo[]' value='{{$componente->codigo}}'></td>
-				                    			<td>{{$componente->descripcion}}<input type='hidden' name='comp_descripcion[]' value='{{$componente->descripcion}}'></td>
-				                    			<td>{{$componente->marca}}<input type='hidden' name='comp_marca[]' value='{{$componente->marca}}'></td>
-				                    			<td>{{$componente->modelo}}<input type='hidden' name='comp_modelo[]' value='{{$componente->modelo}}'></td>
-				                    			<td>{{$componente->serie}}<input type='hidden' name='comp_serie[]' value='{{$componente->serie}}'></td>
-				                    			<input type='hidden' name='comp_categoria[]' value='{{$componente->categoria}}'>
-				                    			<td>{{$componente->tipo}}<input type='hidden' name='comp_tipo[]' value='{{$componente->tipo}}'></td>
+				                    			<td>
+				                    				<select id="comp_categoria" name="comp_categoria[]">
+														<option value="{{$componente->categoria}}">{{$componente->category->codigo}}-{{$componente->category->categoria}}</option>
+														@foreach($categorias as $categoria)
+															<option value="{{$categoria->id}}">{{$categoria->codigo}}-{{$categoria->categoria}}</option>
+														@endforeach
+													</select>
+												</td>
+				                    			<td><input type='text' name='comp_codigo[]' value='{{$componente->codigo}}'></td>
+				                    			<td><input type='text' name='comp_descripcion[]' value='{{$componente->descripcion}}'></td>
+				                    			<td><input type='text' name='comp_marca[]' value='{{$componente->marca}}'></td>
+				                    			<td><input type='text' name='comp_modelo[]' value='{{$componente->modelo}}'></td>
+				                    			<td><input type='text' name='comp_serie[]' value='{{$componente->serie}}'></td>				                    			<td><input type='text' name='comp_tipo[]' value='{{$componente->tipo}}'></td>
 				                    		</tr>
 				                    	@endforeach
 				                    </tbody>
@@ -419,13 +426,13 @@
 
 	      function AgregarLinea(){
 	      	cont ++;
-	      	var add_codigo = $("#add_codigo").val();
-	      	var add_descripcion = $("#add_descripcion").val();
-	      	var add_serie = $("#add_serie").val();
-	      	var add_marca = $("#add_marca").val();
-	      	var add_modelo = $("#add_modelo").val();
-	      	var add_categoria = $("#add_categoria").val();
-	      	var add_tipo = $("#add_tipo").val();
+	      	var add_codigo = $("#add_codigo").val().toUpperCase();
+	      	var add_descripcion = $("#add_descripcion").val().toUpperCase();
+	      	var add_serie = $("#add_serie").val().toUpperCase();
+	      	var add_marca = $("#add_marca").val().toUpperCase();
+	      	var add_modelo = $("#add_modelo").val().toUpperCase();
+	      	var add_categoria = $("#add_categoria").val().toUpperCase();
+	      	var add_tipo = $("#add_tipo").val().toUpperCase();
 
 	      	var categorias =  {!!$categorias!!};
 
@@ -438,16 +445,22 @@
 
 	      	var table = "<tr id='tr" + cont + "'>";
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-	      	table += "<td>" + cod_categoria.toUpperCase() + "-" + add_codigo + "<input type='hidden' name='comp_codigo[]' value='" + add_codigo + "'></td>";
-	      	table += "<td>" + add_descripcion.toUpperCase() + "<input type='hidden' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
-	      	table += "<td>" + add_marca.toUpperCase() + "<input type='hidden' name='comp_marca[]' value='" + add_marca + "'></td>";
-	      	table += "<td>" + add_modelo.toUpperCase() + "<input type='hidden' name='comp_modelo[]' value='" + add_modelo + "'></td>";
-	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
-	      	table += "<input type='hidden' name='comp_categoria[]' value='" + add_categoria + "'>";
-	      	table += "<td>" + add_tipo.toUpperCase() + "<input type='hidden' name='comp_tipo[]' value='" + add_tipo + "'></td>";
+	      	table += "<td><select name='comp_categoria[]'>";
+	      	table += "<option value='" + add_categoria + "' selected>" + cod_categoria + "-" + nom_categoria + "</option>";
+	      	$.each(categorias, function(index, value) {
+	      		table += "<option value='" + value.id + "'>" + value.codigo + "-" + value.categoria + "</option>";
+	      	})
+	      	table += "</select></td>";
+	      	table += "<td><input type='text' name='comp_codigo[]' value='" + add_codigo + "'></td>";
+	      	table += "<td><input type='text' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
+	      	table += "<td><input type='text' name='comp_marca[]' value='" + add_marca + "'></td>";
+	      	table += "<td><input type='text' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+	      	table += "<td><input type='text' name='comp_serie[]' value='" + add_serie + "'></td>";
+	      	table += "<td><input type='text' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
 
 	      	$("#componentes").append(table);
+
 	      }
 
 	    function EliminarLinea(l) {

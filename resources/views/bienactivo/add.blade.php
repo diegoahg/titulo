@@ -277,7 +277,8 @@
 				                    <thead>
 				                      <tr>
 				                        <th width="2%"></th>
-				                        <th width="8%">Código</th>
+				                        <th width="3%">Categoria</th>
+				                        <th width="5%">Código</th>
 				                        <th width="15%">Descripcion</th>
 				                        <th width="12%">Marca</th>
 				                        <th width="12%">Modelo</th>
@@ -453,11 +454,12 @@
 
                 		$("#orden").val(response.orden);    
                 		$("#fecha").val(response.fecha);     
-                		$("#cuenta_contable").val(response.cuenta_contable);     
+                		$("#cuenta_contable").select2("val",response.cuenta_contable);     
                 		$("#alta").val(response.alta);   
                 		$("#vida_util").val(response.vida_util);  
                 		console.log( response.tipo_inventario);
                 		$("#tipo_inventario").select2("val", response.tipo_inventario);
+	         			$("#tipo_bien").select2("val",response.tipo_bien);
                 		$("#enmienda").select2("val",response.enmienda);       
 
                     }
@@ -475,13 +477,13 @@
 							var categorias =  {!!$categorias!!};
 							$.each(response,function(key,data){
 	                			cont ++;
-						      	var add_codigo = data.codigo;
-						      	var add_descripcion = data.descripcion;
-						      	var add_serie = data.serie;
-						      	var add_marca = data.marca;
-						      	var add_modelo = data.modelo;
-						      	var add_categoria = data.categoria;
-						      	var add_tipo = data.tipo;
+						      	var add_codigo = data.codigo.toUpperCase();
+						      	var add_descripcion = data.descripcion.toUpperCase();
+						      	var add_serie = data.serie.toUpperCase();
+						      	var add_marca = data.marca.toUpperCase();
+						      	var add_modelo = data.modelo.toUpperCase();
+						      	var add_categoria = data.categoria.toUpperCase();
+						      	var add_tipo = data.tipo.toUpperCase();
 
 						      	$.each(categorias, function(index, value) {
 									if (value.id == add_categoria) {
@@ -492,13 +494,18 @@
 
 						      	var table = "<tr id='tr" + cont + "'>";
 						      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-						      	table += "<td>" + cod_categoria + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
-						      	table += "<td>" + add_descripcion + "<input type='hidden' name='comp_descripcion' value='" + add_descripcion + "'></td>";
-						      	table += "<td>" + add_marca + "<input type='hidden' name='comp_marca' value='" + add_marca + "'></td>";
-						      	table += "<td>" + add_modelo + "<input type='hidden' name='comp_modelo' value='" + add_modelo + "'></td>";
-						      	table += "<td>" + add_serie + "<input type='hidden' name='comp_serie' value='" + add_serie + "'></td>";
-						      	table += "<input type='hidden' name='comp_categoria' value='" + add_categoria + "'>";
-						      	table += "<td>" + add_tipo + "<input type='hidden' name='comp_tipo' value='" + add_tipo + "'></td>";
+						      	table += "<td><select name='comp_categoria[]'>";
+						      	table += "<option value='" + add_categoria + "' selected>" + cod_categoria + "-" + nom_categoria + "</option>";
+						      	$.each(categorias, function(index, value) {
+						      		table += "<option value='" + value.id + "'>" + value.codigo + "-" + value.categoria + "</option>";
+						      	})
+						      	table += "</select></td>";
+						      	table += "<td><input type='text' name='comp_codigo[]' value='" + add_codigo + "'></td>";
+						      	table += "<td><input type='text' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
+						      	table += "<td><input type='text' name='comp_marca[]' value='" + add_marca + "'></td>";
+						      	table += "<td><input type='text' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+						      	table += "<td><input type='text' name='comp_serie[]' value='" + add_serie + "'></td>";
+						      	table += "<td><input type='text' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 						      	table += "</tr>";
 
 						      	$("#componentes").append(table);
@@ -537,14 +544,18 @@
 
 	      	var table = "<tr id='tr" + cont + "'>";
 	      	table += "<td><a href='javascript:EliminarLinea(" + cont + ");'><i class='fa fa-times'></i></a></td>";
-	      	table += "<td>" + cod_categoria.toUpperCase() + "-" + add_codigo + "<input type='hidden' name='comp_codigo' value='" + add_codigo + "'></td>";
-	      	table += "<td>" + add_descripcion.toUpperCase() + "<input type='hidden' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
-	      	table += "<td>" + add_marca.toUpperCase() + "<input type='hidden' name='comp_marca[]' value='" + add_marca + "'></td>";
-	      	table += "<td>" + add_modelo.toUpperCase() + "<input type='hidden' name='comp_modelo[]' value='" + add_modelo + "'></td>";
-
-	      	table += "<td>" + add_serie.toUpperCase() + "<input type='hidden' name='comp_serie[]' value='" + add_serie + "'></td>";
-	      	table += "<input type='hidden' name='comp_categoria[]' value='" + add_categoria + "'>";
-	      	table += "<td>" + add_tipo.toUpperCase() + "<input type='hidden' name='comp_tipo[]' value='" + add_tipo + "'></td>";
+	      	table += "<td><select name='comp_categoria[]'>";
+	      	table += "<option value='" + add_categoria + "' selected>" + cod_categoria + "-" + nom_categoria + "</option>";
+	      	$.each(categorias, function(index, value) {
+	      		table += "<option value='" + value.id + "'>" + value.codigo + "-" + value.categoria + "</option>";
+	      	})
+	      	table += "</select></td>";
+	      	table += "<td><input type='text' name='comp_codigo[]' value='" + add_codigo + "'></td>";
+	      	table += "<td><input type='text' name='comp_descripcion[]' value='" + add_descripcion + "'></td>";
+	      	table += "<td><input type='text' name='comp_marca[]' value='" + add_marca + "'></td>";
+	      	table += "<td><input type='text' name='comp_modelo[]' value='" + add_modelo + "'></td>";
+	      	table += "<td><input type='text' name='comp_serie[]' value='" + add_serie + "'></td>";
+	      	table += "<td><input type='text' name='comp_tipo[]' value='" + add_tipo + "'></td>";
 	      	table += "</tr>";
 
 	      	$("#componentes").append(table);
