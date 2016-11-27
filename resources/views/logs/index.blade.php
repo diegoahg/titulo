@@ -106,7 +106,7 @@
 	  	}
 
 	      $(document).ready(function() {
-				$("#registros").addClass( "active" );
+				$("#registro").addClass( "active" );
 		        $(".select2").select2();
 		        $("#example1").DataTable();
 

@@ -262,7 +262,7 @@
             @endif
 
             @if($auth_user->permisos<=2)
-            <li id="registros" class="treeview">
+            <li id="registro" class="treeview">
               <a href="{{ asset('logs') }}">
                 <i class="fa fa-database "></i>
                 <span>Registros</span>
