@@ -180,7 +180,7 @@ class ReporteValorizacionController extends Controller
                     $valor_final = $value->valor;
                     $anos = date("Y")-$particion[2];
                     if($anos>=$data->vida_util){
-                        $valor_final = 0;
+                        $valor_final = 1;
                     }else{
                         $valor_final = $valor_final - ($depreciacion * $anos);
                     }
@@ -283,7 +283,7 @@ class ReporteValorizacionController extends Controller
                         $valor_final = $value->valor;
                         $anos = date("Y")-$particion[2];
                         if($anos>=$data->vida_util){
-                            $valor_final = 0;
+                            $valor_final = 1;
                         }else{
                             $valor_final = $valor_final - ($depreciacion * $anos);
                         }
@@ -353,7 +353,7 @@ class ReporteValorizacionController extends Controller
                             $valor_final = $value->valor;
                             $anos = date("Y")-$particion[2];
                             if($anos>=$data->vida_util){
-                                $valor_final = 0;
+                                $valor_final = 1;
                             }else{
                                 $valor_final = $valor_final - ($depreciacion * $anos);
                             }
@@ -423,7 +423,7 @@ class ReporteValorizacionController extends Controller
                             $valor_final = $value->valor;
                             $anos = date("Y")-$particion[2];
                             if($anos>=$data->vida_util){
-                                $valor_final = 0;
+                                $valor_final = 1;
                             }else{
                                 $valor_final = $valor_final - ($depreciacion * $anos);
                             }
