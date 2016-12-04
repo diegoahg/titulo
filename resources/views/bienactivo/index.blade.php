@@ -67,10 +67,10 @@
 	                        <td>{{$bienactivo->centrocosto->nombre}}</td>
 	                        <td>{{$bienactivo->sector->nombre}}</td>
 	                        <td>
+
 	                        	<button type="button" class="btn btn-info view-data" data-role="{{$bienactivo->id}}"><i class="fa fa-info"></i></button>
-	                        	
-	                        		<a href="bien-activo/edit/{{Crypt::encrypt($bienactivo->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
 	                        	@if($auth_user->permisos<=2)
+	                        		<a href="bien-activo/edit/{{Crypt::encrypt($bienactivo->id)}}" class="btn btn-warning"><i class="fa fa-edit"></i></a>
 	                        	@endif
 	                        	<button type="button" class="btn btn-primary observacion-data"  data-role="{{Crypt::encrypt($bienactivo->id)}}"><i class="fa fa-commenting"></i></button>
 	                        </td>
