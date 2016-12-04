@@ -46,6 +46,7 @@
 	        <a href="{{asset('bien-activo')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
+	    @if($auth_user->permisos <= 2)
 	    <div class="col-lg-3 col-xs-6">
 	      <!-- small box -->
 	      <div class="small-box bg-yellow">
@@ -72,6 +73,7 @@
 	        <a href="{{asset('sector')}}" class="small-box-footer">Mas Información <i class="fa fa-arrow-circle-right"></i></a>
 	      </div>
 	    </div><!-- ./col -->
+	    @endif
 	    @else
 	    	<div class="col-lg-12 col-xs-12">
 	   			<center><h2>Bienvenido al Software de Inventario de</h2></center> 	
